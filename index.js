@@ -1,14 +1,22 @@
 var express = require("express");
+
 var app = express();
+
 var port = (process.env.PORT || 17768);
+
 var dateFormat = require('dateformat');
+
 var time = new Date();
+
+var hora=time.getHours();
+hora=hora+1;
+time.setHours(hora);
 
 app.listen(port, (err) => {
     if (!err)
         console.log("Server initialized on port " + port);
     else
-        console.log("An error ocurred while trying to initialize server: " + err);
+        console.log("ERROR initializing server on port"+port+ ": "+ err);
 });
 
 app.get("/time", (req, res) => {
