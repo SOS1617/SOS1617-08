@@ -1,24 +1,20 @@
 var express = require("express");
-
-var port= (process.env.PORT || 16778);
-
-
 var app = express();
+var port = (process.env.PORT || 17768);
+var dateFormat = require('dateformat');
+var time = new Date();
 
-app.listen(16778);
-
-app.get("/",(req,res)=>{
-    
-    res.send("<html><body> "+ cool() +"</body></html>")
+app.listen(port, (err) => {
+    if (!err)
+        console.log("Server initialized on port " + port);
+    else
+        console.log("An error ocurred while trying to initialize server: " + err);
 });
 
-app.listen (port,(err)=> {
-    if(!err)
-        console.log("Server initialized on port"+port);
-    else 
-        console.log("ERROR initializing server on port"+port+ ": "+ err);
+app.get("/time", (req, res) => {
+    res.send("<html><body><h1>" + '"' + dateFormat(time, "dS mmmm 'of' yyyy, HH:MM:ss") + '"' + "</h1></body><html>");
 });
 
-console.log("---------------------");
-
-
+app.get("/", (req, res) => {
+    res.send("<html><body><h1><a href=/time>/time</a></h1></body><html>");
+});
