@@ -1,4 +1,5 @@
 var express = require("express");
+var path = require("path")
 
 var app = express();
 
@@ -12,11 +13,14 @@ var hora=time.getHours();
 hora=hora+1;
 time.setHours(hora);
 
-app.listen(port, (err) => {
-    if (!err)
+app.use("/",express.static( path.join(__dirname,"public")));
+
+app.listen(port, () => {
+    
         console.log("Server initialized on port " + port);
-    else
-        console.log("ERROR initializing server on port"+port+ ": "+ err);
+}).on("error",(e)  =>{
+        console.log("Server can not be started: "+e);
+        process.exit(1);
 });
 
 app.get("/time", (req, res) => {
