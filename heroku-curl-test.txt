@@ -1,0 +1,16 @@
+curl -XGET -H "Content-type: application/json" 'https://sos1617-apiwage.herokuapp.com/api/v1/provinces'
+
+curl -XGET -H "Content-type: application/json" 'https://sos1617-apiwage.herokuapp.com/api/v1/provinces/Barcelona'
+
+curl -XPOST -H "Content-type: application/json" 'https://sos1617-apiwage.herokuapp.com/api/v1/provinces/' { "province": "Toledo",  "year": 2013, "varied": "1,29%", "averageWage": 22153}
+
+curl -XPOST -H "Content-type: application/json" 'https://sos1617-apiwage.herokuapp.com/api/v1/provinces/Barcelona' { "province": "Barcelona",  "year": 2013, "varied": "1,29%", "averageWage": 22153}
+
+curl -XPUT -H "Content-type: application/json" 'https://sos1617-apiwage.herokuapp.com/api/v1/provinces/Barcelona' '{ "province": "Toledo",  "year": 2013, "varied": "1,29%", "averageWage": 22153}' 'http://localhost8080/api/v1/provinces'
+
+
+curl -XPUT -H "Content-type: application/json" 'https://sos1617-apiwage.herokuapp.com/api/v1/provinces/' '{ "province": "Toledo",  "year": 2013, "varied": "1,29%", "averageWage": 22153}' 'http://localhost8080/api/v1/provinces'
+
+curl -XDELETE -H "Content-type: application/json" 'https://sos1617-apiwage.herokuapp.com/api/v1/provinces/'
+
+curl -XDELETE -H "Content-type: application/json" 'https://sos1617-apiwage.herokuapp.com/api/v1/provinces/Barcelona/2013'
