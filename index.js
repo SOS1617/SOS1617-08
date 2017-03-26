@@ -90,6 +90,7 @@ app.get(BASE_API_PATH + "/provinces/loadInitialData",function(request, response)
                 "averageWage": "18.052"
             }];
         dbRoberto.insert(province);
+        response.sendStatus(201) //created
     } else {
         console.log('INFO: DB has ' + provinces.length + ' provinces ');
     }
@@ -236,11 +237,11 @@ app.delete(BASE_API_PATH + "/provinces", function (request, response) {
             response.sendStatus(500); // internal server error
         } else {
             if (numRemoved > 0) {
-                console.log("INFO: All the provinces (" + numRemoved + ") have been succesfully deleted, sending 204...");
-                response.sendStatus(204); // no content
-            } else {
                 console.log("WARNING: There are no provinces to delete");
-                response.sendStatus(404); // not found
+                response.sendStatus(404); // no content
+            } else {
+                console.log("INFO: All the provinces (" + numRemoved + ") have been succesfully deleted, sending 204...");
+                response.sendStatus(204); // not found
             }
         }
     });
@@ -262,12 +263,12 @@ app.delete(BASE_API_PATH + "/provinces/:province/:year", function (request, resp
                 response.sendStatus(500); // internal server error
             } else {
                 console.log("INFO: Results removed: " + numRemoved);
-                if (numRemoved === 1) {
-                    console.log("INFO: The result with province " + province + "and year " + year + " has been succesfully deleted, sending 204...");
-                    response.sendStatus(204); // no content
+                if (numRemoved === 0) {
+                    console.log("WARNING: There are no provinces to delete");
+                    response.sendStatus(404); // no content
                 } else {
-                    console.log("WARNING: There are no countries to delete");
-                    response.sendStatus(404); // not found
+                    console.log("INFO: The result with province " + province + "and year " + year + " has been succesfully deleted, sending 204...");
+                    response.sendStatus(204); // not found
                 }
             }
         });

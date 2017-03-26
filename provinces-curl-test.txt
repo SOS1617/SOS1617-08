@@ -1,17 +1,17 @@
-curl -XDELETE -H "Content-type: application/json" 'http://localhost8080/api/v1/provinces'
+curl -XDELETE -H "Content-type: application/json" 'https://sos161708rmn-sandbox-sos161708rmn.c9users.io/api/v1/provinces/'
 
-curl -XDELETE -H "Content-type: application/json" 'http://localhost8080/api/v1/provinces/Barcelona'
+curl -XDELETE -H "Content-type: application/json" 'https://sos161708rmn-sandbox-sos161708rmn.c9users.io/api/v1/provinces/Barcelona/2013'
 
-curl -XGET -H "Content-type: application/json" 'https://sos161708rmn-sandbox-sos161708rmn.c9users.io/api/v1/provinces/Barcelona'
+curl -XGET -H "Content-type: application/json" 'https://sos161708rmn-sandbox-sos161708rmn.c9users.io/api/v1/provinces/Madrid'
 
 curl -XGET -H "Content-type: application/json" 'https://sos161708rmn-sandbox-sos161708rmn.c9users.io/api/v1/provinces/'
 
-curl -XPOST -H "Content-type: application/json" 'https://sos161708rmn-sandbox-sos161708rmn.c9users.io/api/v1/provinces/' -d '{ "province": "Toledo",  "year": "2018", "varied": "1,49%", "averageWage": "23153"}' 'http://localhost8080/api/v1/provinces'
+curl -XPOST -H "Content-type: application/json" 'https://sos161708rmn-sandbox-sos161708rmn.c9users.io/api/v1/provinces/' -d '{ "province": "Toledo",  "year": "2018", "varied": "1,49%", "averageWage": "23153"}' 'https://sos161708rmn-sandbox-sos161708rmn.c9users.io/api/v1/provinces/'
 
 curl -XPOST -H "Content-type: application/json" 'https://sos161708rmn-sandbox-sos161708rmn.c9users.io/api/v1/provinces/Toledo' { "province": "Toledo",  "year": "2013", "varied": "1,29%", "averageWage": "22153"}
 
 
-curl -XPUT -H "Content-type: application/json" 'https://sos161708rmn-sandbox-sos161708rmn.c9users.io/api/v1/provinces/Barcelona' -d '{ "province": "Barcelona",  "year": 2010, "varied": "1,29%", "averageWage": 22153}' 'http://localhost8080/api/v1/provinces'
+curl -XPUT -H "Content-type: application/json" 'https://sos161708rmn-sandbox-sos161708rmn.c9users.io/api/v1/provinces/Seville' -d '{ "province": "Seville",  "year": 2012, "varied": "1,29%", "averageWage": 22153}' 'https://sos161708rmn-sandbox-sos161708rmn.c9users.io/api/v1/provinces/Seville'
 
-curl -XPUT -H "Content-type: application/json" 'https://sos161708rmn-sandbox-sos161708rmn.c9users.io/api/v1/provinces/' { "province": "Barcelona",  "year": "2013", "varied": "1,29%", "averageWage": "22153"}
+curl -XPUT -H "Content-type: application/json" 'https://sos161708rmn-sandbox-sos161708rmn.c9users.io/api/v1/provinces/' { "province": "Toledo",  "year": "2013", "varied": "1,29%", "averageWage": "22153"}
 
