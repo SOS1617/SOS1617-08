@@ -248,32 +248,7 @@ app.delete(BASE_API_PATH + "/provinces", function (request, response) {
 });
 
 
-//DELETE over a single resource
-app.delete(BASE_API_PATH + "/provinces/:province/:year", function (request, response) {
-    var province = request.params.province;
-    var year = request.params.year;
-    if (!province || !year) {
-        console.log("WARNING: New DELETE request to /provinces/:province/:year without province and year, sending 400...");
-        response.sendStatus(400); // bad request
-    } else {
-        console.log("INFO: New DELETE request to /provinces/" + province + " and year " + year);
-        dbRoberto.remove({province:province, $and:[{year:year}]}, {}, function (err, numRemoved) {
-            if (err) {
-                console.error('WARNING: Error removing data from DB');
-                response.sendStatus(500); // internal server error
-            } else {
-                console.log("INFO: Results removed: " + numRemoved);
-                if (numRemoved !== 0) {
-                    console.log("WARNING: There are no provinces to delete");
-                    response.sendStatus(404); // not found
-                } else {
-                    console.log("INFO: The result with province " + province + "and year " + year + " has been succesfully deleted, sending 204...");
-                    response.sendStatus(204); // no content
-                }
-            }
-        });
-    }
-});
+
 //DELETE over a single resource
 app.delete(BASE_API_PATH + "/provinces/:province/:year", function (request, response) {
     var province = request.params.province;
