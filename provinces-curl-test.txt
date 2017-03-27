@@ -1,6 +1,6 @@
 curl -XDELETE -H "Content-type: application/json" 'https://sos161708rmn-sandbox-sos161708rmn.c9users.io/api/v1/provinces/'
 
-curl -XDELETE -H "Content-type: application/json" 'https://sos161708rmn-sandbox-sos161708rmn.c9users.io/api/v1/provinces/Barcelona/2013'
+curl -XDELETE -H "Content-type: application/json" 'https://sos161708rmn-sandbox-sos161708rmn.c9users.io/api/v1/provinces/Madrid/2014'
 
 curl -XGET -H "Content-type: application/json" 'https://sos161708rmn-sandbox-sos161708rmn.c9users.io/api/v1/provinces/Madrid'
 
