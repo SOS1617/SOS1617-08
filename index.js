@@ -13,8 +13,11 @@ var BASE_API_PATH = "/api/v1";
 var dbRoberto;
 
 
+
 var MongoClient = require('mongodb').MongoClient;
 var mdbURL= "mongodb://test:test@ds133450.mlab.com:33450/sandbox";
+
+
 
 MongoClient.connect(mdbURL,{native_parser:true}, function(err, database){
     if(err){
@@ -50,6 +53,7 @@ app.use(helmet()); //improve security
 //************************************************************************************************************
 //**************************************************API ROBERTO***********************************************
 //************************************************************************************************************
+app.use("/public",express.static(path.join(__dirname,"tests")));
 
 //Load Initial Data
 app.get(BASE_API_PATH + "/provinces/loadInitialData",function(request, response) {
