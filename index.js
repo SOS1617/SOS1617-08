@@ -53,8 +53,7 @@ app.use(helmet()); //improve security
 //************************************************************************************************************
 //**************************************************API ROBERTO***********************************************
 //************************************************************************************************************
-app.use("/public",express.static(path.join(__dirname,"tests")));
-
+app.use("/",express.static(path.join(__dirname,"tests")));
 //Load Initial Data
 app.get(BASE_API_PATH + "/provinces/loadInitialData",function(request, response) {
     
@@ -121,13 +120,14 @@ app.get(BASE_API_PATH + "/provinces", function (request, response) {
 // GET a collection de paises en un mismo año 
 
 app.get(BASE_API_PATH + "/provinces/:year", function (request, response) {
+    var year = request.params.year;
     var province = request.params.year;
     if(isNaN(request.params.year.charAt(0))){
             if (!province) {
         console.log("WARNING: New GET request to /provinces/:province without name, sending 400...");
         response.sendStatus(400); // bad request
     } else {
-        console.log("INFO: New GET request to /provinces/" + province);
+        console.log("INFO: New GET request to /provices/" + province);
         dbRoberto.find({province:province}).toArray(function (err, results) {
             if (err) {
                 console.error('WARNING: Error getting data from DB');
@@ -142,8 +142,56 @@ app.get(BASE_API_PATH + "/provinces/:year", function (request, response) {
                 }
         });
 }
-    }});
+    }else{
+    if (!year) {
+        console.log("WARNING: New GET request to /provinces/:year without year, sending 400...");
+        response.sendStatus(400); // bad request
+    } else {
+        console.log("INFO: New GET request to /provinces/" + year);
+        dbRoberto.find({year:year}).toArray(function (err, results) {
+            if (err) {
+                console.error('WARNING: Error getting data from DB');
+                response.sendStatus(500); // internal server error
+            } else if (results.length > 0) { 
+                    var result = results; //since we expect to have exactly ONE contact with this name
+                    console.log("INFO: Sending result: " + JSON.stringify(result, 2, null));
+                    response.send(result);
+                } else {
+                    console.log("WARNING: There are not any result with year " + year);
+                    response.sendStatus(404); // not found
+                
+                }
+        });
+}
+}});
 
+
+//GET a recurso concreto con 2 parametros
+
+app.get(BASE_API_PATH + "/provinces/:province/:year", function (request, response) {
+    var province = request.params.province;
+    var year = request.params.year;
+    if (!province || !year) {
+        console.log("WARNING: New GET request to /provinces/:province without name or without year, sending 400...");
+        response.sendStatus(400); // bad request
+    } else {
+        console.log("INFO: New GET request to /provinces/" + province + "/" + year);
+        dbRoberto.find({province:province, $and:[{year:year}]}).toArray(function (err, results) {
+            if (err) {
+                console.error('WARNING: Error getting data from DB');
+                response.sendStatus(500); // internal server error
+            } else if (results.length > 0) { 
+                    var result = results[0]; //since we expect to have exactly ONE contact with this name
+                    console.log("INFO: Sending result: " + JSON.stringify(result, 2, null));
+                    response.send(result);
+                } else {
+                    console.log("WARNING: There are not any province with name " + province +  "and year " + year);
+                    response.sendStatus(404); // not found
+                
+                }
+        });
+}
+});
 
 
 //POST over a collection
