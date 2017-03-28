@@ -45,6 +45,9 @@ var app = express();
 
 app.use(bodyParser.json()); //use default json enconding/decoding
 app.use(helmet()); //improve security
+app.use("/",express.static(publicFolder));
+
+app.use("/api/v1/tests", express.static(path.join(__dirname , "public/tests.html")));
 
 // @see: https://curlbuilder.com/
 // @see: https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
@@ -54,11 +57,8 @@ app.use(helmet()); //improve security
 //************************************************************************************************************
 //**************************************************API ROBERTO***********************************************
 //************************************************************************************************************
-//app.use( "/", express.static(path.join(__dirname,"public")));
 
-app.use("/",express.static(publicFolder));
 
-app.use("/api/v1/tests", express.static(path.join(__dirname , "public/tests.html")));
 
 //Load Initial Data
 app.get(BASE_API_PATH + "/provinces/loadInitialData",function(request, response) {
