@@ -9,6 +9,7 @@ var path = require('path');
 var port = (process.env.PORT || 10000);
 var BASE_API_PATH = "/api/v1";
 
+var publicFolder = path.join(__dirname, 'public');
 
 var dbRoberto;
 
@@ -53,7 +54,12 @@ app.use(helmet()); //improve security
 //************************************************************************************************************
 //**************************************************API ROBERTO***********************************************
 //************************************************************************************************************
-app.use("/",express.static(path.join(__dirname,"tests")));
+//app.use( "/", express.static(path.join(__dirname,"public")));
+
+app.use("/",express.static(publicFolder));
+
+app.use("/api/v1/tests", express.static(path.join(__dirname , "public/tests.html")));
+
 //Load Initial Data
 app.get(BASE_API_PATH + "/provinces/loadInitialData",function(request, response) {
     
@@ -245,41 +251,38 @@ app.put(BASE_API_PATH + "/provinces", function (request, response) {
 
 
 //PUT over a single resource
-app.put(BASE_API_PATH + "/provinces/:province", function (request, response) {
-    var updatedstat = request.body;
+app.put(BASE_API_PATH + "/provinces/:province/:year", function (request, response) {
+    var updatedStat = request.body;
     var province = request.params.province;
-    if (!updatedstat) {
+    var year = request.params.year;
+
+    if (!updatedStat) {
         console.log("WARNING: New PUT request to /provinces/ without stat, sending 400...");
         response.sendStatus(400); // bad request
     } else {
-        console.log("INFO: New PUT request to /provinces/" + province + " with data " + JSON.stringify(updatedstat, 2, null));
-        if (!updatedstat.province || !updatedstat.year ||  !updatedstat.varied || !updatedstat.averageWage) {
-            console.log("WARNING: The stat " + JSON.stringify(updatedstat, 2, null) + " is not well-formed, sending 422...");
+        console.log("INFO: New PUT request to /provinces/" + province + " with data " + JSON.stringify(updatedStat, 2, null));
+        if (!updatedStat.province || !updatedStat.year ||  !updatedStat.varied || !updatedStat.averageWage) {
+            console.log("WARNING: The stat " + JSON.stringify(updatedStat, 2, null) + " is not well-formed, sending 422...");
             response.sendStatus(422); // unprocessable entity
         } else {
-            dbRoberto.find({}).toArray( function (err, provinces) {
+            dbRoberto.find({province:province, $and:[{year:year}]}).toArray( function (err, provinces) {
                 if (err) {
                     console.error('WARNING: Error getting data from DB');
                     response.sendStatus(500); // internal server error
-                } else {
-                    var provincesBeforeInsertion = provinces.filter((stat) => {
-                        return (stat.province.localeCompare(province, "en", {'sensitivity': 'base'}) === 0);
-                    });
-                    if (provincesBeforeInsertion.length > 0) {
-                        dbRoberto.update({province:province}, updatedstat);
-                        console.log("INFO: Modifying stat with province " + province + " with data " + JSON.stringify(updatedstat, 2, null));
-                        response.send(updatedstat); // return the updated stat
+                } else if (provinces.length > 0) {
+                        dbRoberto.update({province: province, year: year}, updatedStat);
+                        console.log("INFO: Modifying result with proviç " + province + " with data " + JSON.stringify(updatedStat, 2, null));
+                        response.send(updatedStat); // return the updated contact
                     } else {
-                        console.log("WARNING: There are not any stat with province " + province);
+                        console.log("WARNING: There are not any result with province " + province);
                         response.sendStatus(404); // not found
                     }
                 }
-            });
+            )}
         }
-    }
-});
-
-
+    });
+           
+           
 //DELETE over a collection
 app.delete(BASE_API_PATH + "/provinces", function (request, response) {
     console.log("INFO: New DELETE request to /provinces");
