@@ -135,8 +135,7 @@ app.get(BASE_API_PATH + "/provinces/loadInitialData",function(request, response)
 });
 }
 });
-
-
+/*
 // GET a collection 
  app.get(BASE_API_PATH + "/provinces", function(request, response) {
   var url = request.query;
@@ -175,6 +174,107 @@ app.get(BASE_API_PATH + "/provinces/loadInitialData",function(request, response)
     });
       }
   });
+
+*/
+  
+ // GET Collection (WITH SEARCH)
+
+app.get(BASE_API_PATH + "/provinces", function (request, response) {
+    if (!apiKeyCheck(request, response)) return;
+    console.log("INFO: New GET request to /provinces");
+    
+            var limit = parseInt(request.query.limit);
+            var offset = parseInt(request.query.offset);
+            var from = request.query.from;
+            var to = request.query.to;
+            var aux = [];
+            var aux2= [];
+
+            
+            if (limit && offset >=0) {
+            dbRoberto.find({}).skip(offset).limit(limit).toArray(function(err, provinces) {
+                if (err) {
+                    console.error('WARNING: Error getting data from DB');
+                     response.sendStatus(500); // internal server error
+                } else {
+                     if (provinces.length === 0) {
+                            response.sendStatus(404);
+                        }
+                    console.log("INFO: Sending provinces: " + JSON.stringify(provinces, 2, null));
+                    if (from && to) {
+
+                            aux = buscador(provinces, aux, from, to);
+                            if (aux.length > 0) {
+                                aux2 = aux.slice(offset, offset+limit);
+                                console.log("INFO: Sending results with from and to and limit and offset: " + JSON.stringify(aux, 2, null));
+                                console.log("INFO: Sending results with from and to and limit and offset: " + JSON.stringify(provinces, 2, null));
+                                console.log("INFO: Sending results with from and to and limit and offset: " + JSON.stringify(aux2, 2, null));
+                                response.send(aux2);
+                            }
+                            else {
+                                response.sendStatus(404); // No content 
+                            }
+                        }
+                        else {
+                            response.send(provinces);
+                        }
+                }
+            });
+            
+            }
+            else {
+
+                dbRoberto.find({}).toArray(function(err, provinces) {
+                    if (err) {
+                        console.error('ERROR from database');
+                        response.sendStatus(500); // internal server error
+                    }
+                    else {
+                        if (provinces.length === 0) {
+                            response.sendStatus(404);
+                        }
+                        console.log("INFO: Sending provinces: " + JSON.stringify(provinces, 2, null));
+                        if (from && to) {
+                            aux = buscador(provinces, aux, from, to);
+                            if (aux.length > 0) {
+                                response.send(aux);
+                            }
+                            else {
+                                response.sendStatus(404); //No content
+                            }
+                        }
+                        else {
+                            response.send(provinces);
+                        }
+                    }
+                });
+            }
+
+});
+
+
+
+
+  
+// SEARCH FUNCTION
+
+var buscador = function(base, conjuntoauxiliar, desde, hasta) {
+
+    var from = parseInt(desde);
+    var to = parseInt(hasta);
+
+
+    for (var j = 0; j < base.length; j++) {
+        var anio = base[j].year;
+        if (to >= anio && from <= anio) {
+
+            conjuntoauxiliar.push(base[j]);
+        }
+    }
+
+    return conjuntoauxiliar;
+
+};
 
 
 /*
