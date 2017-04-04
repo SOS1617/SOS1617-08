@@ -54,15 +54,44 @@ app.use("/api/v1/tests", express.static(path.join(__dirname , "public/tests.html
 // @see: https://i.stack.imgur.com/whhD1.png
 // @see: https://blog.agetic.gob.bo/2016/07/elegir-un-codigo-de-estado-http-deja-de-hacerlo-dificil/
 
-//************************************************************************************************************
-//**************************************************API ROBERTO***********************************************
-//************************************************************************************************************
+//*********************************************************************************************************************************************************************************************************************
+//*************************************************************************************API ROBERTO*********************************************************************************************************************
+//*********************************************************************************************************************************************************************************************************************
+
+
+
+///CREACIÓN DE LA APIKEY///
+
+var apiKeyRoberto = "hf5HF86KvZ";
+
+//COMPROBANDo EL APIKEY
+function apiKeyCheck(request,response){
+    var ak = request.query.apikey;
+    var check = true;
+    
+    if(!ak){
+        console.log("WARNING: Necesita introducir una apikey para acceder a los datos. Aquí está su apikey: "+ apiKeyRoberto);
+        check = false;
+        response.sendStatus(401);
+    }else{
+        if(ak != apiKeyRoberto){
+            console.log("WARNING: La APIKEY introducida no es válida, aquí está la apikey válida "+ apiKeyRoberto);
+            check=false;
+            response.sendStatus(403);
+        }
+    }
+    return check;
+}
+
+
+
 
 
 
 //Load Initial Data
 app.get(BASE_API_PATH + "/provinces/loadInitialData",function(request, response) {
-    
+        if(apiKeyCheck(request,response)==true){
+
     dbRoberto.find({}).toArray(function(err,provinces){
         
          if (err) {
@@ -104,12 +133,52 @@ app.get(BASE_API_PATH + "/provinces/loadInitialData",function(request, response)
         console.log('INFO: DB has ' + provinces.length + ' provinces ');
     }
 });
+}
 });
 
 
+// GET a collection 
+ app.get(BASE_API_PATH + "/provinces", function(request, response) {
+  var url = request.query;
+  var province = url.province;
+  var year = url.year;
+  var varied = url.varied;
+  var averageWage = url.averageWage;
+  var offSet = 0;
+  var limit = 6;
+      if(apiKeyCheck(request,response)==true){
 
+ 
+    dbRoberto.find({}).skip(offSet).limit(limit).toArray(function(err, asd) {
+     if (err) {
+      console.error('WARNING: Error getting data from DB');
+      response.sendStatus(500); // internal server error
+     }
+     else {
+      var filted = asd.filter((stat) => {
+       if ((province == undefined || stat.province == province) && (year == undefined || stat.year == year) && (varied == undefined || stat.varied == varied) && (averageWage == undefined || stat.averageWage == averageWage)) {
+        return stat;
+       }
+      });
+      if (filted.length > 0) {
+       console.log("INFO: Sending stat: " + JSON.stringify(filted, 2, null));
+       response.send(filted);
+      }
+      else {
+       console.log("WARNING: There are not any province with this properties");
+       response.sendStatus(404); // not found
+      }
+     }
+    });
+      }
+  });
+
+
+/*
 // GET a collection
 app.get(BASE_API_PATH + "/provinces", function (request, response) {
+        if(apiKeyCheck(request,response)==true){
+
     console.log("INFO: New GET request to /provinces");
     dbRoberto.find({}).toArray( function (err, provinces) {
         if (err) {
@@ -120,12 +189,15 @@ app.get(BASE_API_PATH + "/provinces", function (request, response) {
             response.send(provinces);
         }
     });
+        }
 });
 
-
+*/
 // GET a collection de paises en un mismo año 
 
 app.get(BASE_API_PATH + "/provinces/:year", function (request, response) {
+        if(apiKeyCheck(request,response)==true){
+
     var year = request.params.year;
     var province = request.params.year;
     if(isNaN(request.params.year.charAt(0))){
@@ -168,7 +240,7 @@ app.get(BASE_API_PATH + "/provinces/:year", function (request, response) {
                 
                 }
         });
-}
+}}
 }});
 
 
@@ -177,6 +249,8 @@ app.get(BASE_API_PATH + "/provinces/:year", function (request, response) {
 app.get(BASE_API_PATH + "/provinces/:province/:year", function (request, response) {
     var province = request.params.province;
     var year = request.params.year;
+        if(apiKeyCheck(request,response)==true){
+
     if (!province || !year) {
         console.log("WARNING: New GET request to /provinces/:province without name or without year, sending 400...");
         response.sendStatus(400); // bad request
@@ -196,13 +270,15 @@ app.get(BASE_API_PATH + "/provinces/:province/:year", function (request, respons
                 
                 }
         });
-}
+}}
 });
 
 
 //POST over a collection
 app.post(BASE_API_PATH + "/provinces", function (request, response) {
     var newstat = request.body;
+        if(apiKeyCheck(request,response)==true){
+
     if (!newstat) {
         console.log("WARNING: New POST request to /provinces/ without stat, sending 400...");
         response.sendStatus(400); // bad request
@@ -231,7 +307,7 @@ app.post(BASE_API_PATH + "/provinces", function (request, response) {
                 }
             });
         }
-    }
+    }}
 });
 
 //a
@@ -239,15 +315,21 @@ app.post(BASE_API_PATH + "/provinces", function (request, response) {
 //POST over a single resource NO PERMITIDO
 app.post(BASE_API_PATH + "/provinces/:province", function (request, response) {
     var province = request.params.province;
+        if(apiKeyCheck(request,response)==true){
+
     console.log("WARNING: New POST request to /provinces/" + province + ", sending 405...");
     response.sendStatus(405); // method not allowed
+        }
 });
 
 
 //PUT over a collection NO PERMITIDO
 app.put(BASE_API_PATH + "/provinces", function (request, response) {
+        if(apiKeyCheck(request,response)==true){
+
     console.log("WARNING: New PUT request to /provinces, sending 405...");
     response.sendStatus(405); // method not allowed
+        }
 });
 
 
@@ -256,6 +338,8 @@ app.put(BASE_API_PATH + "/provinces/:province/:year", function (request, respons
     var updatedStat = request.body;
     var province = request.params.province;
     var year = request.params.year;
+        if(apiKeyCheck(request,response)==true){
+
 
     if (!updatedStat) {
         console.log("WARNING: New PUT request to /provinces/ without stat, sending 400...");
@@ -280,12 +364,14 @@ app.put(BASE_API_PATH + "/provinces/:province/:year", function (request, respons
                     }
                 }
             )}
-        }
+        }}
     });
            
            
 //DELETE over a collection
 app.delete(BASE_API_PATH + "/provinces", function (request, response) {
+        if(apiKeyCheck(request,response)==true){
+
     console.log("INFO: New DELETE request to /provinces");
     dbRoberto.remove({}, {multi: true}, function (err, numRemoved) {
         if (err) {
@@ -301,6 +387,7 @@ app.delete(BASE_API_PATH + "/provinces", function (request, response) {
             }
         }
     });
+        }
 });
 
 
@@ -309,6 +396,8 @@ app.delete(BASE_API_PATH + "/provinces", function (request, response) {
 app.delete(BASE_API_PATH + "/provinces/:province/:year", function (request, response) {
     var province = request.params.province;
     var year = request.params.year;
+        if(apiKeyCheck(request,response)==true){
+
     if (!province || !year) {
         console.log("WARNING: New DELETE request to /provinces/:province/:year without province and year, sending 400...");
         response.sendStatus(400); // bad request
@@ -330,5 +419,5 @@ app.delete(BASE_API_PATH + "/provinces/:province/:year", function (request, resp
                 }
             }
         });
-    }
+    }}
 });

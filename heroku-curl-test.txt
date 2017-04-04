@@ -9,7 +9,7 @@ curl -XPOST -H "Content-type: application/json" 'https://sos1617-08.herokuapp.co
 curl -XPUT -H "Content-type: application/json" 'https://sos1617-08.herokuapp.com/api/v1/provinces/' -d '{ "province": "Toledo",  "year": 2013, "varied": "1,29%", "averageWage": 22153}' 'https://sos1617-08.herokuapp.com/api/v1/provinces/'
 
 
-curl -XPUT -H "Content-type: application/json" 'https://sos1617-08.herokuapp.com/api/v1/provinces/' '{ "province": "Toledo",  "year": 2013, "varied": "1,29%", "averageWage": 22153}'
+curl -XPUT -H "Content-type: application/json" 'https://sos1617-08.herokuapp.com/api/v1/provinces/Toledo' '{ "province": "Toledo",  "year": 2013, "varied": "1,29%", "averageWage": 22153}'
 
 curl -XDELETE -H "Content-type: application/json" 'https://sos1617-08.herokuapp.com/api/v1/provinces/'
 
