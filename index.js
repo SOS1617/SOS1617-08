@@ -148,7 +148,10 @@ app.get(BASE_API_PATH + "/provinces/loadInitialData",function(request, response)
   var limit = 6;
       if(apiKeyCheck(request,response)==true){
 
- 
+ if (url.limit != undefined) {
+     limit = parseInt(url.limit);
+     offSet = parseInt(url.offset);
+    }
     dbRoberto.find({}).skip(offSet).limit(limit).toArray(function(err, asd) {
      if (err) {
       console.error('WARNING: Error getting data from DB');
