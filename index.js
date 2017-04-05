@@ -540,8 +540,6 @@ app.delete(BASE_API_PATH + "/provinces/:province/:year", function (request, resp
 
 
 
-///CREACIÓN DE LA APIKEY///
-
 
 
 //Load Initial Data
@@ -562,26 +560,26 @@ app.get(BASE_API_PATH + "/victims-stats/loadInitialData",function(request, respo
                 "province": "Seville",
                 "year": "2015",
                 "varied": "1,23%",
-                "averageWage": "15.921"
+                "averageYears": "15.921"
             },
             {
                 "province": "Madrid",
                 "year": "2014",
                 "varied": "0,66%",
-                "averageWage": "24.734"
+                "averageYears": "24.734"
                 
             },
             {
                 "province": "Barcelona",
                 "year": "2013",
                 "varied": "1,29%",
-                "averageWage": "22.153"
+                "averageYears": "22.153"
             },
             {
                 "province": "Valencia",
                 "year": "2012",
                 "varied": "1,35%",
-                "averageWage": "18.052"
+                "averageYears": "18.052"
             }];
         dbPaco.insert(province);
         response.sendStatus(201) //created
