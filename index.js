@@ -542,30 +542,6 @@ app.delete(BASE_API_PATH + "/provinces/:province/:year", function (request, resp
 
 ///CREACIÓN DE LA APIKEY///
 
-var apiKeyPaco = "paco";
-
-//COMPROBANDo EL APIKEY
-function apiKeyCheck(request,response){
-    var ak = request.query.apikey;
-    var check = true;
-    
-    if(!ak){
-        console.log("WARNING: Necesita introducir una apikey para acceder a los datos. Aquí está su apikey: "+ apiKeyPaco);
-        check = false;
-        response.sendStatus(401);
-    }else{
-        if(ak != apiKeyPaco){
-            console.log("WARNING: La APIKEY introducida no es válida, aquí está la apikey válida "+ apiKeyPaco);
-            check=false;
-            response.sendStatus(403);
-        }
-    }
-    return check;
-}
-
-
-
-
 
 
 //Load Initial Data
