@@ -548,14 +548,14 @@ app.delete(BASE_API_PATH + "/provinces/:province/:year", function (request, resp
 app.get(BASE_API_PATH + "/victims-stats/loadInitialData",function(request, response) {
         if(apiKeyCheck(request,response)==true){
 
-    dbPaco.find({}).toArray(function(err,provinces){
+    dbPaco.find({}).toArray(function(err,victims){
         
          if (err) {
         console.error('WARNING: Error while getting initial data from DB');
         return 0;
     }
     
-      if (provinces.length === 0) {
+      if (victims.length === 0) {
         console.log('INFO: Empty DB, loading initial data');
 
        var province = [{
@@ -588,7 +588,7 @@ app.get(BASE_API_PATH + "/victims-stats/loadInitialData",function(request, respo
     } else {
             
 
-        console.log('INFO: DB has ' + provinces.length + ' provinces ');
+        console.log('INFO: DB has ' + victims.length + ' victims ');
             response.sendStatus(200) //created
         
     }
@@ -597,7 +597,7 @@ app.get(BASE_API_PATH + "/victims-stats/loadInitialData",function(request, respo
 });
 /*
 // GET a collection 
- app.get(BASE_API_PATH + "/provinces", function(request, response) {
+ app.get(BASE_API_PATH + "/victims", function(request, response) {
   var url = request.query;
   var province = url.province;
   var year = url.year;
@@ -639,9 +639,9 @@ app.get(BASE_API_PATH + "/victims-stats/loadInitialData",function(request, respo
   
  // GET Collection (WITH SEARCH)
 
-app.get(BASE_API_PATH + "/provinces", function (request, response) {
+app.get(BASE_API_PATH + "/victims", function (request, response) {
     if (!apiKeyCheck(request, response)) return;
-    console.log("INFO: New GET request to /provinces");
+    console.log("INFO: New GET request to /victims");
     
             var limit = parseInt(request.query.limit);
             var offset = parseInt(request.query.offset);
@@ -652,22 +652,22 @@ app.get(BASE_API_PATH + "/provinces", function (request, response) {
 
             
             if (limit && offset >=0) {
-            dbPaco.find({}).skip(offset).limit(limit).toArray(function(err, provinces) {
+            dbPaco.find({}).skip(offset).limit(limit).toArray(function(err, victims) {
                 if (err) {
                     console.error('WARNING: Error getting data from DB');
                      response.sendStatus(500); // internal server error
                 } else {
-                     if (provinces.length === 0) {
+                     if (victims.length === 0) {
                             response.sendStatus(404);
                         }
-                    console.log("INFO: Sending provinces: " + JSON.stringify(provinces, 2, null));
+                    console.log("INFO: Sending victims: " + JSON.stringify(victims, 2, null));
                     if (from && to) {
 
-                            aux = buscador(provinces, aux, from, to);
+                            aux = buscador(victims, aux, from, to);
                             if (aux.length > 0) {
                                 aux2 = aux.slice(offset, offset+limit);
                                 console.log("INFO: Sending results with from and to and limit and offset: " + JSON.stringify(aux, 2, null));
-                                console.log("INFO: Sending results with from and to and limit and offset: " + JSON.stringify(provinces, 2, null));
+                                console.log("INFO: Sending results with from and to and limit and offset: " + JSON.stringify(victims, 2, null));
                                 console.log("INFO: Sending results with from and to and limit and offset: " + JSON.stringify(aux2, 2, null));
                                 response.send(aux2);
                             }
@@ -676,7 +676,7 @@ app.get(BASE_API_PATH + "/provinces", function (request, response) {
                             }
                         }
                         else {
-                            response.send(provinces);
+                            response.send(victims);
                         }
                 }
             });
@@ -684,18 +684,18 @@ app.get(BASE_API_PATH + "/provinces", function (request, response) {
             }
             else {
 
-                dbPaco.find({}).toArray(function(err, provinces) {
+                dbPaco.find({}).toArray(function(err, victims) {
                     if (err) {
                         console.error('ERROR from database');
                         response.sendStatus(500); // internal server error
                     }
                     else {
-                        if (provinces.length === 0) {
+                        if (victims.length === 0) {
                             response.sendStatus(404);
                         }
-                        console.log("INFO: Sending provinces: " + JSON.stringify(provinces, 2, null));
+                        console.log("INFO: Sending victims: " + JSON.stringify(victims, 2, null));
                         if (from && to) {
-                            aux = buscador(provinces, aux, from, to);
+                            aux = buscador(victims, aux, from, to);
                             if (aux.length > 0) {
                                 response.send(aux);
                             }
@@ -704,7 +704,7 @@ app.get(BASE_API_PATH + "/provinces", function (request, response) {
                             }
                         }
                         else {
-                            response.send(provinces);
+                            response.send(victims);
                         }
                     }
                 });
@@ -739,17 +739,17 @@ var buscador = function(base, conjuntoauxiliar, desde, hasta) {
 
 /*
 // GET a collection
-app.get(BASE_API_PATH + "/provinces", function (request, response) {
+app.get(BASE_API_PATH + "/victims", function (request, response) {
         if(apiKeyCheck(request,response)==true){
 
-    console.log("INFO: New GET request to /provinces");
-    dbPaco.find({}).toArray( function (err, provinces) {
+    console.log("INFO: New GET request to /victims");
+    dbPaco.find({}).toArray( function (err, victims) {
         if (err) {
             console.error('WARNING: Error getting data from DB');
             response.sendStatus(500); // internal server error
         } else {
-            console.log("INFO: Sending provinces: " + JSON.stringify(provinces, 2, null));
-            response.send(provinces);
+            console.log("INFO: Sending victims: " + JSON.stringify(victims, 2, null));
+            response.send(victims);
         }
     });
         }
@@ -758,14 +758,14 @@ app.get(BASE_API_PATH + "/provinces", function (request, response) {
 */
 // GET a collection de paises en un mismo año 
 
-app.get(BASE_API_PATH + "/provinces/:year", function (request, response) {
+app.get(BASE_API_PATH + "/victims/:year", function (request, response) {
         if(apiKeyCheck(request,response)==true){
 
     var year = request.params.year;
     var province = request.params.year;
     if(isNaN(request.params.year.charAt(0))){
             if (!province) {
-        console.log("WARNING: New GET request to /provinces/:province without name, sending 400...");
+        console.log("WARNING: New GET request to /victims/:province without name, sending 400...");
         response.sendStatus(400); // bad request
     } else {
         console.log("INFO: New GET request to /provices/" + province);
@@ -785,10 +785,10 @@ app.get(BASE_API_PATH + "/provinces/:year", function (request, response) {
 }
     }else{
     if (!year) {
-        console.log("WARNING: New GET request to /provinces/:year without year, sending 400...");
+        console.log("WARNING: New GET request to /victims/:year without year, sending 400...");
         response.sendStatus(400); // bad request
     } else {
-        console.log("INFO: New GET request to /provinces/" + year);
+        console.log("INFO: New GET request to /victims/" + year);
         dbPaco.find({year:year}).toArray(function (err, results) {
             if (err) {
                 console.error('WARNING: Error getting data from DB');
@@ -809,16 +809,16 @@ app.get(BASE_API_PATH + "/provinces/:year", function (request, response) {
 
 //GET a recurso concreto con 2 parametros
 
-app.get(BASE_API_PATH + "/provinces/:province/:year", function (request, response) {
+app.get(BASE_API_PATH + "/victims/:province/:year", function (request, response) {
     var province = request.params.province;
     var year = request.params.year;
         if(apiKeyCheck(request,response)==true){
 
     if (!province || !year) {
-        console.log("WARNING: New GET request to /provinces/:province without name or without year, sending 400...");
+        console.log("WARNING: New GET request to /victims/:province without name or without year, sending 400...");
         response.sendStatus(400); // bad request
     } else {
-        console.log("INFO: New GET request to /provinces/" + province + "/" + year);
+        console.log("INFO: New GET request to /victims/" + province + "/" + year);
         dbPaco.find({province:province, $and:[{year:year}]}).toArray(function (err, results) {
             if (err) {
                 console.error('WARNING: Error getting data from DB');
@@ -838,28 +838,28 @@ app.get(BASE_API_PATH + "/provinces/:province/:year", function (request, respons
 
 
 //POST over a collection
-app.post(BASE_API_PATH + "/provinces", function (request, response) {
+app.post(BASE_API_PATH + "/victims", function (request, response) {
     var newstat = request.body;
         if(apiKeyCheck(request,response)==true){
 
     if (!newstat) {
-        console.log("WARNING: New POST request to /provinces/ without stat, sending 400...");
+        console.log("WARNING: New POST request to /victims/ without stat, sending 400...");
         response.sendStatus(400); // bad request
     } else {
-        console.log("INFO: New POST request to /provinces with body: " + JSON.stringify(newstat, 2, null));
+        console.log("INFO: New POST request to /victims with body: " + JSON.stringify(newstat, 2, null));
         if (!newstat.province || !newstat.year ||  !newstat.varied || !newstat.averageWage) {
             console.log("WARNING: The stat " + JSON.stringify(newstat, 2, null) + " is not well-formed, sending 422...");
             response.sendStatus(422); // unprocessable entity
         } else {
-            dbPaco.find({}).toArray( function (err, provinces) {
+            dbPaco.find({}).toArray( function (err, victims) {
                 if (err) {
                     console.error('WARNING: Error getting data from DB');
                     response.sendStatus(500); // internal server error
                 } else {
-                    var provincesBeforeInsertion = provinces.filter((stats) => {
+                    var victimsBeforeInsertion = victims.filter((stats) => {
                         return (stats.province.localeCompare(newstat.province, "en", {'sensitivity': 'base'}) === 0);
                     });
-                    if (provincesBeforeInsertion.length > 0) {
+                    if (victimsBeforeInsertion.length > 0) {
                         console.log("WARNING: The stat " + JSON.stringify(newstat, 2, null) + " already extis, sending 409...");
                         response.sendStatus(409); // conflict
                     } else {
@@ -876,28 +876,28 @@ app.post(BASE_API_PATH + "/provinces", function (request, response) {
 //a
 
 //POST over a single resource NO PERMITIDO
-app.post(BASE_API_PATH + "/provinces/:province", function (request, response) {
+app.post(BASE_API_PATH + "/victims/:province", function (request, response) {
     var province = request.params.province;
         if(apiKeyCheck(request,response)==true){
 
-    console.log("WARNING: New POST request to /provinces/" + province + ", sending 405...");
+    console.log("WARNING: New POST request to /victims/" + province + ", sending 405...");
     response.sendStatus(405); // method not allowed
         }
 });
 
 
 //PUT over a collection NO PERMITIDO
-app.put(BASE_API_PATH + "/provinces", function (request, response) {
+app.put(BASE_API_PATH + "/victims", function (request, response) {
         if(apiKeyCheck(request,response)==true){
 
-    console.log("WARNING: New PUT request to /provinces, sending 405...");
+    console.log("WARNING: New PUT request to /victims, sending 405...");
     response.sendStatus(405); // method not allowed
         }
 });
 
 
 //PUT over a single resource
-app.put(BASE_API_PATH + "/provinces/:province/:year", function (request, response) {
+app.put(BASE_API_PATH + "/victims/:province/:year", function (request, response) {
     var updatedStat = request.body;
     var province = request.params.province;
     var year = request.params.year;
@@ -905,19 +905,19 @@ app.put(BASE_API_PATH + "/provinces/:province/:year", function (request, respons
 
 
     if (!updatedStat) {
-        console.log("WARNING: New PUT request to /provinces/ without stat, sending 400...");
+        console.log("WARNING: New PUT request to /victims/ without stat, sending 400...");
         response.sendStatus(400); // bad request
     } else {
-        console.log("INFO: New PUT request to /provinces/" + province + " with data " + JSON.stringify(updatedStat, 2, null));
+        console.log("INFO: New PUT request to /victims/" + province + " with data " + JSON.stringify(updatedStat, 2, null));
         if (!updatedStat.province || !updatedStat.year ||  !updatedStat.varied || !updatedStat.averageWage) {
             console.log("WARNING: The stat " + JSON.stringify(updatedStat, 2, null) + " is not well-formed, sending 422...");
             response.sendStatus(422); // unprocessable entity
         } else {
-            dbPaco.find({province:province, $and:[{year:year}]}).toArray( function (err, provinces) {
+            dbPaco.find({province:province, $and:[{year:year}]}).toArray( function (err, victims) {
                 if (err) {
                     console.error('WARNING: Error getting data from DB');
                     response.sendStatus(500); // internal server error
-                } else if (provinces.length > 0) {
+                } else if (victims.length > 0) {
                         dbPaco.update({province: province, year: year}, updatedStat);
                         console.log("INFO: Modifying result with proviç " + province + " with data " + JSON.stringify(updatedStat, 2, null));
                         response.send(updatedStat); // return the updated contact
@@ -932,20 +932,20 @@ app.put(BASE_API_PATH + "/provinces/:province/:year", function (request, respons
            
            
 //DELETE over a collection
-app.delete(BASE_API_PATH + "/provinces", function (request, response) {
+app.delete(BASE_API_PATH + "/victims", function (request, response) {
         if(apiKeyCheck(request,response)==true){
 
-    console.log("INFO: New DELETE request to /provinces");
+    console.log("INFO: New DELETE request to /victims");
     dbPaco.remove({}, {multi: true}, function (err, numRemoved) {
         if (err) {
             console.error('WARNING: Error removing data from DB');
             response.sendStatus(500); // internal server error
         } else {
             if (numRemoved > 0) {
-                console.log("WARNING: There are no provinces to delete");
+                console.log("WARNING: There are no victims to delete");
                 response.sendStatus(404); // no content
             } else {
-                console.log("INFO: All the provinces (" + numRemoved + ") have been succesfully deleted, sending 204...");
+                console.log("INFO: All the victims (" + numRemoved + ") have been succesfully deleted, sending 204...");
                 response.sendStatus(204); // not found
             }
         }
@@ -956,16 +956,16 @@ app.delete(BASE_API_PATH + "/provinces", function (request, response) {
 
 
 //DELETE over a single resource
-app.delete(BASE_API_PATH + "/provinces/:province/:year", function (request, response) {
+app.delete(BASE_API_PATH + "/victims/:province/:year", function (request, response) {
     var province = request.params.province;
     var year = request.params.year;
         if(apiKeyCheck(request,response)==true){
 
     if (!province || !year) {
-        console.log("WARNING: New DELETE request to /provinces/:province/:year without province and year, sending 400...");
+        console.log("WARNING: New DELETE request to /victims/:province/:year without province and year, sending 400...");
         response.sendStatus(400); // bad request
     } else {
-        console.log("INFO: New DELETE request to /provinces/" + province + " and year " + year);
+        console.log("INFO: New DELETE request to /victims/" + province + " and year " + year);
         dbPaco.remove({province:province, $and:[{year:year}]}, {}, function (err, result) {
             var numRemoved= JSON.parse(result);
             if (err) {
@@ -977,7 +977,7 @@ app.delete(BASE_API_PATH + "/provinces/:province/:year", function (request, resp
                     console.log("INFO: The result with province " + province + "and year " + year + " has been succesfully deleted, sending 204...");
                     response.sendStatus(204); // not found
                 } else {
-                    console.log("WARNING: There are no provinces to delete");
+                    console.log("WARNING: There are no victims to delete");
                     response.sendStatus(404); // no content
                 }
             }
