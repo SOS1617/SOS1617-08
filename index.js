@@ -130,7 +130,11 @@ app.get(BASE_API_PATH + "/provinces/loadInitialData",function(request, response)
         dbRoberto.insert(province);
         response.sendStatus(201) //created
     } else {
+            
+
         console.log('INFO: DB has ' + provinces.length + ' provinces ');
+            response.sendStatus(200) //created
+        
     }
 });
 }
