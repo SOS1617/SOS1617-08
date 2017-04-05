@@ -557,29 +557,23 @@ app.get(BASE_API_PATH + "/victims/loadInitialData",function(request, response) {
         console.log('INFO: Empty DB, loading initial data');
 
        var province = [{
-                "province": "Seville",
+                "province": "Cadiz",
                 "year": "2015",
-                "varied": "1,23%",
-                "averageYears": "15.921"
+                "numberVictims": "2",
+                "averageYears": "41"
             },
             {
-                "province": "Madrid",
-                "year": "2014",
-                "varied": "0,66%",
-                "averageYears": "24.734"
+                "province": "Murcia",
+                "year": "2003",
+                "numberVictims": "3",
+                "averageYears": "28,3"
                 
             },
             {
-                "province": "Barcelona",
-                "year": "2013",
-                "varied": "1,29%",
-                "averageYears": "22.153"
-            },
-            {
-                "province": "Valencia",
-                "year": "2012",
-                "varied": "1,35%",
-                "averageYears": "18.052"
+                "province": "Baleares",
+                "year": "2016",
+                "numberVictims": "6",
+                "averageYears": "40"
             }];
         dbPaco.insert(province);
         response.sendStatus(201) //created
@@ -805,7 +799,7 @@ app.post(BASE_API_PATH + "/victims", function (request, response) {
         response.sendStatus(400); // bad request
     } else {
         console.log("INFO: New POST request to /victims with body: " + JSON.stringify(newstat, 2, null));
-        if (!newstat.province || !newstat.year ||  !newstat.varied || !newstat.averageWage) {
+        if (!newstat.province || !newstat.year ||  !newstat. numberVictims || !newstat. averageYears) {
             console.log("WARNING: The stat " + JSON.stringify(newstat, 2, null) + " is not well-formed, sending 422...");
             response.sendStatus(422); // unprocessable entity
         } else {
@@ -867,7 +861,7 @@ app.put(BASE_API_PATH + "/victims/:province/:year", function (request, response)
         response.sendStatus(400); // bad request
     } else {
         console.log("INFO: New PUT request to /victims/" + province + " with data " + JSON.stringify(updatedStat, 2, null));
-        if (!updatedStat.province || !updatedStat.year ||  !updatedStat.varied || !updatedStat.averageWage) {
+        if (!updatedStat.province || !updatedStat.year ||  !updatedStat. numberVictims || !updatedStat. averageYears) {
             console.log("WARNING: The stat " + JSON.stringify(updatedStat, 2, null) + " is not well-formed, sending 422...");
             response.sendStatus(422); // unprocessable entity
         } else {
