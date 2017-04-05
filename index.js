@@ -543,7 +543,7 @@ app.delete(BASE_API_PATH + "/provinces/:province/:year", function (request, resp
 
 
 //Load Initial Data
-app.get(BASE_API_PATH + "/victims-stats/loadInitialData",function(request, response) {
+app.get(BASE_API_PATH + "/victims/loadInitialData",function(request, response) {
         if(apiKeyCheck(request,response)==true){
 
     dbPaco.find({}).toArray(function(err,victims){
