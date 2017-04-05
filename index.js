@@ -593,47 +593,7 @@ app.get(BASE_API_PATH + "/victims/loadInitialData",function(request, response) {
 });
 }
 });
-/*
-// GET a collection 
- app.get(BASE_API_PATH + "/victims", function(request, response) {
-  var url = request.query;
-  var province = url.province;
-  var year = url.year;
-  var varied = url.varied;
-  var averageWage = url.averageWage;
-  var offSet = 0;
-  var limit = 6;
-      if(apiKeyCheck(request,response)==true){
 
- if (url.limit != undefined) {
-     limit = parseInt(url.limit);
-     offSet = parseInt(url.offset);
-    }
-    dbPaco.find({}).skip(offSet).limit(limit).toArray(function(err, asd) {
-     if (err) {
-      console.error('WARNING: Error getting data from DB');
-      response.sendStatus(500); // internal server error
-     }
-     else {
-      var filted = asd.filter((stat) => {
-       if ((province == undefined || stat.province == province) && (year == undefined || stat.year == year) && (varied == undefined || stat.varied == varied) && (averageWage == undefined || stat.averageWage == averageWage)) {
-        return stat;
-       }
-      });
-      if (filted.length > 0) {
-       console.log("INFO: Sending stat: " + JSON.stringify(filted, 2, null));
-       response.send(filted);
-      }
-      else {
-       console.log("WARNING: There are not any province with this properties");
-       response.sendStatus(404); // not found
-      }
-     }
-    });
-      }
-  });
-
-*/
   
  // GET Collection (WITH SEARCH)
 
@@ -670,7 +630,7 @@ app.get(BASE_API_PATH + "/victims", function (request, response) {
                                 response.send(aux2);
                             }
                             else {
-                                response.sendStatus(404); // No content 
+                                response.sendStatus(404); 
                             }
                         }
                         else {
