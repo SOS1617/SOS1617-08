@@ -28,7 +28,7 @@ MongoClient.connect(mdbURL,{native_parser:true}, function(err, database){
     }
     
     
-    dbRoberto = database.collection("provinces");
+    dbRoberto = database.collection("wages");
     dbPaco = database.collection("victims-stats");
    
     
@@ -91,17 +91,17 @@ function apiKeyCheck(request,response){
 
 
 //Load Initial Data
-app.get(BASE_API_PATH + "/provinces/loadInitialData",function(request, response) {
+app.get(BASE_API_PATH + "/wages/loadInitialData",function(request, response) {
         if(apiKeyCheck(request,response)==true){
 
-    dbRoberto.find({}).toArray(function(err,provinces){
+    dbRoberto.find({}).toArray(function(err,wages){
         
          if (err) {
         console.error('WARNING: Error while getting initial data from DB');
         return 0;
     }
     
-      if (provinces.length === 0) {
+      if (wages.length === 0) {
         console.log('INFO: Empty DB, loading initial data');
 
        var province = [{
@@ -134,7 +134,7 @@ app.get(BASE_API_PATH + "/provinces/loadInitialData",function(request, response)
     } else {
             
 
-        console.log('INFO: DB has ' + provinces.length + ' provinces ');
+        console.log('INFO: DB has ' + wages.length + ' wages ');
             response.sendStatus(200) //created
         
     }
@@ -143,7 +143,7 @@ app.get(BASE_API_PATH + "/provinces/loadInitialData",function(request, response)
 });
 /*
 // GET a collection 
- app.get(BASE_API_PATH + "/provinces", function(request, response) {
+ app.get(BASE_API_PATH + "/wages", function(request, response) {
   var url = request.query;
   var province = url.province;
   var year = url.year;
@@ -185,9 +185,9 @@ app.get(BASE_API_PATH + "/provinces/loadInitialData",function(request, response)
   
  // GET Collection (WITH SEARCH)
 
-app.get(BASE_API_PATH + "/provinces", function (request, response) {
+app.get(BASE_API_PATH + "/wages", function (request, response) {
     if (!apiKeyCheck(request, response)) return;
-    console.log("INFO: New GET request to /provinces");
+    console.log("INFO: New GET request to /wages");
     
             var limit = parseInt(request.query.limit);
             var offset = parseInt(request.query.offset);
@@ -198,22 +198,22 @@ app.get(BASE_API_PATH + "/provinces", function (request, response) {
 
             
             if (limit && offset >=0) {
-            dbRoberto.find({}).skip(offset).limit(limit).toArray(function(err, provinces) {
+            dbRoberto.find({}).skip(offset).limit(limit).toArray(function(err, wages) {
                 if (err) {
                     console.error('WARNING: Error getting data from DB');
                      response.sendStatus(500); // internal server error
                 } else {
-                     if (provinces.length === 0) {
+                     if (wages.length === 0) {
                             response.sendStatus(404);
                         }
-                    console.log("INFO: Sending provinces: " + JSON.stringify(provinces, 2, null));
+                    console.log("INFO: Sending wages: " + JSON.stringify(wages, 2, null));
                     if (from && to) {
 
-                            aux = buscador(provinces, aux, from, to);
+                            aux = buscador(wages, aux, from, to);
                             if (aux.length > 0) {
                                 aux2 = aux.slice(offset, offset+limit);
                                 console.log("INFO: Sending results with from and to and limit and offset: " + JSON.stringify(aux, 2, null));
-                                console.log("INFO: Sending results with from and to and limit and offset: " + JSON.stringify(provinces, 2, null));
+                                console.log("INFO: Sending results with from and to and limit and offset: " + JSON.stringify(wages, 2, null));
                                 console.log("INFO: Sending results with from and to and limit and offset: " + JSON.stringify(aux2, 2, null));
                                 response.send(aux2);
                             }
@@ -222,7 +222,7 @@ app.get(BASE_API_PATH + "/provinces", function (request, response) {
                             }
                         }
                         else {
-                            response.send(provinces);
+                            response.send(wages);
                         }
                 }
             });
@@ -230,18 +230,18 @@ app.get(BASE_API_PATH + "/provinces", function (request, response) {
             }
             else {
 
-                dbRoberto.find({}).toArray(function(err, provinces) {
+                dbRoberto.find({}).toArray(function(err, wages) {
                     if (err) {
                         console.error('ERROR from database');
                         response.sendStatus(500); // internal server error
                     }
                     else {
-                        if (provinces.length === 0) {
+                        if (wages.length === 0) {
                             response.sendStatus(404);
                         }
-                        console.log("INFO: Sending provinces: " + JSON.stringify(provinces, 2, null));
+                        console.log("INFO: Sending wages: " + JSON.stringify(wages, 2, null));
                         if (from && to) {
-                            aux = buscador(provinces, aux, from, to);
+                            aux = buscador(wages, aux, from, to);
                             if (aux.length > 0) {
                                 response.send(aux);
                             }
@@ -250,7 +250,7 @@ app.get(BASE_API_PATH + "/provinces", function (request, response) {
                             }
                         }
                         else {
-                            response.send(provinces);
+                            response.send(wages);
                         }
                     }
                 });
@@ -285,17 +285,17 @@ var buscador = function(base, conjuntoauxiliar, desde, hasta) {
 
 /*
 // GET a collection
-app.get(BASE_API_PATH + "/provinces", function (request, response) {
+app.get(BASE_API_PATH + "/wages", function (request, response) {
         if(apiKeyCheck(request,response)==true){
 
-    console.log("INFO: New GET request to /provinces");
-    dbRoberto.find({}).toArray( function (err, provinces) {
+    console.log("INFO: New GET request to /wages");
+    dbRoberto.find({}).toArray( function (err, wages) {
         if (err) {
             console.error('WARNING: Error getting data from DB');
             response.sendStatus(500); // internal server error
         } else {
-            console.log("INFO: Sending provinces: " + JSON.stringify(provinces, 2, null));
-            response.send(provinces);
+            console.log("INFO: Sending wages: " + JSON.stringify(wages, 2, null));
+            response.send(wages);
         }
     });
         }
@@ -304,14 +304,14 @@ app.get(BASE_API_PATH + "/provinces", function (request, response) {
 */
 // GET a collection de paises en un mismo año 
 
-app.get(BASE_API_PATH + "/provinces/:year", function (request, response) {
+app.get(BASE_API_PATH + "/wages/:year", function (request, response) {
         if(apiKeyCheck(request,response)==true){
 
     var year = request.params.year;
     var province = request.params.year;
     if(isNaN(request.params.year.charAt(0))){
             if (!province) {
-        console.log("WARNING: New GET request to /provinces/:province without name, sending 400...");
+        console.log("WARNING: New GET request to /wages/:province without name, sending 400...");
         response.sendStatus(400); // bad request
     } else {
         console.log("INFO: New GET request to /provices/" + province);
@@ -320,7 +320,7 @@ app.get(BASE_API_PATH + "/provinces/:year", function (request, response) {
                 console.error('WARNING: Error getting data from DB');
                 response.sendStatus(500); // internal server error
             } else if (results.length > 0) { 
-                    var result = results; //since we expect to have exactly ONE contact with this name
+                    var result = results; //since we expect to have exactly ONE province with this name
                     console.log("INFO: Sending result: " + JSON.stringify(result, 2, null));
                     response.send(result);
                 } else {
@@ -331,16 +331,16 @@ app.get(BASE_API_PATH + "/provinces/:year", function (request, response) {
 }
     }else{
     if (!year) {
-        console.log("WARNING: New GET request to /provinces/:year without year, sending 400...");
+        console.log("WARNING: New GET request to /wages/:year without year, sending 400...");
         response.sendStatus(400); // bad request
     } else {
-        console.log("INFO: New GET request to /provinces/" + year);
+        console.log("INFO: New GET request to /wages/" + year);
         dbRoberto.find({year:year}).toArray(function (err, results) {
             if (err) {
                 console.error('WARNING: Error getting data from DB');
                 response.sendStatus(500); // internal server error
             } else if (results.length > 0) { 
-                    var result = results; //since we expect to have exactly ONE contact with this name
+                    var result = results; //since we expect to have exactly ONE province with this name
                     console.log("INFO: Sending result: " + JSON.stringify(result, 2, null));
                     response.send(result);
                 } else {
@@ -355,22 +355,22 @@ app.get(BASE_API_PATH + "/provinces/:year", function (request, response) {
 
 //GET a recurso concreto con 2 parametros
 
-app.get(BASE_API_PATH + "/provinces/:province/:year", function (request, response) {
+app.get(BASE_API_PATH + "/wages/:province/:year", function (request, response) {
     var province = request.params.province;
     var year = request.params.year;
         if(apiKeyCheck(request,response)==true){
 
     if (!province || !year) {
-        console.log("WARNING: New GET request to /provinces/:province without name or without year, sending 400...");
+        console.log("WARNING: New GET request to /wages/:province without name or without year, sending 400...");
         response.sendStatus(400); // bad request
     } else {
-        console.log("INFO: New GET request to /provinces/" + province + "/" + year);
+        console.log("INFO: New GET request to /wages/" + province + "/" + year);
         dbRoberto.find({province:province, $and:[{year:year}]}).toArray(function (err, results) {
             if (err) {
                 console.error('WARNING: Error getting data from DB');
                 response.sendStatus(500); // internal server error
             } else if (results.length > 0) { 
-                    var result = results[0]; //since we expect to have exactly ONE contact with this name
+                    var result = results[0]; //since we expect to have exactly ONE province with this name
                     console.log("INFO: Sending result: " + JSON.stringify(result, 2, null));
                     response.send(result);
                 } else {
@@ -384,28 +384,28 @@ app.get(BASE_API_PATH + "/provinces/:province/:year", function (request, respons
 
 
 //POST over a collection
-app.post(BASE_API_PATH + "/provinces", function (request, response) {
+app.post(BASE_API_PATH + "/wages", function (request, response) {
     var newstat = request.body;
         if(apiKeyCheck(request,response)==true){
 
     if (!newstat) {
-        console.log("WARNING: New POST request to /provinces/ without stat, sending 400...");
+        console.log("WARNING: New POST request to /wages/ without stat, sending 400...");
         response.sendStatus(400); // bad request
     } else {
-        console.log("INFO: New POST request to /provinces with body: " + JSON.stringify(newstat, 2, null));
+        console.log("INFO: New POST request to /wages with body: " + JSON.stringify(newstat, 2, null));
         if (!newstat.province || !newstat.year ||  !newstat.varied || !newstat.averageWage) {
             console.log("WARNING: The stat " + JSON.stringify(newstat, 2, null) + " is not well-formed, sending 422...");
             response.sendStatus(422); // unprocessable entity
         } else {
-            dbRoberto.find({}).toArray( function (err, provinces) {
+            dbRoberto.find({}).toArray( function (err, wages) {
                 if (err) {
                     console.error('WARNING: Error getting data from DB');
                     response.sendStatus(500); // internal server error
                 } else {
-                    var provincesBeforeInsertion = provinces.filter((stats) => {
+                    var wagesBeforeInsertion = wages.filter((stats) => {
                         return (stats.province.localeCompare(newstat.province, "en", {'sensitivity': 'base'}) === 0);
                     });
-                    if (provincesBeforeInsertion.length > 0) {
+                    if (wagesBeforeInsertion.length > 0) {
                         console.log("WARNING: The stat " + JSON.stringify(newstat, 2, null) + " already extis, sending 409...");
                         response.sendStatus(409); // conflict
                     } else {
@@ -422,28 +422,28 @@ app.post(BASE_API_PATH + "/provinces", function (request, response) {
 //a
 
 //POST over a single resource NO PERMITIDO
-app.post(BASE_API_PATH + "/provinces/:province", function (request, response) {
+app.post(BASE_API_PATH + "/wages/:province", function (request, response) {
     var province = request.params.province;
         if(apiKeyCheck(request,response)==true){
 
-    console.log("WARNING: New POST request to /provinces/" + province + ", sending 405...");
+    console.log("WARNING: New POST request to /wages/" + province + ", sending 405...");
     response.sendStatus(405); // method not allowed
         }
 });
 
 
 //PUT over a collection NO PERMITIDO
-app.put(BASE_API_PATH + "/provinces", function (request, response) {
+app.put(BASE_API_PATH + "/wages", function (request, response) {
         if(apiKeyCheck(request,response)==true){
 
-    console.log("WARNING: New PUT request to /provinces, sending 405...");
+    console.log("WARNING: New PUT request to /wages, sending 405...");
     response.sendStatus(405); // method not allowed
         }
 });
 
 
 //PUT over a single resource
-app.put(BASE_API_PATH + "/provinces/:province/:year", function (request, response) {
+app.put(BASE_API_PATH + "/wages/:province/:year", function (request, response) {
     var updatedStat = request.body;
     var province = request.params.province;
     var year = request.params.year;
@@ -451,22 +451,22 @@ app.put(BASE_API_PATH + "/provinces/:province/:year", function (request, respons
 
 
     if (!updatedStat) {
-        console.log("WARNING: New PUT request to /provinces/ without stat, sending 400...");
+        console.log("WARNING: New PUT request to /wages/ without stat, sending 400...");
         response.sendStatus(400); // bad request
     } else {
-        console.log("INFO: New PUT request to /provinces/" + province + " with data " + JSON.stringify(updatedStat, 2, null));
+        console.log("INFO: New PUT request to /wages/" + province + " with data " + JSON.stringify(updatedStat, 2, null));
         if (!updatedStat.province || !updatedStat.year ||  !updatedStat.varied || !updatedStat.averageWage) {
             console.log("WARNING: The stat " + JSON.stringify(updatedStat, 2, null) + " is not well-formed, sending 422...");
             response.sendStatus(422); // unprocessable entity
         } else {
-            dbRoberto.find({province:province, $and:[{year:year}]}).toArray( function (err, provinces) {
+            dbRoberto.find({province:province, $and:[{year:year}]}).toArray( function (err, wages) {
                 if (err) {
                     console.error('WARNING: Error getting data from DB');
                     response.sendStatus(500); // internal server error
-                } else if (provinces.length > 0) {
+                } else if (wages.length > 0) {
                         dbRoberto.update({province: province, year: year}, updatedStat);
                         console.log("INFO: Modifying result with proviç " + province + " with data " + JSON.stringify(updatedStat, 2, null));
-                        response.send(updatedStat); // return the updated contact
+                        response.send(updatedStat); // return the updated province
                     } else {
                         console.log("WARNING: There are not any result with province " + province);
                         response.sendStatus(404); // not found
@@ -478,10 +478,10 @@ app.put(BASE_API_PATH + "/provinces/:province/:year", function (request, respons
            
            
 //DELETE over a collection
-app.delete(BASE_API_PATH + "/provinces", function (request, response) {
+app.delete(BASE_API_PATH + "/wages", function (request, response) {
         if(apiKeyCheck(request,response)==true){
 
-    console.log("INFO: New DELETE request to /provinces");
+    console.log("INFO: New DELETE request to /wages");
     dbRoberto.remove({}, {multi: true}, function (err, numRemoved) {
         if (err) {
             console.error('WARNING: Error removing data from DB');
@@ -502,16 +502,16 @@ app.delete(BASE_API_PATH + "/provinces", function (request, response) {
 
 
 //DELETE over a single resource
-app.delete(BASE_API_PATH + "/provinces/:province/:year", function (request, response) {
+app.delete(BASE_API_PATH + "/wages/:province/:year", function (request, response) {
     var province = request.params.province;
     var year = request.params.year;
         if(apiKeyCheck(request,response)==true){
 
     if (!province || !year) {
-        console.log("WARNING: New DELETE request to /provinces/:province/:year without province and year, sending 400...");
+        console.log("WARNING: New DELETE request to /wages/:province/:year without province and year, sending 400...");
         response.sendStatus(400); // bad request
     } else {
-        console.log("INFO: New DELETE request to /provinces/" + province + " and year " + year);
+        console.log("INFO: New DELETE request to /wages/" + province + " and year " + year);
         dbRoberto.remove({province:province, $and:[{year:year}]}, {}, function (err, result) {
             var numRemoved= JSON.parse(result);
             if (err) {
@@ -726,7 +726,7 @@ app.get(BASE_API_PATH + "/victims/:year", function (request, response) {
                 console.error('WARNING: Error getting data from DB');
                 response.sendStatus(500); // internal server error
             } else if (results.length > 0) { 
-                    var result = results; //since we expect to have exactly ONE contact with this name
+                    var result = results; //since we expect to have exactly ONE province with this name
                     console.log("INFO: Sending result: " + JSON.stringify(result, 2, null));
                     response.send(result);
                 } else {
@@ -746,7 +746,7 @@ app.get(BASE_API_PATH + "/victims/:year", function (request, response) {
                 console.error('WARNING: Error getting data from DB');
                 response.sendStatus(500); // internal server error
             } else if (results.length > 0) { 
-                    var result = results; //since we expect to have exactly ONE contact with this name
+                    var result = results; //since we expect to have exactly ONE province with this name
                     console.log("INFO: Sending result: " + JSON.stringify(result, 2, null));
                     response.send(result);
                 } else {
@@ -776,7 +776,7 @@ app.get(BASE_API_PATH + "/victims/:province/:year", function (request, response)
                 console.error('WARNING: Error getting data from DB');
                 response.sendStatus(500); // internal server error
             } else if (results.length > 0) { 
-                    var result = results[0]; //since we expect to have exactly ONE contact with this name
+                    var result = results[0]; //since we expect to have exactly ONE province with this name
                     console.log("INFO: Sending result: " + JSON.stringify(result, 2, null));
                     response.send(result);
                 } else {
@@ -872,7 +872,7 @@ app.put(BASE_API_PATH + "/victims/:province/:year", function (request, response)
                 } else if (victims.length > 0) {
                         dbPaco.update({province: province, year: year}, updatedStat);
                         console.log("INFO: Modifying result with proviç " + province + " with data " + JSON.stringify(updatedStat, 2, null));
-                        response.send(updatedStat); // return the updated contact
+                        response.send(updatedStat); // return the updated province
                     } else {
                         console.log("WARNING: There are not any result with province " + province);
                         response.sendStatus(404); // not found
