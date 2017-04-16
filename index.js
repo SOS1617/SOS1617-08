@@ -51,10 +51,12 @@ app.use("/",express.static(publicFolder));
 
 app.use("/api/v1/tests", express.static(path.join(__dirname , "public/tests.html")));
 
-/*app.get(BASE_API_PATH+"/wages", function(request, response){
+//app.use("/api/v1/wages", express.static(path.join(__dirname , "public/front-endWages/index.html")));
+
+app.get(BASE_API_PATH+"/angularWages", function(request, response){
     response.sendfile(publicFolder + "/front-endWages/index.html");
 });
-*/
+
 // @see: https://curlbuilder.com/
 // @see: https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
 // @see: https://i.stack.imgur.com/whhD1.png
@@ -70,7 +72,7 @@ app.use("/api/v1/tests", express.static(path.join(__dirname , "public/tests.html
 
 var apiKeyRoberto = "hf5HF86KvZ";
 
-//COMPROBANDo EL APIKEY
+//COMPROBANDO EL APIKEY
 function apiKeyCheck(request,response){
     var ak = request.query.apikey;
     var check = true;
@@ -383,7 +385,7 @@ app.post(BASE_API_PATH + "/wages", function (request, response) {
     }}
 });
 
-//a
+
 
 //POST over a single resource NO PERMITIDO
 app.post(BASE_API_PATH + "/wages/:province", function (request, response) {

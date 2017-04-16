@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html ng-app="WageManagerApp">
+    <head>
+        <title>My app</title>
+        <link 
+        rel="stylesheet" 
+        href="/bower_components/bootstrap/dist/css/bootstrap.min.css" 
+            <link 
+        rel="stylesheet" 
+        href="/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" 
+        type="text/css" />
+        
+        <script 
+        type="text/javascript" 
+        src="/bower_components/jquery/dist/jquery.min.js"></script>
+     
+        <script 
+        type="text/javascript" 
+        src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+        
+        <script type="text/javascript"  src="/bower_components/angular/angular.min.js"></script>
+        
+        
+        <script type="text/javascript" src="/front-endWages/wage-manager-app.js"></script>
+        <script type="text/javascript" src="/front-endWages/list-ctrl.js"></script>
+      
+    </head>
+    
+    
+    <body>
+        <div ng-controller="ListCtrl">
+            
+            <h2>Wages</h2>
+            <table class ="table">
+                <thead>
+                    <tr><h4>API-KEY:hf5HF86KvZ</h4></tr>
+                     <tr>
+                        <th>Introduce your API-KEY<input class="form-control" ng-model="apikey"></th>
+                        <th class="text-center"><button class="btn-primary" ng-click="getData()">Get</button></th>
+                    </tr>
+                    <tr>
+                        <th>province</th>
+                        <th>year</th>
+                        <th>varied</th>
+                        <th>averageWage</th>
+                        <th>actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input class="form-control" ng-model="newWage.province"></td>
+                        <td><input class="form-control" ng-model="newWage.year"></td>
+                        <td><input class="form-control" ng-model="newWage.varied"></td>
+                        <td><input class="form-control" ng-model="newWage.averageWage"></td>
+
+                        <td ><button class="btn-warning" ng-click="searches()">Search</button></td>
+                    </tr>
+                    <tr>
+                        <td><input class="form-control" ng-model="newWage.province"/></td>
+                        <td><input class="form-control" ng-model="newWage.year"/></td>
+                        <td><input class="form-control" ng-model="newWage.varied"/></td>
+                        <td><input class="form-control" ng-model="newWage.averageWage"/></td>
+                        <td><button class="button btn-primary" ng-click="addWage()">Add</button><td>
+
+
+
+                    </tr>
+                      <tr>
+                           <td><button class="button btn-danger" ng-click="deleteWages(wage.province)">Delete All</button></td>
+                        <th class="text-center"><button class="btn-primary" ng-click="loadInitialData()">Load</button></th>
+                        <tr>
+                        <td><input class="form-control" ng-model="newWage.province"></td>
+                        <td><input class="form-control" ng-model="newWage.year"></td>
+                        <td><input class="form-control" ng-model="newWage['varied']" ></td>
+                        <td><input class="form-control" ng-model="newWage['averagewage']" ></td>
+                        <td ><button class="btn-actions" ng-click="putStats()">Update</button></td>
+                    </tr>
+
+                    </tr>
+                    
+                    <tr ng-repeat="wage in wages"> 
+                        <td>{{wage.province}}</td>
+                        <td>{{wage.year}}</td>
+                        <td>{{wage.varied}}</td>
+                        <td>{{wage.averageWage}}</td>
+                        <td><button class="button btn-danger" ng-click="deleteWage(wage.province)">Delete</button></td>
+
+                    </tr>
+                  
+                </tbody>
+            </table>
+        </div>  
+       
+
+    </body>
+</html>
