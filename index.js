@@ -51,6 +51,10 @@ app.use("/",express.static(publicFolder));
 
 app.use("/api/v1/tests", express.static(path.join(__dirname , "public/tests.html")));
 
+app.get(BASE_API_PATH+"/wages", function(request, response){
+    response.sendfile(publicFolder + "/front-endWages/index.html");
+});
+
 // @see: https://curlbuilder.com/
 // @see: https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
 // @see: https://i.stack.imgur.com/whhD1.png
@@ -64,7 +68,7 @@ app.use("/api/v1/tests", express.static(path.join(__dirname , "public/tests.html
 
 ///CREACIÓN DE LA APIKEY///
 
-var apiKeyRoberto = "hf5HF86KvZ";
+/*var apiKeyRoberto = "hf5HF86KvZ";
 
 //COMPROBANDo EL APIKEY
 function apiKeyCheck(request,response){
@@ -88,11 +92,11 @@ function apiKeyCheck(request,response){
 
 
 
-
+*/
 
 //Load Initial Data
 app.get(BASE_API_PATH + "/wages/loadInitialData",function(request, response) {
-        if(apiKeyCheck(request,response)==true){
+  //      if(apiKeyCheck(request,response)==true){
 
     dbRoberto.find({}).toArray(function(err,wages){
         
@@ -140,7 +144,7 @@ app.get(BASE_API_PATH + "/wages/loadInitialData",function(request, response) {
     }
 });
 }
-});
+);
 
   
  // GET Collection (WITH SEARCH)
