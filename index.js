@@ -51,10 +51,10 @@ app.use("/",express.static(publicFolder));
 
 app.use("/api/v1/tests", express.static(path.join(__dirname , "public/tests.html")));
 
-app.get(BASE_API_PATH+"/wages", function(request, response){
+/*app.get(BASE_API_PATH+"/wages", function(request, response){
     response.sendfile(publicFolder + "/front-endWages/index.html");
 });
-
+*/
 // @see: https://curlbuilder.com/
 // @see: https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
 // @see: https://i.stack.imgur.com/whhD1.png
@@ -68,7 +68,7 @@ app.get(BASE_API_PATH+"/wages", function(request, response){
 
 ///CREACIÓN DE LA APIKEY///
 
-/*var apiKeyRoberto = "hf5HF86KvZ";
+var apiKeyRoberto = "hf5HF86KvZ";
 
 //COMPROBANDo EL APIKEY
 function apiKeyCheck(request,response){
@@ -92,7 +92,7 @@ function apiKeyCheck(request,response){
 
 
 
-*/
+
 
 //Load Initial Data
 app.get(BASE_API_PATH + "/wages/loadInitialData",function(request, response) {
