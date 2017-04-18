@@ -39,32 +39,6 @@ angular
               }    
     
     
-    //GET A UN CONJUNTO CON PAGINACIÓN
-   /*     $scope.getData = function(){
-           
-            $http
-                .get($scope.url+"?apikey="+ $scope.apikey +"&limit="+ $scope.limit +"&offset="+$scope.offset)
-                .then(function successCallback(response) {
-    // this callback will be called asynchronously
-    // when the response is available</strong>
-  }, function errorCallback(response) {
-     // called asynchronously if an error occurs
-    // or server returns response with an error status.</strong>
-  });
-    } */
-   //GET A UN CONJUNTO CON PAGINACIÓN
-      /*  $scope.getData = function(){
-           
-            $http
-                .get($scope.url+"?apikey="+ $scope.apikey +"&limit="+ $scope.limit +"&offset="+$scope.offset)
-                .then(function(response){
-                    $scope.data = JSON.stringify(response.data, null, 2); 
-                    $scope.wages = response.data;
-                    console.log("Showing data with pag" );
-
-                });
-        } */
-        //GET A UN CONJUNTO CON PAGINACIÓN
         
          $scope.getDataPag = function(){
            
@@ -73,10 +47,12 @@ angular
                 .then(function(response){
                     $scope.data = JSON.stringify(response.data, null, 2); 
                     $scope.wages = response.data;
+                    console.log( "Showing data with limit and offset "  );
+
                 });
             
         } ;
-        //MÉTODO PARA AÑADIR UN PAÍS    
+//POST
         $scope.addStats = function(){
             $http
                 .post($scope.url+"?apikey="+ $scope.apikey, $scope.newWage)
@@ -87,7 +63,7 @@ angular
         } 
         
         
-        //MÉTODO PARA MODIFICAR UN PAÍS    
+        //PUT
         $scope.putStats = function(){
             $http
                 .put($scope.url +"/"+ $scope.newWage.province +"/"+ $scope.newWage.year + "?apikey="+ $scope.apikey, $scope.newWage)
@@ -97,17 +73,7 @@ angular
                 });
         }
         
-        //MÉTODO PARA ELIMINAR TODOS LOS PAISES
-       /* $scope.deleteAllWages = function(){
-            $http
-                .delete($scope.url+"?apikey="+ $scope.apikey)
-                .then(function(response){
-                    console.log("All wages delete");
-                    refresh();
-                });
-        }
-        */
-        
+      
         //delete a todos
                  $scope.deleteAllWages=function(){
                      $http
@@ -120,8 +86,8 @@ angular
                 }); 
                  }
 
-        //MÉTODO PARA BORRAR UN PAÍS
-        $scope.deleteWage = function(province,year){
+//DELETE SINGLE
+$scope.deleteWage = function(province,year){
             $http
                 .delete($scope.url +"/"+ $scope.newWage.province +"/"+ $scope.newWage.year +"/?apikey="+$scope.apikey)
                 .then(function(response){
@@ -130,13 +96,16 @@ angular
                 });
         } 
         
+        
+        
           $scope.searches = function(){
             $http
                 .get($scope.url+"?apikey="+$scope.apikey+"&from="+$scope.newWage.from+"&to="+$scope.newWage.to)
                 .then(function(response){
-                    console.log("The between year: "+$scope.newWage.from +" and year "+ $scope.newWage.to+ " works correctly");
                     $scope.data = JSON.stringify(response.data, null, 2); 
                     $scope.wages = response.data; 
+                                    console.log( "Showing data with your search"  );
+
                 });
         };
            

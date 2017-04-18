@@ -16,35 +16,35 @@
 
     </head>
    
-    <body>
+    <body style="width:1100px; margin-left:250px; border: 15px solid green"  >
         <div ng-controller="ListCtrl">
             <h1>Wages Spain</h1>
-            <table class="table">
+            <table class="table table-striped" >
                 <thead>
-                    <tr><h4>Api-Key: hf5HF86KvZ</h4></tr>
+                    <tr><h4>ApiKey: hf5HF86KvZ</h4></tr>
                     <tr>
-                        <th>Please write your Api-Key:<input class="form-control" ng-model="apikey"></th>
-                        <th><button class="btn-primary" ng-click="getData()">Get</button></th>
+                        <th>Please introduce your ApiKey:<input class="form-control" ng-model="apikey" placeholder="APIKEY"></th>
+                        <th><button class="btn-success" ng-click="getData()">Get</button></th>
                     </tr>
                      <tr>
-                        <th>Introduce LIMIT<input class="form-control" ng-model="limit"></th>
-                        <th>Introduce OFFSET<input class="form-control" ng-model="offset"></th>
+                        <th>Introduce LIMIT<input class="form-control" ng-model="limit" placeholder="Limit"></th>
+                        <th>Introduce OFFSET<input class="form-control" ng-model="offset" placeholder="Offset"></th>
                         <th><button class="btn btn-success" ng-click="getDataPag()">Get</button></th>
                     </tr>
                     <tr>
-                        <th>Introduce FROM<input class="form-control" ng-model="newWage.from"></th>
-                        <th>Introduce TO<input class="form-control" ng-model="newWage.to"></th>
+                        <th>Introduce FROM<input class="form-control" ng-model="newWage.from" placeholder="From"></th>
+                        <th>Introduce TO<input class="form-control" ng-model="newWage.to"placeholder="To"></th>
                         <th><button class="btn btn-success" ng-click="searches()">Search</button></th>
                     </tr>
                     <tr>
-                        <th class="text-center"><button class="btn-danger" ng-click="deleteAllWages()">Delete All</button></th>
-                        <th class="text-center"><button class="btn-primary" ng-click="loadInitialData()">Load Initial Data</button></th>
+                        <th><button class="btn-danger" ng-click="deleteAllWages()">Delete All</button></th>
+                        <th><button class="btn-primary" ng-click="loadInitialData()">Load Initial Data</button></th>
                     </tr>
                 </thead>
             </table>
            
            
-            <table class="table">
+            <table class="table table-striped" >
                 <thead>
                     <tr>
                         <th>Province</th>
@@ -55,31 +55,31 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td><input class="form-control" ng-model="newWage.province"></td>
-                        <td><input class="form-control" ng-model="newWage.year"></td>
-                        <td><input class="form-control" ng-model="newWage.varied" ></td>
-                        <td><input class="form-control" ng-model="newWage.averageWage" ></td>
-                        <td ><button class="btn-primary" ng-click="addStats()">Add</button></td>
+                        <td><input class="form-control" ng-model="newWage.province" placeholder="Province"></td>
+                        <td><input class="form-control" ng-model="newWage.year" placeholder="Year"></td>
+                        <td><input class="form-control" ng-model="newWage.varied" placeholder="varied"></td>
+                        <td><input class="form-control" ng-model="newWage.averageWage" placeholder="Average Wage"></td>
+                        <td ><button class="btn-warning" ng-click="addStats()">Add</button></td>
                     </tr>
                     <tr>
-                        <td><input class="form-control" ng-modelaq="newWage.province"></td>
-                        <td><input class="form-control" ng-model="newWage.year"></td>
-                        <td><input class="form-control" ng-model="newWage.varied" ></td>
-                        <td><input class="form-control" ng-model="newWage.averageWage" ></td>
+                        <td><input class="form-control" ng-model="newWage.province" placeholder="Province"></td>
+                        <td><input class="form-control" ng-model="newWage.year" placeholder="Year"></td>
+                        <td><input class="form-control" ng-model="newWage.varied" placeholder="Varied"></td>
+                        <td><input class="form-control" ng-model="newWage.averageWage" placeholder="Average Wage"></td>
                         <td ><button class="btn-warning" ng-click="putStats()">Put </button></td>
                     </tr>
                     <tr>
-                        <td><input class="form-control" ng-model="newWage.province"></td>
-                        <td><input class="form-control" ng-model="newWage.year"></td>
-                        <td ><button class="btn-danger" ng-click="deleteWage()">Delete</button></td>
+                        <td><input class="form-control" ng-model="newWage.province" placeholder="Province"></td>
+                        <td><input class="form-control" ng-model="newWage.year" placeholder="Year"></td>
+                        <td><button class="btn-danger" ng-click="deleteWage()">Delete</button></td>
                                                 <!--wage.province,wage.year-->
                     </tr>
                    
                     <tr ng-repeat="wage in wages">
-                        <td>{{wage.province}}</td>
-                        <td>{{wage.year}}</td>
-                        <td>{{wage['varied']}}</td>
-                        <td>{{wage['averageWage']}}</td>
+                        <td class="danger">{{wage.province}}</td>
+                        <td class="warning">{{wage.year}}</td>
+                        <td class="success">{{wage['varied']}}</td>
+                        <td class="info">{{wage['averageWage']}}</td>
                         <!--wage.province,wage.year-->
                     </tr>
                 </tbody>
