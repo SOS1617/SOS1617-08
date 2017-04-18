@@ -28,7 +28,7 @@ MongoClient.connect(mdbURL,{native_parser:true}, function(err, database){
     }
     
     
-    dbRoberto = database.collection("wages");
+    dbRoberto = database.collection("wagess");
     dbPaco = database.collection("victims-stats");
    
     
@@ -51,11 +51,14 @@ app.use("/",express.static(publicFolder));
 
 app.use("/api/v1/tests", express.static(path.join(__dirname , "public/tests.html")));
 
-//app.use("/api/v1/wages", express.static(path.join(__dirname , "public/front-endWages/index.html")));
-
 app.get(BASE_API_PATH+"/angularWages", function(request, response){
     response.sendfile(publicFolder + "/front-endWages/index.html");
 });
+
+// @see: https://curlbuilder.com/
+// @see: https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
+// @see: https://i.stack.imgur.com/whhD1.png
+// @see: https://blog.agetic.gob.bo/2016/07/elegir-un-codigo-de-estado-http-deja-de-hacerlo-dificil/
 
 //*******************************************************************************************************************************************************************************************************************
 //***********************************************************************************API ROBERTO*********************************************************************************************************************
@@ -93,7 +96,7 @@ function apiKeyCheck(request,response){
 
 //Load Initial Data
 app.get(BASE_API_PATH + "/wages/loadInitialData",function(request, response) {
-  //      if(apiKeyCheck(request,response)==true){
+       if(apiKeyCheck(request,response)==true){
 
     dbRoberto.find({}).toArray(function(err,wages){
         
@@ -141,7 +144,7 @@ app.get(BASE_API_PATH + "/wages/loadInitialData",function(request, response) {
     }
 });
 }
-);
+});
 
   
  // GET Collection (WITH SEARCH)
@@ -166,6 +169,7 @@ app.get(BASE_API_PATH + "/wages", function (request, response) {
                 } else {
                      if (wages.length === 0) {
                             response.sendStatus(404);
+                            return;
                         }
                     console.log("INFO: Sending wages: " + JSON.stringify(wages, 2, null));
                     if (from && to) {
@@ -198,7 +202,8 @@ app.get(BASE_API_PATH + "/wages", function (request, response) {
                     }
                     else {
                         if (wages.length === 0) {
-                            response.sendStatus(404);
+                            response.sendStatus(204);
+                            return;
                         }
                         console.log("INFO: Sending wages: " + JSON.stringify(wages, 2, null));
                         if (from && to) {
@@ -380,7 +385,7 @@ app.post(BASE_API_PATH + "/wages", function (request, response) {
     }}
 });
 
-
+//a
 
 //POST over a single resource NO PERMITIDO
 app.post(BASE_API_PATH + "/wages/:province", function (request, response) {
