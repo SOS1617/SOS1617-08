@@ -79,7 +79,7 @@ angular
         //MÉTODO PARA MODIFICAR UN PAÍS    
         $scope.putStats = function(){
             $http
-                .put($scope.url +"/"+ $scope.newWage.province + "?apikey="+ $scope.apikey, $scope.newWage)
+                .put($scope.url +"/"+ $scope.newWage.province +"/"+ $scope.newWage.year + "?apikey="+ $scope.apikey, $scope.newWage)
                 .then(function(response){
                     console.log( "Wages has been modified. "  );
                     refresh();
@@ -112,9 +112,9 @@ angular
         //MÉTODO PARA BORRAR UN PAÍS
         $scope.deleteWage = function(province,year){
             $http
-                .delete($scope.url +"/"+ province +"/"+ year +"/?apikey="+$scope.apikey)
+                .delete($scope.url +"/"+ $scope.newWage.province +"/"+ $scope.newWage.year +"/?apikey="+$scope.apikey)
                 .then(function(response){
-                    console.log("Wages delete from: "+ province);
+                    console.log("Wages deleted ");
                     refresh();
                 });
         } 

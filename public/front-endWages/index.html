@@ -3,7 +3,9 @@
 <html ng-app="WageManagerApp">
     <head>
         <title>My app</title>
-        <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css" type="text/css" />
+        
+
+<link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css" type="text/css" />
         <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" type="text/css" />
         <script type="text/javascript" src="/bower_components/jquery/dist/jquery.min.js"></script>
         <script type="text/javascript" src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -65,8 +67,9 @@
                         <td><input class="form-control" ng-model="newWage.averageWage" ></td>
                         <td ><button class="btn-warning" ng-click="putStats()">Put </button></td>
                     </tr>
+                   
                     <tr>
-                        <td><input class="form-control" ng-model="newWage.country"></td>
+                        <td><input class="form-control" ng-model="newWage.province"></td>
                         <td><input class="form-control" ng-model="newWage.year"></td>
                         <td ><button class="btn-warning" ng-click="searches()">Search</button></td>
                     </tr>
@@ -74,9 +77,10 @@
                     <tr ng-repeat="wage in wages">
                         <td>{{wage.province}}</td>
                         <td>{{wage.year}}</td>
-                        <td>{{wage.varied}}</td>
-                        <td>{{wage.averageWage}}</td>
-                        <td><button class="btn-danger" ng-click="deleteWage(stat.province,stat.year)">DELETE</button></td>
+                        <td>{{wage['varied']}}</td>
+                        <td>{{wage['averageWage']}}</td>
+                        <td><button class="btn-danger" ng-click="deleteWage()">DELETE</button></td>
+                        <!--wage.province,wage.year-->
                     </tr>
                 </tbody>
             </table>
