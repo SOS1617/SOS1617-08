@@ -159,6 +159,7 @@ app.get(BASE_API_PATH + "/wages", function (request, response) {
             var to = request.query.to;
             var aux = [];
             var aux2= [];
+            var aux3 = [];
 
             
             if (limit && offset >=0) {
@@ -168,7 +169,7 @@ app.get(BASE_API_PATH + "/wages", function (request, response) {
                      response.sendStatus(500); // internal server error
                 } else {
                      if (wages.length === 0) {
-                            response.sendStatus(404);
+                            response.send(aux3);
                             return;
                         }
                     console.log("INFO: Sending wages: " + JSON.stringify(wages, 2, null));
@@ -184,6 +185,7 @@ app.get(BASE_API_PATH + "/wages", function (request, response) {
                             }
                             else {
                                 response.sendStatus(404); // No content 
+                                return;
                             }
                         }
                         else {
@@ -213,6 +215,7 @@ app.get(BASE_API_PATH + "/wages", function (request, response) {
                             }
                             else {
                                 response.sendStatus(404); //Not found
+                                return;
                             }
                         }
                         else {
@@ -234,8 +237,8 @@ var buscador = function(base, conjuntoauxiliar, desde, hasta) {
 
 
     for (var j = 0; j < base.length; j++) {
-        var anio = base[j].year;
-        if (to >= anio && from <= anio) {
+        var anyo = base[j].year;
+        if (to >= anyo && from <= anyo) {
 
             conjuntoauxiliar.push(base[j]);
         }

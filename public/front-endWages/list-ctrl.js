@@ -65,18 +65,17 @@ angular
                 });
         } */
         //GET A UN CONJUNTO CON PAGINACIÓN
-        $scope.getDataPag = function(){
+        
+         $scope.getDataPag = function(){
            
             $http
                 .get($scope.url+"?apikey="+ $scope.apikey +"&limit="+ $scope.limit +"&offset="+$scope.offset)
                 .then(function(response){
                     $scope.data = JSON.stringify(response.data, null, 2); 
                     $scope.wages = response.data;
-                                        console.log("Showing data with pag" );
-
                 });
             
-        } 
+        } ;
         //MÉTODO PARA AÑADIR UN PAÍS    
         $scope.addStats = function(){
             $http
@@ -131,16 +130,14 @@ angular
                 });
         } 
         
-        
-        //MÉTODO PARA LAS BÚSQUEDAS
-        $scope.searches = function(){
+          $scope.searches = function(){
             $http
-                .get($scope.url+"?apikey="+$scope.apikey+"&province="+$scope.newWage.province+"&year="+$scope.newWage.year)
+                .get($scope.url+"?apikey="+$scope.apikey+"&from="+$scope.newWage.from+"&to="+$scope.newWage.to)
                 .then(function(response){
-                    console.log("The search of: "+$scope.newWage.province +" in year "+ $scope.newWage.year+ " works correctly");
+                    console.log("The between year: "+$scope.newWage.from +" and year "+ $scope.newWage.to+ " works correctly");
                     $scope.data = JSON.stringify(response.data, null, 2); 
                     $scope.wages = response.data; 
                 });
-        }
+        };
            
 }]);  
