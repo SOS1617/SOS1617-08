@@ -225,9 +225,6 @@ app.get(BASE_API_PATH + "/wages", function (request, response) {
 });
 
 
-
-
-  
 // SEARCH FUNCTION
 
 var buscador = function(base, conjuntoauxiliar, desde, hasta) {

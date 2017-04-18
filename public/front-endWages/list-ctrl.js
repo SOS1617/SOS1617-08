@@ -7,6 +7,7 @@ angular
 
         console.log("Controller initialized ");
         
+        
         //CARGAR DATOS
         $scope.loadInitialData= function(){
             $http.get($scope.url+"/loadInitialData?apikey="+$scope.apikey)
@@ -20,14 +21,14 @@ angular
             $http
                 .get($scope.url+"?apikey="+ $scope.apikey +"&limit="+ $scope.limit +"&offset="+$scope.offset)
                 .then(function(response){
-                    $scope.data = JSON.stringify(response.data, null, 2); // null,2 sirve para renderizar el JSON, que lo muestre bonito, etc...
+                    $scope.data = JSON.stringify(response.data, null, 2); 
                     $scope.wages = response.data;
                 });
             }   
             
          
             
-          /*  $scope.getData = function(){
+           $scope.getData = function(){
             $http
             .get($scope.url+"?apikey="+ $scope.apikey)
             .then(function(response){
@@ -36,7 +37,7 @@ angular
 
                 });
                 
-              }    */
+              }    
     
     
     //GET A UN CONJUNTO CON PAGINACIÓN
@@ -65,14 +66,14 @@ angular
                 });
         } */
         //GET A UN CONJUNTO CON PAGINACIÓN
-        $scope.getData = function(){
+        $scope.getDataPag = function(){
            
             $http
                 .get($scope.url+"?apikey="+ $scope.apikey +"&limit="+ $scope.limit +"&offset="+$scope.offset)
                 .then(function(response){
                     $scope.data = JSON.stringify(response.data, null, 2); 
                     $scope.wages = response.data;
-                                        console.log("Showing data with pag" );
+                    console.log("Showing data with pag" );
 
                 });
             
@@ -93,7 +94,7 @@ angular
             $http
                 .put($scope.url +"/"+ $scope.newWage.province +"/"+ $scope.newWage.year + "?apikey="+ $scope.apikey, $scope.newWage)
                 .then(function(response){
-                    console.log( "Wages has been modified. "  );
+                    console.log( "Wages has been modified.");
                     refresh();
                 });
         }
@@ -121,7 +122,7 @@ angular
                 }); 
                  }
 
-        //MÉTODO PARA BORRAR UN PAÍS
+       x //MÉTODO PARA BORRAR UN PAÍS
         $scope.deleteWage = function(province,year){
             $http
                 .delete($scope.url +"/"+ $scope.newWage.province +"/"+ $scope.newWage.year +"/?apikey="+$scope.apikey)
@@ -133,13 +134,15 @@ angular
         
         
         //MÉTODO PARA LAS BÚSQUEDAS
-        $scope.searches = function(){
+        $scope.buscador = function(){
             $http
-                .get($scope.url+"?apikey="+$scope.apikey+"&province="+$scope.newWage.province+"&year="+$scope.newWage.year)
+                .get($scope.url+"?apikey="+$scope.apikey+"&from="+$scope.wage.from+"&to="+$scope.wage.to)
                 .then(function(response){
-                    console.log("The search of: "+$scope.newWage.province +" in year "+ $scope.newWage.year+ " works correctly");
                     $scope.data = JSON.stringify(response.data, null, 2); 
-                    $scope.stats = response.data; 
+                    $scope.wages = response.data; 
+                                        console.log("Searching for wages");
+                                        refresh();
+
                 });
         }
            
