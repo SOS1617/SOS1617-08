@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!--todas las etiquetas que usen angular tienen que tener el atrubito ng-app -->
 <html ng-app="WageManagerApp">
     <head>
         <title>My app</title>
@@ -9,7 +8,6 @@
         <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" type="text/css" />
         <script type="text/javascript" src="/bower_components/jquery/dist/jquery.min.js"></script>
         <script type="text/javascript" src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-        <!-- carga angular -->
         <script type="text/javascript" src="/bower_components/angular/angular.min.js"></script>
         
         
@@ -17,10 +15,8 @@
         <script type="text/javascript" src="/front-endWages/list-ctrl.js"></script>
 
     </head>
-    <!--Creamos el controlador asociado al body-->
-    <!--Distribuimos un controlador por caada tipo de interfaz que tenemos -->
+   
     <body>
-        <!-- el controlador se añade a una parte del body-->
         <div ng-controller="ListCtrl">
             <h1>Wages Spain</h1>
             <table class="table">
@@ -33,7 +29,7 @@
                     <tr>
                         <th>Limit<input class="form-control" ng-model="limit"></th>
                         <th>Offset<input class="form-control" ng-model="offset"></th>
-                        <th><button class="btn-primary" ng-click="getDataPag()">Get Pag</button></th>
+                        <th><button class="btn-primary" ng-click="getData()">Get Pag</button></th>
                     </tr>
                     <tr>
                         <th class="text-center"><button class="btn-danger" ng-click="deleteAllWages()">DELETE ALL STATS</button></th>
@@ -61,11 +57,18 @@
                         <td ><button class="btn-primary" ng-click="addStats()">Add</button></td>
                     </tr>
                     <tr>
-                        <td><input class="form-control" ng-model="newWage.province"></td>
+                        <td><input class="form-control" ng-modelaq="newWage.province"></td>
                         <td><input class="form-control" ng-model="newWage.year"></td>
                         <td><input class="form-control" ng-model="newWage.varied" ></td>
                         <td><input class="form-control" ng-model="newWage.averageWage" ></td>
                         <td ><button class="btn-warning" ng-click="putStats()">Put </button></td>
+                    </tr>
+                    <tr>
+                        <td><input class="form-control" ng-model="newWage.province"></td>
+                        <td><input class="form-control" ng-model="newWage.year"></td>
+                        <td ><button class="btn-danger" ng-click="deleteWage()">Delete</button></td>
+                                                <!--wage.province,wage.year-->
+
                     </tr>
                    
                     <tr>
@@ -73,13 +76,11 @@
                         <td><input class="form-control" ng-model="newWage.year"></td>
                         <td ><button class="btn-warning" ng-click="searches()">Search</button></td>
                     </tr>
-                    <!-- asume que en el controlador hay un array que se llama contacts y genera un tr por cada elemento del array-->
                     <tr ng-repeat="wage in wages">
                         <td>{{wage.province}}</td>
                         <td>{{wage.year}}</td>
                         <td>{{wage['varied']}}</td>
                         <td>{{wage['averageWage']}}</td>
-                        <td><button class="btn-danger" ng-click="deleteWage()">DELETE</button></td>
                         <!--wage.province,wage.year-->
                     </tr>
                 </tbody>

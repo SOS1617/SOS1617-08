@@ -27,7 +27,7 @@ angular
             
          
             
-            $scope.getData = function(){
+          /*  $scope.getData = function(){
             $http
             .get($scope.url+"?apikey="+ $scope.apikey)
             .then(function(response){
@@ -36,7 +36,7 @@ angular
 
                 });
                 
-              }    
+              }    */
     
     
     //GET A UN CONJUNTO CON PAGINACIÓN
@@ -53,7 +53,7 @@ angular
   });
     } */
    //GET A UN CONJUNTO CON PAGINACIÓN
-        $scope.getDataPag = function(){
+      /*  $scope.getData = function(){
            
             $http
                 .get($scope.url+"?apikey="+ $scope.apikey +"&limit="+ $scope.limit +"&offset="+$scope.offset)
@@ -61,6 +61,18 @@ angular
                     $scope.data = JSON.stringify(response.data, null, 2); 
                     $scope.wages = response.data;
                     console.log("Showing data with pag" );
+
+                });
+        } */
+        //GET A UN CONJUNTO CON PAGINACIÓN
+        $scope.getData = function(){
+           
+            $http
+                .get($scope.url+"?apikey="+ $scope.apikey +"&limit="+ $scope.limit +"&offset="+$scope.offset)
+                .then(function(response){
+                    $scope.data = JSON.stringify(response.data, null, 2); 
+                    $scope.wages = response.data;
+                                        console.log("Showing data with pag" );
 
                 });
             

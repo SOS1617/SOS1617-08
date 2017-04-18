@@ -212,7 +212,7 @@ app.get(BASE_API_PATH + "/wages", function (request, response) {
                                 response.send(aux);
                             }
                             else {
-                                response.sendStatus(404); //No content
+                                response.sendStatus(404); //Not found
                             }
                         }
                         else {
