@@ -96,7 +96,14 @@ $scope.deleteWage = function(province,year){
                 });
         } 
         
-        
+$scope.deleteOneSalary = function(province,year){
+            $http
+                .delete($scope.url +"/"+ province +"/"+ year +"/?apikey="+$scope.apikey)
+                .then(function(response){
+                    console.log("Wage deleted");
+                    refresh();
+                });
+        } ;
         
           $scope.searches = function(){
             $http
