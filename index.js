@@ -55,6 +55,10 @@ app.get(BASE_API_PATH+"/angularWages", function(request, response){
     response.sendfile(publicFolder + "/front-endWages/index.html");
 });
 
+app.get(BASE_API_PATH+"/angularVictims", function(request, response){
+    response.sendfile(publicFolder + "/front-endVictims/index.html");
+});
+
 // @see: https://curlbuilder.com/
 // @see: https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
 // @see: https://i.stack.imgur.com/whhD1.png
@@ -500,6 +504,8 @@ app.delete(BASE_API_PATH + "/wages/:province/:year", function (request, response
 
 
 
+
+
 //***********************************************************************************************************************************************************************************************************************
 //***************************************************************************************API PACO*********************************************************************************************************************
 //***********************************************************************************************************************************************************************************************************************
@@ -609,7 +615,8 @@ app.get(BASE_API_PATH + "/victims", function (request, response) {
                     }
                     else {
                         if (victims.length === 0) {
-                            response.sendStatus(404);
+                            response.sendStatus(204);
+                            return;
                         }
                         console.log("INFO: Sending victims: " + JSON.stringify(victims, 2, null));
                         if (from && to) {
@@ -775,7 +782,7 @@ app.post(BASE_API_PATH + "/victims", function (request, response) {
                     response.sendStatus(500); // internal server error
                 } else {
                     var victimsBeforeInsertion = victims.filter((stats) => {
-                        return (stats.province.localeCompare(newstat.province, "en", {'sensitivity': 'base'}) === 0);
+                        return (stats.province.localeCompare(newstat.province && newstat.year, "en", {'sensitivity': 'base'}) === 0);
                     });
                     if (victimsBeforeInsertion.length > 0) {
                         console.log("WARNING: The stat " + JSON.stringify(newstat, 2, null) + " already extis, sending 409...");
