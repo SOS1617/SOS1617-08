@@ -373,7 +373,7 @@ app.post(BASE_API_PATH + "/wages", function (request, response) {
                     response.sendStatus(500); // internal server error
                 } else {
                     var wagesBeforeInsertion = wages.filter((stats) => {
-                        return (stats.province.localeCompare(newstat.province && newstat.year, "en", {'sensitivity': 'base'}) === 0);
+                        return (stats.province.localeCompare(newstat.province, "en", {'sensitivity': 'base'}) === 0) && (stats.year.localeCompare(newstat.year, "en", {'sensitivity': 'base'}) === 0);
                     });
                     if (wagesBeforeInsertion.length > 0) {
                         console.log("WARNING: The stat " + JSON.stringify(newstat, 2, null) + " already extis, sending 409...");
@@ -782,7 +782,7 @@ app.post(BASE_API_PATH + "/victims", function (request, response) {
                     response.sendStatus(500); // internal server error
                 } else {
                     var victimsBeforeInsertion = victims.filter((stats) => {
-                        return (stats.province.localeCompare(newstat.province && newstat.year, "en", {'sensitivity': 'base'}) === 0);
+                        return (stats.province.localeCompare(newstat.province, "en", {'sensitivity': 'base'}) === 0) && (stats.year.localeCompare(newstat.year, "en", {'sensitivity': 'base'}) === 0);
                     });
                     if (victimsBeforeInsertion.length > 0) {
                         console.log("WARNING: The stat " + JSON.stringify(newstat, 2, null) + " already extis, sending 409...");
