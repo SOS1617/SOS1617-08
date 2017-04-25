@@ -4,7 +4,6 @@ angular
     .controller("ListCtrl",["$scope", "$http", function($scope, $http){
         
         $scope.url = "/api/v1/wages";
-
         console.log("Controller initialized ");
         
         //CARGAR DATOS

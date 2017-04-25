@@ -1,0 +1,23 @@
+<h2>Edit Wage</h2>
+            <table class ="table">
+                <thead>
+                    <tr>
+                        <th>Province</th>
+                        <th>Year</th>
+                        <th>Varied</th>
+                        <th>AverageWage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        
+                        <td>{{updatedWage.province}}</td>
+                        <td>{{updatedWage.year}}</td>
+                        <td class="info">{{updatedWage['varied']}}</td>
+                        <td class="success">{{updatedWage['averageWage']}}</td>
+                        <td class="warning"><button class="btn btn-danger" ng-click="putStats()">Update</button></td>
+
+                        <!--wage.province,wage.year-->
+                    </tr>
+                </tbody>
+            </table>
