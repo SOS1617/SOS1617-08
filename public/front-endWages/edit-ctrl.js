@@ -1,37 +1,63 @@
+
 angular
     .module("WageManagerApp")
-    .controller("EditCtrl",["$scope","$http","$routeParams","$location"
-        ,function($scope,$http,$routeParams,$location){
-            
-                    $scope.url = "/api/v1/wages";
+    .controller("RobertoEditCtrl",["$scope", "$http" ,"$routeParams","$location", function($scope, 
+    $http,$routeParams,$location){
+        
+        $scope.url = "/api/v1/wages/";
+        console.log("Edit Controller initializeddd ");
+                $scope.apikey="hf5HF86KvZ";
 
         
-        console.log("Edit Controller Initialized ");
-        function refresh(){
-            
         
-    // metiendo un dato a pelo directamente    
-      // $scope.contact={name:"Pepe", phone: "123234", email: "pepe@pepe.com"};
-      
-       $http
-            .get($scope.url+$routeParams.province)
+        
+    function refresh(){
+          $scope.apikey="hf5HF86KvZ";
+          console.log($scope.url+$routeParams.province+"/"+ $routeParams.year+"?apikey="+ $scope.apikey)
+            $http
+            
+                .get($scope.url+$routeParams.province+"?apikey="+ $scope.apikey)
+                .then(function(response){
+                    console.log( "Showing refresh "  );
+
+                    $scope.data = JSON.stringify(response.data, null, 2); 
+                    $scope.updatedWage = response.data[0];
+
+                });
+            }   
+            refresh();
+            
+            $scope.refresh=refresh();
+            
+         
+        /*
+           $scope.getData = function(){
+            $http
+            .get($scope.url+"?apikey="+ $scope.apikey+$routeParams.province)
             .then(function(response){
-               $scope.updatedWage= response.data;
-               
-               
+               $scope.wages= response.data;
+                console.log( "Showing data "  );
+
                 });
                 
-              }     
-              
-              $scope.putStats = function(){
+              }    
+    */
+
+        
+        //PUT
+        $scope.putStatss = function(){
+            delete $scope.updatedWage._id;
             $http
-                .put($scope.url +$routeParams.province, $scope.updatedWage)
+                
+                .put($scope.url +$routeParams.province+"/"+ $routeParams.year+ "?apikey="+ $scope.apikey, $scope.updatedWage)
                 .then(function(response){
                     console.log( "Wages has been modified. "  );
-                    $location.path("/")
+                                delete $scope.updatedWage._id;
+
+                    $location.path("/");
                 });
         }
-                                   refresh();
-
-        }]);
-        
+           
+      
+           
+}]);  

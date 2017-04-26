@@ -49,13 +49,13 @@
                         <td class="info"><input class="form-control" ng-model="newWage.averageWage" placeholder="Average Wage"></td>
                         <td class="info" ><button class="btn btn-warning" ng-click="addStats()">Add</button></td>
                     </tr>
-                    <!-- <tr>-->
-                     <!--   <td class="warning"><input class="form-control" ng-model="newWage.province" placeholder="Province"></td>-->
-                      <!--  <td class="warning"><input class="form-control" ng-model="newWage.year" placeholder="Year"></td>-->
-                      <!--  <td class="warning"><input class="form-control" ng-model="newWage.varied" placeholder="Varied"></td>-->
-                     <!--   <td class="warning"><input class="form-control" ng-model="newWage.averageWage" placeholder="Average Wage"></td>-->
-                      <!--  <td class="warning" ><button class="btn btn-warning" ng-click="putStats()">Put </button></td>-->
-                   <!--  </tr>-->
+                    <tr>
+                      <td class="warning"><input class="form-control" ng-model="newWage.province" placeholder="Province"></td>
+                        <td class="warning"><input class="form-control" ng-model="newWage.year" placeholder="Year"></td>
+                        <td class="warning"><input class="form-control" ng-model="newWage.varied" placeholder="Varied"></td>
+                       <td class="warning"><input class="form-control" ng-model="newWage.averageWage" placeholder="Average Wage"></td>
+                        <td class="warning" ><button class="btn btn-warning" ng-click="putStats()">Put </button></td>
+                    </tr>
                     <tr>
                         <td class="success"><input class="form-control" ng-model="newWage.province" placeholder="Province"></td>
                         <td class="success"><input class="form-control" ng-model="newWage.year" placeholder="Year"></td>
@@ -65,7 +65,7 @@
                    
                     <tr ng-repeat="wage in wages">
 
-                        <td class="danger"><a href="#!/wage/{{wage.province}}">{{wage.province}}</a>{{wage.province}}</td>
+                        <td class="danger"><a href="#!/wage/{{wage.province}}/{{wage.year}}">{{wage.province}}</a></td>
                         <td class="warning">{{wage.year}}</td>
                         <td class="info">{{wage['varied']}}</td>
                         <td class="success">{{wage['averageWage']}}</td>
@@ -74,6 +74,8 @@
                         <!--wage.province,wage.year-->
                     </tr>
                 </tbody>
+                    <tfoot><button class="btn btn-warning" ng-click="getPreviousPage()">Previous page</button><button class="btn btn-warning" ng-click="getNextPage()">Next page</button></tfoot>
+
             </table>
             
             </body>

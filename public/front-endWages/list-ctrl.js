@@ -1,7 +1,7 @@
 //Obtengo el modulo y creo el controlador sobre él
 angular
     .module("WageManagerApp")
-    .controller("ListCtrl",["$scope", "$http", function($scope, $http){
+    .controller("RobertoListCtrl",["$scope", "$http", function($scope, $http){
         
         $scope.url = "/api/v1/wages";
         console.log("Controller initialized ");
@@ -114,5 +114,25 @@ $scope.deleteOneSalary = function(province,year){
 
                 });
         };
-           
+            $scope.getPreviousPage = function(){
+            $scope.offset -= 2;
+            $http
+                .get($scope.url+"?apikey="+ $scope.apikey +"&limit="+ $scope.limit +"&offset="+$scope.offset)
+                .then(function(response){
+                    $scope.data = JSON.stringify(response.data, null, 2); 
+                    $scope.stats = response.data;
+                    console.log("Paginacion Correcta Atras");
+                });
+        };
+        
+        $scope.getNextPage = function(){
+            $scope.offset += 2;
+            $http
+                .get($scope.url+"?apikey="+ $scope.apikey +"&limit="+ $scope.limit +"&offset="+$scope.offset)
+                .then(function(response){
+                    $scope.data = JSON.stringify(response.data, null, 2); 
+                    $scope.stats = response.data;
+                    console.log("Paginacion Correcta Adelante");
+                });
+        };
 }]);  

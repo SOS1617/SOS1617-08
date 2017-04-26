@@ -2,12 +2,12 @@ angular.module("WageManagerApp",["ngRoute"]).config(function ($routeProvider) {
     
     $routeProvider.when("/",{
         templateUrl : "/front-endWages/list.html",
-        controller : "ListCtrl"
+        controller : "RobertoListCtrl"
         
     })
-    .when("/wage/:province",{
+    .when("/wage/:province/:year",{
         templateUrl : "/front-endWages/edit.html",
-        controller : "EditCtrl"
+        controller : "RobertoEditCtrl"
         
     });
         console.log("App Initialized and configured");

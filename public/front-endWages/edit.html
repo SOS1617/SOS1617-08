@@ -1,6 +1,17 @@
+<div ng-controller="RobertoEditCtrl">
+
 <h2>Edit Wage</h2>
-            <table class ="table">
+            
+                    <table class ="table">
                 <thead>
+                     <div class="container">
+                    <tr><h4>ApiKey: hf5HF86KvZ</h4></tr>
+                    <tr>
+                        <td class="info">Please introduce your ApiKey:<input class="form-control" ng-model="apikey" placeholder="APIKEY"></th>
+                        <p class="help-block">Si no dispone de APIKEY pida una al administrador</p>
+                                                <td class="info"><button class="btn btn-success" ng-click="refresh()">Get</button></th>
+
+                    <tr>
                     <tr>
                         <th>Province</th>
                         <th>Year</th>
@@ -10,14 +21,18 @@
                 </thead>
                 <tbody>
                     <tr>
-                        
-                        <td>{{updatedWage.province}}</td>
+
+                     <td>{{updatedWage.province}}</td>
                         <td>{{updatedWage.year}}</td>
-                        <td class="info">{{updatedWage['varied']}}</td>
-                        <td class="success">{{updatedWage['averageWage']}}</td>
-                        <td class="warning"><button class="btn btn-danger" ng-click="putStats()">Update</button></td>
+
+                        <td class="info"><input ng-model="updatedWage.varied"/></td>
+                        <td class="success"><input ng-model="updatedWage.averageWage"/></td>
+
+                        <td class="warning"><button class="btn btn-danger" ng-click="putStatss()">Update</button></td>
 
                         <!--wage.province,wage.year-->
                     </tr>
                 </tbody>
             </table>
+                        </div>
+                        </div>
