@@ -26,7 +26,7 @@ controller("WagesListCtrl", ["$scope", "$http", "$rootScope", function($scope, $
     var modifier = "";
     var properties = "";
 
-    var elementsPerPage = 3;
+    var elementsPerPage = 2;
 
     function setPagination() {
         var pagesNearby = 2;
@@ -233,25 +233,16 @@ controller("WagesListCtrl", ["$scope", "$http", "$rootScope", function($scope, $
         }
     });
 
-    $('#searchModal').modal({
+   $('#searchModal').modal({
         complete: function() {
             modifier = "";
             properties = "";
-            if ($scope.search.province && $scope.search.year) {
-                modifier = "/" + $scope.search.province + "/" + $scope.search.year;
+            if ($scope.from && $scope.to) {
+                properties = "from="+$scope.from + "&to=" + $scope.to;
             }
-            else if ($scope.search.province) {
-                modifier = "/" + $scope.search.province;
-            }
-            else if ($scope.search.year) {
-                modifier = "/" + $scope.search.year;
-            }
-            for (var prop in $scope.searchAdd) {
-                if ($scope.searchAdd.hasOwnProperty(prop) && prop) {
-                    properties += prop + "=" + $scope.searchAdd[prop] + "&";
-                }
-            }
-
+         
+        
+            Materialize.toast('<i class="material-icons">done</i> Search done successfully!', 4000);
             refresh();
         }
     });

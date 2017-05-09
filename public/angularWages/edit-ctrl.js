@@ -6,7 +6,7 @@ var setPage;
 
 angular.module("SOS08ManagerApp").
 controller("WagesEditCtrl", ["$scope", "$http", "$routeParams", "$location", "$rootScope", function($scope, $http, $routeParams, $location, $rootScope) {
-    console.log("Wages Controller initialized");
+    console.log("Wages Edit Controller initialized");
 
     if (!$rootScope.apikey) $rootScope.apikey = "hf5HF86KvZ";
 

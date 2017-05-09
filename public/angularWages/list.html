@@ -6,25 +6,14 @@
         <div class="row">
             <form class="col s12">
                 <div class="row">
-                    <div class="input-field col s6">
-                        <input class="form-control" type="text" id="province" ng-model="search.province">
-                        <label for="province">Province</label>
-                    </div>
-                    <div class="input-field col s6">
-                        <input class="form-control" type="text" id="year" ng-model="search.year">
-                        <label for="year">Year</label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="input-field col s3">
-                        <input class="form-control" type="text" id="variedWage" ng-model="searchAdd['variedWage']">
-                        <label for="variedWage">Varied</label>
-                    </div>
-                    <div class="input-field col s3">
-                        <input class="form-control" type="text" id="averageWage" ng-model="searchAdd['averageWage']">
-                        <label for="averageWage">averageWage</label>
-                    </div>
-                    
+                   <div class="input-field col s6">
+                            <input class="form-control" type="text" id="from" ng-model=from>
+                            <label for="from">From</label>
+                        </div>
+                        <div class="input-field col s6">
+                            <input class="form-control" type="text" id="to" ng-model=to>
+                            <label for="to">To</label>
+                        </div>
                 </div>
             </form>
         </div>
@@ -92,16 +81,16 @@
             <tr>
                 <td><input class="form-control" ng-model="newData.province" /></td>
                 <td><input class="form-control" ng-model="newData.year" /></td>
-                <td><input class="form-control" ng-model="newData['variedWage']" /></td>
+                <td><input class="form-control" ng-model="newData['varied']" /></td>
                 <td><input class="form-control" ng-model="newData['averageWage']" /></td>
-                <td><button class="btn waves-effect waves-light" ng-click="addData()"><i class="material-icons">Add</i></button></td>
+                <td><button class="btn waves-effect waves-light" ng-click="addData()"><i class="material-icons">add</i></button></td>
             </tr>
             <tr ng-repeat="dataUnit in data">
                 <td>{{dataUnit.province}}</td>
                 <td>{{dataUnit.year}}</td>
-                <td>{{dataUnit["variedWage"]}}</td>
+                <td>{{dataUnit["varied"]}}</td>
                 <td>{{dataUnit["averageWage"]}}</td>
-                <td><a href="#!/wages/{{dataUnit.province}}/{{dataUnit.year}}"><button class="btn waves-effect waves-light"><i class="material-icons">Edit</i></button></a> <button class="btn waves-effect waves-light red" ng-click="delData(dataUnit)"><i class="material-icons">delete</i></button></td>
+                <td><a href="#!/wages/{{dataUnit.province}}/{{dataUnit.year}}"><button class="btn waves-effect waves-light"><i class="material-icons">edit</i></button></a> <button class="btn waves-effect waves-light red" ng-click="delData(dataUnit)"><i class="material-icons">delete</i></button></td>
             </tr>
         </tbody>
     </table>

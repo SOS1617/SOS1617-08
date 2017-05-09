@@ -1,5 +1,5 @@
 /* global angular */
-angular.module("SOS08ManagerApp", ["ngRoute", "chart.js"]).config(function($routeProvider) {
+angular.module("SOS08ManagerApp", ["ngRoute"]).config(function($routeProvider) {
     $routeProvider.when("/", {
             templateUrl: "main.html"
         })
