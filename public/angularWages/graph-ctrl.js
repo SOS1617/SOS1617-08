@@ -20,7 +20,7 @@ controller("WagesGraphCtrl", ["$scope", "$http", "$rootScope", function($scope, 
 
                 response.data.forEach(function(d) {
                     if (years.indexOf(Number(d.year)) == -1) years.push(Number(d.year));
-                    if (provinces.indexOf(d.country) == -1) provinces.push(d.country);
+                    if (provinces.indexOf(d.province) == -1) provinces.push(d.province);
                 });
                 years.sort((a, b) => a - b);
 
@@ -40,7 +40,7 @@ controller("WagesGraphCtrl", ["$scope", "$http", "$rootScope", function($scope, 
                 response.data.forEach(function(d) {
                     provincesData.forEach(function(e) {
                         if (d.province === e.name) {
-                            e.data[years.indexOf(Number(d.year))] = Number(d['averageWage']);
+                            e.data[years.indexOf(Number(d.year))] = Number(d['varied']);
                         }
                     });
                 });
@@ -51,7 +51,7 @@ controller("WagesGraphCtrl", ["$scope", "$http", "$rootScope", function($scope, 
                         type: 'column'
                     },
                     title: {
-                        text: 'Wage Averages'
+                        text: 'Wage Varied'
                     },
                     xAxis: {
                         categories: [],
@@ -60,7 +60,7 @@ controller("WagesGraphCtrl", ["$scope", "$http", "$rootScope", function($scope, 
                     yAxis: {
                         min: 0,
                         title: {
-                            text: 'Average Wages'
+                            text: 'Varied Wages'
                         }
                     },
                     tooltip: {

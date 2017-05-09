@@ -25,26 +25,26 @@ app.get(BASE_API_PATH + "/wages/loadInitialData",function(request, response) {
        var province = [{
                 "province": "Seville",
                 "year": "2015",
-                "varied": "1,23%",
+                "varied": "1.23",
                 "averageWage": "15.921"
             },
             {
                 "province": "Madrid",
                 "year": "2014",
-                "varied": "0,66%",
+                "varied": "0.66",
                 "averageWage": "24.734"
                 
             },
             {
                 "province": "Barcelona",
                 "year": "2013",
-                "varied": "1,29%",
+                "varied": "1.29",
                 "averageWage": "22.153"
             },
             {
                 "province": "Valencia",
                 "year": "2012",
-                "varied": "1,35%",
+                "varied": "1.35",
                 "averageWage": "18.052"
             }];
         dbRoberto.insert(province);
