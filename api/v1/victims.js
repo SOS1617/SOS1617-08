@@ -30,7 +30,7 @@ app.get(BASE_API_PATH + "/victims/loadInitialData",function(request, response) {
                 "province": "Murcia",
                 "year": "2003",
                 "numberVictims": "3",
-                "averageYears": "28,3"
+                "averageYears": "28"
                 
             },
             {

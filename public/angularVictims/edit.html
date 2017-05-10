@@ -1,0 +1,32 @@
+<div ng-controller="VictimsEditCtrl">
+    <div class="container">
+        <h1>Edit Victim</h1>
+        <div class="row">
+            <form class="col s12">
+                <div class="row">
+                    <div class="col s12">
+                        <h3>{{editDataUnit.province}} ({{editDataUnit.year}})</h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s3">
+                        <input class="form-control" type="text" id="numberVictims" ng-model="editDataUnit['numberVictims']">
+                        <label for="numberVictims" class="active">Number of Victims</label>
+                    </div>
+                    <div class="input-field col s3">
+                        <input class="form-control" type="text" id="averageYears" ng-model="editDataUnit['averageYears']">
+                        <label for="averageYear" class="active">Average Ages</label>
+                    </div>
+                   
+                    
+                </div>
+            </form>
+        </div>
+        <div class="row">
+            <div class="col s12 right-align">
+                <button class="btn waves-effect waves-light" ng-click="editData(editDataUnit)"><i class="material-icons left">edit</i>Edit</button>
+                <button class="btn waves-effect waves-light red" ng-click="discardData()"><i class="material-icons left">delete</i>Discard changes</button>
+            </div>
+        </div>
+    </div>
+</div>
