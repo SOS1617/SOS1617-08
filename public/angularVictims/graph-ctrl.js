@@ -10,6 +10,14 @@ angular
         $scope.averageYears = [];
        $scope.year=[];
        $scope.province=[];
+       $scope.res=[];
+       $scope.res2=[
+            { label: "España",  y: 10  },
+				{ label: "Grecia", y: 15  },
+				{ label: "Australia", y: 25  },
+				{ label: "Marruecos",  y: 30  },
+				{ label: "Gibraltar",  y: 28  },
+				{ label: "Venezuela",  y: 28  }];
         
         function capitalizeFirstLetter(string) {
                 return string.charAt(0).toUpperCase() + string.slice(1);
@@ -26,9 +34,18 @@ angular
                 $scope.averageYears.push(Number($scope.data[i].averageYears));
                 $scope.year.push(Number($scope.data[i].year));
                 $scope.province.push(Number($scope.data[i].province));
+                
+                $scope.res.push({ label: $scope.data[i].year, y: $scope.data[i].numberVictims});
 
                 console.log($scope.data[i].province);
             }
+            for(var i=0; i<response.data.length; i++){
+                $scope.res2.push({ label: "'"+$scope.year+"'", y: $scope.numberVictims});
+            }
+            $scope.res=[
+            { label: "Murcia",  y: 3  },
+				{ label: "Cadiz", y: 2  },
+				{ label: "Baleares", y: 6} ];
         });    
             
         console.log("Controller initialized");
@@ -126,48 +143,15 @@ angular
 		title:{
 			text: "Victims per Year"
 		},
-		data: [
-		{
-			type: "column", //change type to bar, line, area, pie, etc
-			dataPoints: [
-				{ x: 10, y: 71 },
-				{ x: 20, y: 55 },
-				{ x: 30, y: 50 },
-				{ x: 40, y: 65 },
-				{ x: 50, y: 95 },
-				{ x: 60, y: 68 },
-				{ x: 70, y: 28 },
-				{ x: 80, y: 34 },
-				{ x: 90, y: 14 }
-			]
-		}
-		]
-	});
+		data: [{
+    type: "column",
+    dataPoints:$scope.res
+  }]
+});
 
 	chart.render();
 });
-  /*
-  
-  //CanvasJS
-    var chart = new CanvasJS.Chart("PacoChart", {
-  title: {
-    text: "NumberVictims"
-  },
-  axisX: {
-    title: "Provinces"
-  },
-  axisY: {
-    title: "NumberVictims"
-  },
-  data: [{
-    type: "bar",
-    dataPoints:$scope.numberVictims
-  }]
-});
-	chart.render();
-*/
-           
-  
+ 
   
   
  
