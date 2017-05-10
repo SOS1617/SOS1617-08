@@ -18,6 +18,20 @@ angular.module("SOS08ManagerApp", ["ngRoute"]).config(function($routeProvider) {
         .when("/wages/graph", {
             templateUrl: "/angularWages/graph.html",
             controller: "WagesGraphCtrl"
+        })
+        
+        
+        .when("/victims", {
+            templateUrl: "angularVictims/list.html",
+            controller: "VictimsListCtrl"
+        })
+        .when("/victims/:province/:year", {
+            templateUrl: "/angularVictims/edit.html",
+            controller: "VictimsEditCtrl"
+        })
+        .when("/victims/graph", {
+            templateUrl: "/angularVictims/graph.html",
+            controller: "VictimsGraphCtrl"
         });
 
     console.log("App initialized and configured");
