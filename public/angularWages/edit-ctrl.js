@@ -12,7 +12,7 @@ controller("WagesEditCtrl", ["$scope", "$http", "$routeParams", "$location", "$r
 
     function refresh() {
         $http
-            .get("../api/v1/wages/" + $routeParams.province + "/" + $routeParams.year + "?" + "apikey=" + $rootScope.apikey)
+            .get("../api/v2/wages/" + $routeParams.province + "/" + $routeParams.year + "?" + "apikey=" + $rootScope.apikey)
             .then(function(response) {
                 $scope.editDataUnit = response.data;
             }, function(response) {
@@ -41,7 +41,7 @@ controller("WagesEditCtrl", ["$scope", "$http", "$routeParams", "$location", "$r
     $scope.editData = function(data) {
         delete data._id;
         $http
-            .put("../api/v1/wages/" + data.province + "/" + data.year + "?" + "apikey=" + $rootScope.apikey, data)
+            .put("../api/v2/wages/" + data.province + "/" + data.year + "?" + "apikey=" + $rootScope.apikey, data)
             .then(function(response) {
                 console.log("province  " + data.province + " correctly edited ");
                 Materialize.toast('<i class="material-icons">done</i> ' + data.province + '  correctly edited', 4000);
