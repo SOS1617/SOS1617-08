@@ -120,7 +120,7 @@ angular
                     containerId: 'map',
                     options: {
                         displayMode: 'regions',
-                        colorAxis: {colors: ['yellow', 'orange' , 'red']}
+                        colorAxis: {colors: ['purple', 'orange' , 'blue']}
                     }
                 });
                 dashboard.bind(yearSelector, chart);
