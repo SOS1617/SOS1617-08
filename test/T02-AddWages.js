@@ -8,7 +8,7 @@ describe('Add wages', function () {
 				element(by.model('newData.province')).sendKeys('Andorra');
 				element(by.model('newData.year')).sendKeys('2020');
 				element(by.model("newData['varied']")).sendKeys('2');
-				element(by.model("newData['averageWage']")).sendKeys('950');
+				element(by.model("newData['averageWage']")).sendKeys('19.50');
 
 				
 				element(by.buttonText('add')).click().then(function (){

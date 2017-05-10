@@ -66,6 +66,7 @@ MongoClient.connect(mdbURL, {
 app.use("/", express.static(publicFolder));
 
 //postman
+//tests
 
 app.use("/api/v1/tests", express.static(path.join(__dirname, "public/tests.html")));
 
