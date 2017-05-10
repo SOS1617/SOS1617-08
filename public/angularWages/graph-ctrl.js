@@ -15,7 +15,7 @@ angular
                 return string.charAt(0).toUpperCase() + string.slice(1);
             }
         
-        $http.get("/api/v2/wages/"+ "?" + "apikey=" + $scope.apikey).then(function(response){
+        $http.get("/api/v1/wages/"+ "?" + "apikey=" + $scope.apikey).then(function(response){
             
             dataCache = response.data;
             $scope.data = dataCache;
@@ -31,8 +31,8 @@ angular
             }
         });    
             
-        console.log("Controller initialized");
-        $http.get("/api/v2/wages/"+ "?" + "apikey=" + $scope.apikey).then(function(response){
+        console.log("Controller Graph initialized");
+        $http.get("/api/v1/wages/"+ "?" + "apikey=" + $scope.apikey).then(function(response){
             
             
            Highcharts.chart('container', {
@@ -84,7 +84,7 @@ angular
         
             //Google
             google.charts.load('current', {
-                'packages': ['controls','geochart'], mapsApiKey: "AIzaSyD3cwim5y4k5XplhEsTj_AuLYdu6rQHq2o"
+                'packages': ['controls','geochart'], mapsApiKey: "AIzaSyBRG8AKK_x5iX_bEzSoZPfJ7Isy_wqemYM"
 
             });
             google.charts.setOnLoadCallback(drawRegionsMap);
@@ -121,6 +121,7 @@ angular
                     containerId: 'map',
                     options: {
                         displayMode: 'regions',
+                        region:"150",
                         colorAxis: {colors: ['purple', 'orange' , 'blue']}
                     }
                 });
