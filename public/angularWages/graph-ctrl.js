@@ -84,7 +84,8 @@ angular
         
             //Google
             google.charts.load('current', {
-                'packages': ['controls','geochart']
+                'packages': ['controls','geochart'], mapsApiKey: "AIzaSyD3cwim5y4k5XplhEsTj_AuLYdu6rQHq2o"
+
             });
             google.charts.setOnLoadCallback(drawRegionsMap);
                         
