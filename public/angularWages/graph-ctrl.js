@@ -1,181 +1,286 @@
-/* global angular */
-/* global Materialize */
-/* global $ */
-/* global google */
-/* global Highcharts */
+angular
+    .module("SOS08ManagerApp")
+    .controller("WagesGraphCtrl",["$scope","$http",function ($scope, $http){
+        
+        $scope.apikey = "hf5HF86KvZ";
+        $scope.data = {};
+        var dataCache = {};
+        $scope.datos = [];
+        $scope.varied = [];
+        $scope.averageWage = [];
+       $scope.year=[];
+       $scope.province=[];
+        
+        function capitalizeFirstLetter(string) {
+                return string.charAt(0).toUpperCase() + string.slice(1);
+            }
+        
+        $http.get("/api/v1/wages/"+ "?" + "apikey=" + $scope.apikey).then(function(response){
+            
+            dataCache = response.data;
+            $scope.data = dataCache;
+            
+            for(var i=0; i<response.data.length; i++){
+                $scope.datos.push(capitalizeFirstLetter($scope.data[i].province) + " " + $scope.data[i].year);
+                $scope.varied.push(Number($scope.data[i].varied));
+                $scope.averageWage.push(Number($scope.data[i].averageWage));
+                $scope.year.push(Number($scope.data[i].year));
+                $scope.province.push(Number($scope.data[i].province));
 
-angular.module("SOS08ManagerApp").
-controller("WagesGraphCtrl", ["$scope", "$http", "$rootScope", function($scope, $http, $rootScope) {
-    console.log("Controller initialized");
+                console.log($scope.data[i].province);
+            }
+        });    
+            
+        console.log("Controller initialized");
+        $http.get("/api/v1/wages/"+ "?" + "apikey=" + $scope.apikey).then(function(response){
+            
+            
+           Highcharts.chart('container', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: 'Wages Spain'
+    },
+    subtitle: {
+        text: 'over Health and Military Expenditure'
+    },
+    xAxis: {
+        categories: $scope.datos,
+        crosshair: true
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: 'Wages Spain '
+        }
+    },
+    tooltip: {
+        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+            '<td style="padding:0"><b>{point.y:.1f} </b></td></tr>',
+        footerFormat: '</table>',
+        shared: true,
+        useHTML: true
+    },
+    plotOptions: {
+        column: {
+            pointPadding: 0.2,
+            borderWidth: 0
+        }
+    },
+    series: [{
+        name: 'varied',
+        data: $scope.varied
 
-    if (!$rootScope.apikey) $rootScope.apikey = "hf5HF86KvZ";
+    }, {
+        name: 'averageWage',
+        data: $scope.averageWage
 
-    $scope.refresh = function() {
-        $http
-            .get("../api/v1/wages" + "?" + "apikey=" + $rootScope.apikey)
-            .then(function(response) {
-
-                var years = [];
-                var provinces = [];
-
-                response.data.forEach(function(d) {
-                    if (years.indexOf(Number(d.year)) == -1) years.push(Number(d.year));
-                    if (provinces.indexOf(d.province) == -1) provinces.push(d.province);
-                });
-                years.sort((a, b) => a - b);
-
-                var provincesData = [];
-
-                provinces.forEach(function(d) {
-                    var c = {
-                        name: d,
-                        data: []
-                    };
-                    years.forEach(function(e) {
-                        c.data.push(0);
-                    });
-                    provincesData.push(c);
-                });
-
-                response.data.forEach(function(d) {
-                    provincesData.forEach(function(e) {
-                        if (d.province === e.name) {
-                            e.data[years.indexOf(Number(d.year))] = Number(d['varied']);
-                        }
-                    });
-                });
-
-                // HighCharts
-                var hc = {
-                    chart: {
-                        type: 'column'
-                    },
-                    title: {
-                        text: 'Wage Varied'
-                    },
-                    xAxis: {
-                        categories: [],
-                        crosshair: true
-                    },
-                    yAxis: {
-                        min: 0,
-                        title: {
-                            text: 'Varied Wages'
-                        }
-                    },
-                    tooltip: {
-                        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-                        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                            '<td style="padding:0"><b>{point.y:.1f}%</b></td></tr>',
-                        footerFormat: '</table>',
-                        shared: true,
-                        useHTML: true
-                    },
-                    plotOptions: {
-                        column: {
-                            pointPadding: 0.2,
-                            borderWidth: 0
-                        }
-                    },
-                    series: []
-                };
-
-                hc.xAxis.categories = years;
-                hc.series = provincesData;
-
-                Highcharts.chart('hc_column', hc);
-
-                // Google Charts - Geochart
-                google.charts.load('current', {
-                    'packages': ['controls', 'geochart']
-                });
-                google.charts.setOnLoadCallback(drawRegionsMap);
-
-                function drawRegionsMap() {
-                    var chartData = [
-                        ['province', 'averageWage', 'year']
-                    ];
-
-                    response.data.forEach(function(x) {
-                        chartData.push([x.province, Number(x['averageWage']), Number(x.year)]);
-                    });
-
-                    var data = google.visualization.arrayToDataTable(chartData);
-
-                    var options = {
-                        colorAxis: {
-                            colors: ['blue', 'yellow', 'pink']
-                        }
-                    };
-
-                    var dashboard = new google.visualization.Dashboard(document.getElementById('dashboard'));
-
-                    var yearSelector = new google.visualization.ControlWrapper({
-                        controlType: 'CategoryFilter',
-                        containerId: 'filter',
-                        options: {
-                            filterColumnIndex: 2,
-                            ui: {
-                                allowTyping: false,
-                                allowMultiple: false,
-                                allowNone: false
-                            }
-                        }
-                    });
-
-                    var chart = new google.visualization.ChartWrapper({
-                        chartType: 'GeoChart',
-                        containerId: 'map',
-                        options: {
-                            colorAxis: {
-                                colors: ['blue', 'pink', 'green']
-                            }
-                        }
-                    });
-
-                    dashboard.bind(yearSelector, chart);
-                    dashboard.draw(data, options);
-                }
-
-                //Angular-Chart
-                $scope.labels = years;
-                $scope.series = provinces;
-                $scope.data = [];
-                provincesData.forEach(function(e) {
-                    $scope.data.push(e.data);
-                });
-                $scope.datasetOverride = [{
-                    yAxisID: 'y-axis-1'
-                }];
-                $scope.options = {
-                    scales: {
-                        yAxes: [{
-                            id: 'y-axis-1',
-                            type: 'linear',
-                            display: true,
-                            position: 'left'
-                        }]
-                    }
-                };
-
-            }, function(response) {
-                switch (response.status) {
-                    case 401:
-                        Materialize.toast('<i class="material-icons">error_outline</i> Error getting data - api key missing!', 4000);
-                        break;
-                    case 403:
-                        Materialize.toast('<i class="material-icons">error_outline</i> Error getting data - api key incorrect!', 4000);
-                        break;
-                    case 404:
-                        Materialize.toast('<i class="material-icons">error_outline</i> No data found!', 4000);
-                        break;
-                    default:
-                        Materialize.toast('<i class="material-icons">error_outline</i> Error getting data!', 4000);
-                        break;
-                }
+    }]
+});
+            
+            
+        
+            //Google
+            google.charts.load('current', {
+                'packages': ['controls','geochart']
             });
-    };
+            google.charts.setOnLoadCallback(drawRegionsMap);
+                        
+        
+            function drawRegionsMap() {
+                var myData = [['Province','Varied', 'Year']];
+     
+                response.data.forEach(function (d){
+                    myData.push([capitalizeFirstLetter(d.province), Number(d.varied), Number(d.year)]);
+                });
+                    
+                var data = google.visualization.arrayToDataTable(myData);
+                var options = {
+                    region: '150',
+                    colorAxis: {colors: ['yellow', 'orange' , 'red']}
+                };
+                var dashboard = new google.visualization.Dashboard(document.getElementById('dashboard'));
 
-    $scope.refresh();
+                var yearSelector = new google.visualization.ControlWrapper({
+                    controlType: 'CategoryFilter',
+                    containerId: 'filter',
+                    options: {
+                        filterColumnIndex: 2,
+                        ui: {
+                            allowTyping: false,
+                            allowMultiple: true,
+                            allowNone: false
+                        }
+                    }
+                });
+                var chart = new google.visualization.ChartWrapper({
+                    chartType: 'GeoChart',
+                    containerId: 'map',
+                    options: {
+                        displayMode: 'regions',
+                        colorAxis: {colors: ['yellow', 'orange' , 'red']}
+                    }
+                });
+                dashboard.bind(yearSelector, chart);
+                dashboard.draw(data, options);
+            }    
+            
+          
+    
+  
+  
+  //Zing-Charts
+            var myZingChart = {
+                "type": "line",
+                
+                "backgroundColor":'#FCFCFB',
+                "title": {
+                    "text": "Wages in Spain",
+                    "fontColor":"#FFFFF",
+                    "font-size": "50px",
+                    "adjust-layout": true
+                },
+                "plotarea": {
+                    "margin": "dynamic 45 60 dynamic",
+                },
+                
+                "legend": {
+                    "layout": "float",
+                    "background-color": "white",
+                    "border-width": 0,
+                    "shadow": 0,
+                    "align": "center",
+                    "adjust-layout": true,
+                "item": {
+                    "padding": 7,
+                    "marginRight": 17,
+                    "cursor": "hand"
+                }
+                },
+                
+                "scale-x": {
+                    "label": {
+                        "text": "Province and Year",
+                        "fontColor":"#A6FF8F"   ,
 
-}]);
+                    },
+                    "labels": 
+                        $scope.datos
+                    
+                },
+                "scale-y": {
+                    "min-value": "0:1383292800000",
+                    "label": {
+                        "text": "Cuantity",
+                        "fontColor":"#A6FF8F",
+
+                    },
+                    
+                },
+                
+                "crosshair-x": {
+                    "line-color": "#efefef",
+                    "plot-label": {
+                    "border-radius": "5px",
+                    "border-width": "1px",
+                    "border-color": "#0680FA",
+                    "padding": "10px",
+                    "font-weight": "bold"
+                },
+                "scale-label": {
+                    "font-color": "#000",
+                    "background-color": "#C133FF",
+                    "border-radius": "10px"
+                }
+            },
+                
+                "tooltip": {
+                    "visible": false
+                },
+                
+                "plot": {
+                    "highlight": true,
+                    "tooltip-text": "%t views: %v<br>%k",
+                    "shadow": 0,
+                    "line-width": "4px",
+                    "marker": {
+                    "type": "square",
+                    "size": 3
+                },
+                "highlight-state": {
+                "line-width": 3
+                },
+                "animation": {
+                    "effect": 3,
+                    "sequence": 4,
+                    "speed": 800,
+                }
+                },
+                
+                "series": [
+                {
+                    "values": $scope.varied,
+                    "text": "varied in %",
+                    "line-color": "#FF3333",
+                    "legend-item":{
+                      "background-color": "#FF3333",
+                      "borderRadius":7,
+                      "font-color":"black"
+                    },
+                    "legend-marker": {
+                        "visible":false
+                    },
+                    "marker": {
+                        "background-color": "#F0FF33",
+                        "border-width": 1,
+                        "shadow": 0,
+                        "border-color": "#69dbf1"
+                    },
+                    "highlight-marker":{
+                      "size":6,
+                      "background-color": "#F0FF33",
+                    }
+                },
+                {
+                    "values": $scope.averageWage,
+                    "text": "averageWage per year",
+                    "line-color": "#6EFF33",
+                    "legend-item":{
+                      "background-color": "#6EFF33",
+                      "borderRadius":7,
+                      "font-color":"black"
+                    },
+                    "legend-marker": {
+                        "visible":false
+                    },
+                    "marker": {
+                        "background-color": "#FEB32E",
+                        "border-width": 1,
+                        "shadow": 0,
+                        "border-color": "#69f2d0"
+                    },
+                    "highlight-marker":{
+                      "size":6,
+                      "background-color": "#FEB32E",
+                    }
+                }
+            ]
+            };
+
+            zingchart.render({
+                id: 'RobertoChart',
+                data: myZingChart,
+                height: '100%',
+                width: '85%'
+            });
+  
+  
+  
+  
+  
+ });
+            
+            
+    }]);

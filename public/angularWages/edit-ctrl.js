@@ -6,7 +6,7 @@ var setPage;
 
 angular.module("SOS08ManagerApp").
 controller("WagesEditCtrl", ["$scope", "$http", "$routeParams", "$location", "$rootScope", function($scope, $http, $routeParams, $location, $rootScope) {
-    console.log("Wages Edit Controller initialized");
+    console.log("Wage Edit Controller initialized");
 
     if (!$rootScope.apikey) $rootScope.apikey = "hf5HF86KvZ";
 
@@ -14,7 +14,7 @@ controller("WagesEditCtrl", ["$scope", "$http", "$routeParams", "$location", "$r
         $http
             .get("../api/v1/wages/" + $routeParams.province + "/" + $routeParams.year + "?" + "apikey=" + $rootScope.apikey)
             .then(function(response) {
-                $scope.editDataUnit = response.data[0];
+                $scope.editDataUnit = response.data;
             }, function(response) {
                 switch (response.status) {
                     case 401:
@@ -33,7 +33,7 @@ controller("WagesEditCtrl", ["$scope", "$http", "$routeParams", "$location", "$r
             });
     }
 
-    $scope.deleteeData = function() {
+    $scope.discardData = function() {
         console.log("Going to main view");
         $location.path('/wages');
     };
@@ -43,8 +43,8 @@ controller("WagesEditCtrl", ["$scope", "$http", "$routeParams", "$location", "$r
         $http
             .put("../api/v1/wages/" + data.province + "/" + data.year + "?" + "apikey=" + $rootScope.apikey, data)
             .then(function(response) {
-                console.log("Wage " + data.province + " changed");
-                Materialize.toast('<i class="material-icons">done</i> ' + data.province + ' has changed', 4000);
+                console.log("province  " + data.province + " correctly edited ");
+                Materialize.toast('<i class="material-icons">done</i> ' + data.province + '  correctly edited', 4000);
                 $location.path('/wages');
             }, function(response) {
                 switch (response.status) {

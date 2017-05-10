@@ -18,20 +18,6 @@ angular.module("SOS08ManagerApp", ["ngRoute"]).config(function($routeProvider) {
         .when("/wages/graph", {
             templateUrl: "/angularWages/graph.html",
             controller: "WagesGraphCtrl"
-        })
-
-    
-    .when("/gdp-per-capita", {
-            templateUrl: "gdp-per-capita/list.html",
-            controller: "GdpPerCapitaListCtrl"
-        })
-        .when("/gdp-per-capita/:country/:year", {
-            templateUrl: "gdp-per-capita/edit.html",
-            controller: "GdpPerCapitaEditCtrl"
-        })
-        .when("/gdp-per-capita/graph", {
-            templateUrl: "gdp-per-capita/graph.html",
-            controller: "GdpPerCapitaGraphCtrl"
         });
 
     console.log("App initialized and configured");
