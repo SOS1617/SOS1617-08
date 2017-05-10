@@ -7,6 +7,7 @@ var path = require('path');
 var publicFolder = path.join(__dirname, '/public');
 
 var wagesAPI = require('./api/v1/wages.js');
+var wagesAPI2 = require('./api/v2/wages.js');
 
 var victimsAPI = require('./api/v1/victims.js');
 
@@ -18,6 +19,7 @@ var mdbURL= "mongodb://test:test@ds133450.mlab.com:33450/sandbox";
 
 var port = (process.env.PORT || 10000);
 var BASE_API_PATH = "/api/v1";
+var BASE_API_PATH2 = "/api/v2";
 var dbPaco;
 var dbRoberto;
 

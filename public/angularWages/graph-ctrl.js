@@ -15,7 +15,7 @@ angular
                 return string.charAt(0).toUpperCase() + string.slice(1);
             }
         
-        $http.get("/api/v1/wages/"+ "?" + "apikey=" + $scope.apikey).then(function(response){
+        $http.get("/api/v2/wages/"+ "?" + "apikey=" + $scope.apikey).then(function(response){
             
             dataCache = response.data;
             $scope.data = dataCache;
@@ -32,7 +32,7 @@ angular
         });    
             
         console.log("Controller initialized");
-        $http.get("/api/v1/wages/"+ "?" + "apikey=" + $scope.apikey).then(function(response){
+        $http.get("/api/v2/wages/"+ "?" + "apikey=" + $scope.apikey).then(function(response){
             
             
            Highcharts.chart('container', {
