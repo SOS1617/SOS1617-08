@@ -81,7 +81,7 @@ angular
 });
             
             
-        
+   
             //Google
             google.charts.load('current', {
                 'packages': ['controls','geochart'], mapsApiKey: "AIzaSyBRG8AKK_x5iX_bEzSoZPfJ7Isy_wqemYM"
