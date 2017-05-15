@@ -79,8 +79,8 @@ app.get("/proxy/wages", (req, res) => {
     var http = require('http');
 
     var options = {
-        host: 'sos1617-07.herokuapp.com',
-        path: '/api/v1/investEducationStats/?apikey=sos07'
+        host: 'sos1617-04.herokuapp.com',
+        path: '/api/v2/export-and-import?apikey=12345'
     };
     var request = http.request(options, (response) => {
         var str = '';
