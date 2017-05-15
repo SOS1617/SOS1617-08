@@ -11,27 +11,30 @@ angular
         $scope.categorias = [];
         $scope.categorias1 = [];
         //G07
-        $scope.oil = [];
-        $scope.importS = [];
-        $scope.exportS =[];
+        $scope.investEducationStat = [];
+        $scope.healthExpenditureStat = [];
+        $scope.militaryExpenditureStat =[];
         //G08
         $scope.year = [];
         $scope.varied = [];
 
-      
+        
+       function capitalizeFirstLetter(string) {
+                return string.charAt(0).toUpperCase() + string.slice(1);
+            }
 
 //G07s
                 
-     $http.get("https://sos1617-04.herokuapp.com/api/v2/export-and-import?apikey=12345").then(function(response){
+     $http.get("https://sos1617-07.herokuapp.com/api/v1/investEducationStats/?apikey=sos07").then(function(response){
                 
                 dataCacheEducation = response.data;
                 $scope.dataEducation =dataCacheEducation;
                 
                 for(var i=0; i<response.data.length; i++){
-                    $scope.categorias.push($scope.dataEducation[i].province);
-                    $scope.oil.push(Number($scope.dataEducation[i].oil));
-                    $scope.importS.push(Number($scope.dataEducation[i].importS));
-                    $scope.exportS.push(Number($scope.dataEducation[i].exportS));
+                    $scope.categorias.push($scope.dataEducation[i].country);
+                    $scope.investEducationStat.push(Number($scope.dataEducation[i].investEducationStat));
+                    $scope.healthExpenditureStat.push(Number($scope.dataEducation[i].healthExpenditureStat));
+                    $scope.militaryExpenditureStat.push(Number($scope.dataEducation[i].militaryExpenditureStat));
                 }
                 
                 console.log("Wages: "+$scope.dataEducation);
@@ -59,7 +62,7 @@ angular
                             text: 'Integrated G07 & G08'
                         },
                         chart: {
-                            type: 'area'
+                            type: 'line'
                         },
                         xAxis: {
                             categories: $scope.categorias
@@ -81,16 +84,16 @@ angular
                             }
                         },
                         series:[{
-                            name: 'oil',
-                            data: $scope.oil,
+                            name: 'investEducationStat',
+                            data: $scope.investEducationStat,
                         },
                         {
-                            name: 'importS',
-                            data: $scope.importS,
+                            name: 'healthExpenditureStat',
+                            data: $scope.healthExpenditureStat,
                         },
                         {
-                            name: 'exportS',
-                            data: $scope.exportS,
+                            name: 'militaryExpenditureStat',
+                            data: $scope.militaryExpenditureStat,
                         },
                         
                         {
