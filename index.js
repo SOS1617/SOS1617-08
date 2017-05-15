@@ -3,6 +3,7 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var helmet = require("helmet");
 var path = require('path');
+var cors = require("cors");
 
 var publicFolder = path.join(__dirname, '/public');
 
@@ -38,6 +39,7 @@ var apikeycheck = function(request, response) {
     }
     return true;
 };
+app.use(cors());
 
 app.use(bodyParser.json());
 app.use(helmet());
@@ -72,5 +74,30 @@ app.use("/", express.static(publicFolder));
 
 app.use("/api/v1/tests", express.static(path.join(__dirname, "public/tests.html")));
 
+
+app.get("/proxy/wages", (req, res) => {
+    var http = require('http');
+
+    var options = {
+        host: 'sos1617-07.herokuapp.com',
+        path: '/api/v1//investEducationStats/?apikey=sos07'
+    };
+    var request = http.request(options, (response) => {
+        var str = '';
+        response.on('data', function(chunk) {
+            str += chunk;
+        });
+
+        response.on('end', function() {
+            res.send(str);
+        });
+    });
+
+    request.on('error', function(e) {
+        res.sendStatus(503);
+    });
+
+    request.end();
+});
 
 
