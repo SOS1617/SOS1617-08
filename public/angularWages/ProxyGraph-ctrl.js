@@ -1,7 +1,6 @@
 angular
     .module("SOS08ManagerApp").
     controller("WagesProxyGraphCtrl", ["$scope", "$http", "$rootScope", function($scope, $http, $rootScope) {
-    console.log("Controller initialized (WagesProxyGraphCtrl)");
 
     if (!$rootScope.apikey) $rootScope.apikey = "hf5HF86KvZ";
 
