@@ -48,7 +48,7 @@ controller("WagesRemoteGraphCtrl", ["$scope", "$http", "$rootScope", function($s
                         countriesForeign.forEach(function(d) {
                             var c = {
                                 name: d,
-                                type: "column",
+                                type: "area",
                                 yAxis: 1,
                                 data: []
                             };
@@ -80,38 +80,38 @@ controller("WagesRemoteGraphCtrl", ["$scope", "$http", "$rootScope", function($s
                                 zoomType: 'xy'
                             },
                             title: {
-                                text: 'Spending on education and the level of start-ups'
+                                text: 'G08 & G07'
                             },
                             xAxis: {
                                 categories: [],
                                 crosshair: true
                             },
-                            yAxis: [{ // Primary yAxis
+                            yAxis: [{ 
                                 labels: {
                                     format: '{value} %',
                                     style: {
-                                        color: Highcharts.getOptions().colors[1]
+                                        color: Highcharts.getOptions().colors[6]
                                     }
                                 },
                                 title: {
-                                    text: 'GDP (%)',
+                                    text: 'varied (%)',
                                     style: {
-                                        color: Highcharts.getOptions().colors[1]
+                                        color: Highcharts.getOptions().colors[6]
                                     }
                                 }
 
-                            }, { // Secondary yAxis
+                            }, { 
                                 gridLineWidth: 0,
                                 title: {
                                     text: 'The level of start-ups',
                                     style: {
-                                        color: Highcharts.getOptions().colors[0]
+                                        color: Highcharts.getOptions().colors[3]
                                     }
                                 },
                                 labels: {
                                     format: '{value}',
                                     style: {
-                                        color: Highcharts.getOptions().colors[0]
+                                        color: Highcharts.getOptions().colors[3]
                                     }
                                 },
                                 opposite: true
