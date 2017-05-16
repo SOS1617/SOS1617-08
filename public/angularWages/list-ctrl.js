@@ -7,7 +7,7 @@ var setPage;
 
 angular.module("SOS08ManagerApp").
 controller("WagesListCtrl", ["$scope", "$http", "$rootScope", function($scope, $http, $rootScope) {
-    console.log("Controller initialized");
+    console.log("Controller list initialized");
 
     if (!$rootScope.apikey) $rootScope.apikey = "hf5HF86KvZ";
 
@@ -37,36 +37,29 @@ controller("WagesListCtrl", ["$scope", "$http", "$rootScope", function($scope, $
             for (var i = 1; i <= $scope.maxPages; i++) $scope.pagesLeft.push(i);
         }
         else if ($scope.currentPage >= 0 && $scope.currentPage <= pagesNearby) {
-            //console.log("Left");
-            //only left and mid
             for (var i = 1; i <= pagesNearby; i++) $scope.pagesLeft.push(i);
             for (i = $scope.maxPages - pagesNearby + 1; i <= $scope.maxPages; i++) $scope.pagesMid.push(i);
         }
         else if ($scope.currentPage >= $scope.maxPages - pagesNearby + 1 && $scope.currentPage <= $scope.maxPages) {
-            //console.log("Right");
-            //only left and mid
+            
             for (var i = 1; i <= pagesNearby; i++) $scope.pagesMid.push(i);
             for (i = $scope.maxPages - pagesNearby + 1; i <= $scope.maxPages; i++) $scope.pagesRight.push(i);
         }
         else {
-            //console.log("Mid");
             for (var i = 1; i <= pagesNearby; i++) $scope.pagesLeft.push(i);
             for (var i = Math.max($scope.currentPage - 1, pagesNearby + 1); i <= Math.min($scope.currentPage + 1, $scope.maxPages - pagesNearby); i++) $scope.pagesMid.push(i);
             for (i = $scope.maxPages - pagesNearby + 1; i <= $scope.maxPages; i++) $scope.pagesRight.push(i);
             if (($scope.pagesLeft[$scope.pagesLeft.length - 1] == $scope.pagesMid[0] - 1) && ($scope.pagesMid[$scope.pagesMid.length - 1] == $scope.pagesRight[0] - 1)) {
-                //console.log("JOIN BOTH");
                 $scope.pagesMid = $scope.pagesMid.concat($scope.pagesRight);
                 $scope.pagesLeft = $scope.pagesLeft.concat($scope.pagesMid);
                 $scope.pagesMid = [];
                 $scope.pagesRight = [];
             }
             else if ($scope.pagesLeft[$scope.pagesLeft.length - 1] == $scope.pagesMid[0] - 1) {
-                //console.log("JOIN MID INTO LEFT");
                 $scope.pagesLeft = $scope.pagesLeft.concat($scope.pagesMid);
                 $scope.pagesMid = [];
             }
             else if ($scope.pagesMid[$scope.pagesMid.length - 1] == $scope.pagesRight[0] - 1) {
-                //console.log("JOIN MID INTO RIGHT");
                 $scope.pagesRight = $scope.pagesMid.concat($scope.pagesRight);
                 $scope.pagesMid = [];
             }
@@ -106,15 +99,14 @@ controller("WagesListCtrl", ["$scope", "$http", "$rootScope", function($scope, $
             .then(function(response) {
                 $scope.maxPages = Math.max(Math.ceil(response.data.length / elementsPerPage), 1);
                 dataCache = response.data;
-                //console.log(JSON.stringify(dataCache, null, 2));
                 $scope.refreshPage();
             }, function(response) {
                 switch (response.status) {
                     case 401:
-                        Materialize.toast('<i class="material-icons">error_outline</i> No apikey!', 4000);
+                        Materialize.toast('<i class="material-icons">error_outline</i> No apikey', 4000);
                         break;
                     case 403:
-                        Materialize.toast('<i class="material-icons">error_outline</i> Apikey incorrect!', 4000);
+                        Materialize.toast('<i class="material-icons">error_outline</i> Apikey incorrect', 4000);
                         break;
                     case 404:
                         $scope.maxPages = 1;
@@ -123,7 +115,7 @@ controller("WagesListCtrl", ["$scope", "$http", "$rootScope", function($scope, $
                         Materialize.toast('<i class="material-icons">error_outline</i> No data', 4000);
                         break;
                     default:
-                        Materialize.toast('<i class="material-icons">error_outline</i> Error data!', 4000);
+                        Materialize.toast('<i class="material-icons">error_outline</i> Error data', 4000);
                         break;
                 }
             });
@@ -174,10 +166,10 @@ controller("WagesListCtrl", ["$scope", "$http", "$rootScope", function($scope, $
             .delete("../api/v1/wages" + "?" + "apikey=" + $rootScope.apikey)
             .then(function(response) {
                 console.log("All data deleted!");
-                Materialize.toast('<i class="material-icons">done</i> All data has been deleted succesfully!', 4000);
+                Materialize.toast('<i class="material-icons">done</i> All data deleted', 4000);
                 refresh();
             }, function(response) {
-                Materialize.toast('<i class="material-icons">error_outline</i> Error deleting all data!', 4000);
+                Materialize.toast('<i class="material-icons">error_outline</i> Error deleting', 4000);
             });
     };
 
@@ -188,15 +180,15 @@ controller("WagesListCtrl", ["$scope", "$http", "$rootScope", function($scope, $
                 .get("../api/v1/wages/loadInitialData" + "?" + "apikey=" + $rootScope.apikey)
                 .then(function(response) {
                     console.log("Initial data loaded");
-                    Materialize.toast('<i class="material-icons">done</i> LoadInitialData correct', 4000);
+                    Materialize.toast('<i class="material-icons">done</i> LoadData correct', 4000);
                     refresh();
                 }, function(response) {
-                    Materialize.toast('<i class="material-icons">error_outline</i> Error initialData!', 4000);
+                    Materialize.toast('<i class="material-icons">error_outline</i> Error ', 4000);
                 });
         }
         else {
-            Materialize.toast('<i class="material-icons">error_outline</i> List must be empty to add initial data!', 4000);
-            console.log("List must be empty!");
+            Materialize.toast('<i class="material-icons">error_outline</i> Can´t add data to the list', 4000);
+            console.log("Empty the list first!");
         }
     };
 
@@ -242,7 +234,7 @@ controller("WagesListCtrl", ["$scope", "$http", "$rootScope", function($scope, $
             }
          
         
-            Materialize.toast('<i class="material-icons">done</i> Search done successfully!', 4000);
+            Materialize.toast('<i class="material-icons">done</i> Search done', 4000);
             refresh();
         }
     });

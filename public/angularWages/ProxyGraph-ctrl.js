@@ -12,9 +12,9 @@ controller("WagesProxyGraphCtrl", ["$scope", "$http", "$rootScope", function($sc
 
                 var years = [];
                 var provinces = [];
-                var provincesForeign = [];
+                var provincesG04 = [];
                 var provincesData = [];
-                var provincesDataForeign = [];
+                var provincesDataG04 = [];
 
                 $http
                     .get("../proxy/wages")
@@ -27,7 +27,7 @@ controller("WagesProxyGraphCtrl", ["$scope", "$http", "$rootScope", function($sc
 
                         response_foreign.data.forEach(function(d) {
                             if (years.indexOf(Number(d.year)) == -1) years.push(Number(d.year));
-                            if (provincesForeign.indexOf(d.province) == -1) provincesForeign.push(d.province);
+                            if (provincesG04.indexOf(d.province) == -1) provincesG04.push(d.province);
                         });
 
                         years.sort((a, b) => a - b);
@@ -45,7 +45,7 @@ controller("WagesProxyGraphCtrl", ["$scope", "$http", "$rootScope", function($sc
                             provincesData.push(b);
                         });
 
-                        provincesForeign.forEach(function(d) {
+                        provincesG04.forEach(function(d) {
                             var c = {
                                 name: d,
                                 type: "area",
@@ -55,7 +55,7 @@ controller("WagesProxyGraphCtrl", ["$scope", "$http", "$rootScope", function($sc
                             years.forEach(function(e) {
                                 c.data.push(0);
                             });
-                            provincesDataForeign.push(c);
+                            provincesDataG04.push(c);
                         });
 
                         response.data.forEach(function(d) {
@@ -67,7 +67,7 @@ controller("WagesProxyGraphCtrl", ["$scope", "$http", "$rootScope", function($sc
                         });
 
                         response_foreign.data.forEach(function(d) {
-                            provincesDataForeign.forEach(function(e) {
+                            provincesDataG04.forEach(function(e) {
                                 if (d.province === e.name) {
                                     e.data[years.indexOf(Number(d.year))] = Number(d['oil']);
                                 }
@@ -75,7 +75,7 @@ controller("WagesProxyGraphCtrl", ["$scope", "$http", "$rootScope", function($sc
                         });
 
                      
-                        var hc = {
+                        var chartRoberto = {
                             chart: {
                                 zoomType: 'xy'
                             },
@@ -127,10 +127,10 @@ controller("WagesProxyGraphCtrl", ["$scope", "$http", "$rootScope", function($sc
                             series: []
                         };
                         
-                        hc.xAxis.categories = years;
-                        hc.series = provincesData.concat(provincesDataForeign);
+                        chartRoberto.xAxis.categories = years;
+                        chartRoberto.series = provincesData.concat(provincesDataG04);
 
-                        Highcharts.chart('hc_column', hc);
+                        Highcharts.chart('hc_column', chartRoberto);
 
                     });
 
