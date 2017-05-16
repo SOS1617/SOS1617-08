@@ -1,109 +1,142 @@
 
-angular
-    .module("SOS08ManagerApp")
-    .controller("WagesProxyGraphCtrl",["$scope","$http",function ($scope, $http){
-        
-        $scope.apikey = "hf5HF86KvZ";
-        $scope.dataEducation = {};
-        $scope.dataWages = {};
-        var dataCacheEducation = {};
-        var dataCacheWages = {};
-        $scope.categorias = [];
-        $scope.categorias1 = [];
-        //G07
-        $scope.oil = [];
-        $scope.importS = [];
-        $scope.exportS =[];
-        //G08
-        $scope.year = [];
-        $scope.varied = [];
-        $scope.averageWage = [];
+angular.module("SOS08ManagerApp").
+controller("WagesProxyGraphCtrl", ["$scope", "$http", "$rootScope", function($scope, $http, $rootScope) {
 
-      
+    if (!$rootScope.apikey) $rootScope.apikey = "hf5HF86KvZ";
 
-//G07s
-                
-     $http.get("/proxy/wages").then(function(response){
-                
-                dataCacheEducation = response.data;
-                $scope.dataEducation =dataCacheEducation;
-                
-                for(var i=0; i<response.data.length; i++){
-                    $scope.categorias.push($scope.dataEducation[i].province);
-                    $scope.oil.push(Number($scope.dataEducation[i].oil));
-                    $scope.importS.push(Number($scope.dataEducation[i].importS));
-                    $scope.exportS.push(Number($scope.dataEducation[i].exportS));
-                }
-                
-                console.log("Wages: "+$scope.dataEducation);
-                
-              //G08
-              
-            $http.get("/api/v1/wages"+ "?" + "apikey=" + $scope.apikey).then(function(response){
-                
-                dataCacheWages = response.data;
-                $scope.dataWages =dataCacheWages;
-                
-                for(var i=0; i<response.data.length; i++){
-                    $scope.categorias1.push($scope.dataWages[i].province);
-                    $scope.year.push(Number($scope.dataWages[i]["year"]));
-                    $scope.varied.push(Number($scope.dataWages[i]["varied"]));
-                    $scope.averageWage.push(Number($scope.dataWages[i]["averageWage"]));
-                }
-                    console.log("Wages: "+$scope.dataWages);
+    $scope.refresh = function() {
+        $http
+            .get("../api/v1/wages" + "?" + "apikey=" + $rootScope.apikey)
+            .then(function(response) {
+                //$scope.debug = "";
 
+                var years = [];
+                var provinces = [];
+                var provincesForeign = [];
+                var provincesData = [];
+                var provincesDataForeign = [];
 
-                    Highcharts.chart('container',{
-                        title: {
-                            text: 'Integrated G04 & G08'
-                        },
-                        chart: {
-                            type: 'bar'
-                        },
-                        xAxis: {
-                            categories: $scope.categorias
-                        },
-                        legend: {
-                            layout: 'vertical',
-                            floating: true,
-                            backgroundColor: '#FFFFFF',
-                            //align: 'left',
-                            verticalAlign: 'top',
-                            align: 'right',
-                            y: 20,
-                            x: 0
-                        },
-                        tooltip: {
-                            formatter: function () {
-                                return '<b>' + this.series.name + '</b><br/>' +
-                                   this.x + ': ' + this.y;
-                            }
-                        },
-                        series:[{
-                            name: 'oil',
-                            data: $scope.oil,
-                        },
-                        {
-                            name: 'importS',
-                            data: $scope.importS,
-                        },
-                        {
-                            name: 'exportS',
-                            data: $scope.exportS,
-                        },
+                $http
+                    .get("../proxy/wages")
+                    .then(function(response_foreign) {
+
+                        response.data.forEach(function(d) {
+                            if (years.indexOf(Number(d.year)) == -1) years.push(Number(d.year));
+                            if (provinces.indexOf(d.province) == -1) provinces.push(d.province);
+                        });
+
+                        response_foreign.data.forEach(function(d) {
+                            if (years.indexOf(Number(d.year)) == -1) years.push(Number(d.year));
+                            if (provincesForeign.indexOf(d.province) == -1) provincesForeign.push(d.province);
+                        });
+
+                        years.sort((a, b) => a - b);
+
+                        provinces.forEach(function(d) {
+                            var b = {
+                                name: d,
+                                type: "bar",
+                                yAxis: 0,
+                                data: []
+                            };
+                            years.forEach(function(e) {
+                                b.data.push(0);
+                            });
+                            provincesData.push(b);
+                        });
+
+                        provincesForeign.forEach(function(d) {
+                            var c = {
+                                name: d,
+                                type: "area",
+                                yAxis: 1,
+                                data: []
+                            };
+                            years.forEach(function(e) {
+                                c.data.push(0);
+                            });
+                            provincesDataForeign.push(c);
+                        });
+
+                        response.data.forEach(function(d) {
+                            provincesData.forEach(function(e) {
+                                if (d.province === e.name) {
+                                    e.data[years.indexOf(Number(d.year))] = Number(d['varied']);
+                                }
+                            });
+                        });
+
+                        response_foreign.data.forEach(function(d) {
+                            provincesDataForeign.forEach(function(e) {
+                                if (d.province === e.name) {
+                                    e.data[years.indexOf(Number(d.year))] = Number(d['oil']);
+                                }
+                            });
+                        });
+
+                     
+                        var hc = {
+                            chart: {
+                                zoomType: 'xy'
+                            },
+                            title: {
+                                text: 'G04 & G08'
+                            },
+                            xAxis: {
+                                categories: [],
+                                crosshair: true
+                            },
+                            yAxis: [{ 
+                                labels: {
+                                    format: '{value} %',
+                                    style: {
+                                        color: Highcharts.getOptions().colors[3]
+                                    }
+                                },
+                                title: {
+                                    text: 'Wages Varied (%)',
+                                    style: {
+                                        color: Highcharts.getOptions().colors[4]
+                                    }
+                                }
+
+                            }, { 
+                                gridLineWidth: 0,
+                                title: {
+                                    text: 'Oil',
+                                    style: {
+                                        color: Highcharts.getOptions().colors[2]
+                                    }
+                                },
+                                labels: {
+                                    format: '{value}',
+                                    style: {
+                                        color: Highcharts.getOptions().colors[2]
+                                    }
+                                },
+                                opposite: true
+                            }],
+                            tooltip: {
+                                shared: true
+                            },
+                            plotOptions: {
+                                column: {
+                                    stacking: 'normal'
+                                }
+                            },
+                            series: []
+                        };
                         
-                        {
-                            name: 'averageWages ',
-                            data: $scope.averageWage
-                        },
-                        
-                        {
-                            name: 'Wages Varied',
-                            data: $scope.varied
-                        }]
-                    });});
-         
-     });
-               
+                        hc.xAxis.categories = years;
+                        hc.series = provincesData.concat(provincesDataForeign);
+
+                        Highcharts.chart('hc_column', hc);
+
+                    });
+
+            });
+    };
+
+    $scope.refresh();
 
 }]);

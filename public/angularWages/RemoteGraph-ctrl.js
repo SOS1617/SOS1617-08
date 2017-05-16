@@ -1,108 +1,137 @@
 
-angular
-    .module("SOS08ManagerApp")
-    .controller("WagesRemoteGraphCtrl",["$scope","$http",function ($scope, $http){
-        
-        $scope.apikey = "hf5HF86KvZ";
-        $scope.dataEducation = {};
-        $scope.dataWages = {};
-        var dataCacheEducation = {};
-        var dataCacheWages = {};
-        $scope.categorias = [];
-        $scope.categorias1 = [];
-        //G07
-        $scope.investEducationStat = [];
-        $scope.healthExpenditureStat = [];
-        $scope.militaryExpenditureStat =[];
-        //G08
-        $scope.year = [];
-        $scope.varied = [];
+angular.module("SOS08ManagerApp").
+controller("WagesRemoteGraphCtrl", ["$scope", "$http", "$rootScope", function($scope, $http, $rootScope) {
 
-        
-       function capitalizeFirstLetter(string) {
-                return string.charAt(0).toUpperCase() + string.slice(1);
-            }
+    if (!$rootScope.apikey) $rootScope.apikey = "hf5HF86KvZ";
 
-//G07s
-                
-     $http.get("https://sos1617-07.herokuapp.com/api/v1/investEducationStats/?apikey=sos07").then(function(response){
-                
-                dataCacheEducation = response.data;
-                $scope.dataEducation =dataCacheEducation;
-                
-                for(var i=0; i<response.data.length; i++){
-                    $scope.categorias.push($scope.dataEducation[i].country);
-                    $scope.investEducationStat.push(Number($scope.dataEducation[i].investEducationStat));
-                    $scope.healthExpenditureStat.push(Number($scope.dataEducation[i].healthExpenditureStat));
-                    $scope.militaryExpenditureStat.push(Number($scope.dataEducation[i].militaryExpenditureStat));
-                }
-                
-                console.log("Wages: "+$scope.dataEducation);
-                
-              //G08
-              
-            $http.get("/api/v1/wages"+ "?" + "apikey=" + $scope.apikey).then(function(response){
-                
-                dataCacheWages = response.data;
-                $scope.dataWages =dataCacheWages;
-                
-                for(var i=0; i<response.data.length; i++){
-                    $scope.categorias1.push($scope.dataWages[i].province);
-                    $scope.year.push(Number($scope.dataWages[i]["year"]));
-                    $scope.varied.push(Number($scope.dataWages[i]["varied"]));
-                }
-                    console.log("Wages: "+$scope.dataWages);
+    $scope.refresh = function() {
+        $http
+            .get("../api/v1/wages" + "?" + "apikey=" + $rootScope.apikey)
+            .then(function(response) {
+                //$scope.debug = "";
 
+                var years = [];
+                var provinces = [];
+                var countriesForeign = [];
+                var provincesData = [];
+                var countriesDataForeign = [];
 
-                    ////////////////////////////
-                    ////COMPARATIVA  2017////
-                    ////////////////////////////
-                    Highcharts.chart('container',{
-                        title: {
-                            text: 'Integrated G07 & G08'
-                        },
-                        chart: {
-                            type: 'line'
-                        },
-                        xAxis: {
-                            categories: $scope.categorias
-                        },
-                        legend: {
-                            layout: 'vertical',
-                            floating: true,
-                            backgroundColor: '#FFFFFF',
-                            //align: 'left',
-                            verticalAlign: 'top',
-                            align: 'right',
-                            y: 20,
-                            x: 0
-                        },
-                        tooltip: {
-                            formatter: function () {
-                                return '<b>' + this.series.name + '</b><br/>' +
-                                   this.x + ': ' + this.y;
-                            }
-                        },
-                        series:[{
-                            name: 'investEducationStat',
-                            data: $scope.investEducationStat,
-                        },
-                        {
-                            name: 'healthExpenditureStat',
-                            data: $scope.healthExpenditureStat,
-                        },
-                        {
-                            name: 'militaryExpenditureStat',
-                            data: $scope.militaryExpenditureStat,
-                        },
+                $http
+                    .get("https://sos1617-07.herokuapp.com/api/v1/investEducationStats/?apikey=sos07")
+                    .then(function(response_foreign) {
+
+                        response.data.forEach(function(d) {
+                            if (years.indexOf(Number(d.year)) == -1) years.push(Number(d.year));
+                            if (provinces.indexOf(d.province) == -1) provinces.push(d.province);
+                        });
+
+                        response_foreign.data.forEach(function(d) {
+                            if (years.indexOf(Number(d.year)) == -1) years.push(Number(d.year));
+                            if (countriesForeign.indexOf(d.country) == -1) countriesForeign.push(d.country);
+                        });
+
+                        years.sort((a, b) => a - b);
+
+                        provinces.forEach(function(d) {
+                            var b = {
+                                name: d,
+                                type: "line",
+                                yAxis: 0,
+                                data: []
+                            };
+                            years.forEach(function(e) {
+                                b.data.push(0);
+                            });
+                            provincesData.push(b);
+                        });
+
+                        countriesForeign.forEach(function(d) {
+                            var c = {
+                                name: d,
+                                type: "column",
+                                yAxis: 1,
+                                data: []
+                            };
+                            years.forEach(function(e) {
+                                c.data.push(0);
+                            });
+                            countriesDataForeign.push(c);
+                        });
+
+                        response.data.forEach(function(d) {
+                            provincesData.forEach(function(e) {
+                                if (d.province === e.name) {
+                                    e.data[years.indexOf(Number(d.year))] = Number(d['varied']);
+                                }
+                            });
+                        });
+
+                        response_foreign.data.forEach(function(d) {
+                            countriesDataForeign.forEach(function(e) {
+                                if (d.country === e.name) {
+                                    e.data[years.indexOf(Number(d.year))] = Number(d['investEducationStat']);
+                                }
+                            });
+                        });
+
+                       
+                        var hc = {
+                            chart: {
+                                zoomType: 'xy'
+                            },
+                            title: {
+                                text: 'Spending on education and the level of start-ups'
+                            },
+                            xAxis: {
+                                categories: [],
+                                crosshair: true
+                            },
+                            yAxis: [{ // Primary yAxis
+                                labels: {
+                                    format: '{value} %',
+                                    style: {
+                                        color: Highcharts.getOptions().colors[1]
+                                    }
+                                },
+                                title: {
+                                    text: 'GDP (%)',
+                                    style: {
+                                        color: Highcharts.getOptions().colors[1]
+                                    }
+                                }
+
+                            }, { // Secondary yAxis
+                                gridLineWidth: 0,
+                                title: {
+                                    text: 'The level of start-ups',
+                                    style: {
+                                        color: Highcharts.getOptions().colors[0]
+                                    }
+                                },
+                                labels: {
+                                    format: '{value}',
+                                    style: {
+                                        color: Highcharts.getOptions().colors[0]
+                                    }
+                                },
+                                opposite: true
+                            }],
+                            tooltip: {
+                                shared: true
+                            },
+                            series: []
+                        };
                         
-                        {
-                            name: 'Wages Varied',
-                            data: $scope.varied
-                        }]
-                    });});
-         
-     });
-               
+                        hc.xAxis.categories = years;
+                        hc.series = provincesData.concat(countriesDataForeign);
+
+                        Highcharts.chart('hc_column', hc);
+
+                    });
+
+            });
+    };
+
+    $scope.refresh();
 
 }]);
