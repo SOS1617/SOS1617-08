@@ -40,6 +40,7 @@ controller("WagesRemoteGraphCtrl", ["$scope", "$http", "$rootScope", function($s
                             var b = {
                                 name: d,
                                 type: "spline",
+                                
                                 yAxis: 0,
                                 data: []
                             };
@@ -52,7 +53,9 @@ controller("WagesRemoteGraphCtrl", ["$scope", "$http", "$rootScope", function($s
                         countriesG07.forEach(function(d) {
                             var c = {
                                 name: d,
-                                type: "areaspline",
+                                
+                                type: "area",
+                                
                                 yAxis: 1,
                                 data: []
                             };

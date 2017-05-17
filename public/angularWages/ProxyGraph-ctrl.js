@@ -18,14 +18,14 @@ controller("WagesProxyGraphCtrl", ["$scope", "$http", "$rootScope", function($sc
 
                 $http
                     .get("../proxy/wages")
-                    .then(function(response_foreign) {
+                    .then(function(res_G04) {
 
                         response.data.forEach(function(d) {
                             if (years.indexOf(Number(d.year)) == -1) years.push(Number(d.year));
                             if (provinces.indexOf(d.province) == -1) provinces.push(d.province);
                         });
 
-                        response_foreign.data.forEach(function(d) {
+                        res_G04.data.forEach(function(d) {
                             if (years.indexOf(Number(d.year)) == -1) years.push(Number(d.year));
                             if (provincesG04.indexOf(d.province) == -1) provincesG04.push(d.province);
                         });
@@ -48,7 +48,7 @@ controller("WagesProxyGraphCtrl", ["$scope", "$http", "$rootScope", function($sc
                         provincesG04.forEach(function(d) {
                             var c = {
                                 name: d,
-                                type: "area",
+                                type: "areaspline",
                                 yAxis: 1,
                                 data: []
                             };
@@ -66,7 +66,7 @@ controller("WagesProxyGraphCtrl", ["$scope", "$http", "$rootScope", function($sc
                             });
                         });
 
-                        response_foreign.data.forEach(function(d) {
+                        res_G04.data.forEach(function(d) {
                             provincesDataG04.forEach(function(e) {
                                 if (d.province === e.name) {
                                     e.data[years.indexOf(Number(d.year))] = Number(d['oil']);
