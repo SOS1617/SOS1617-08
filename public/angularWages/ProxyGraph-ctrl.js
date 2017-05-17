@@ -27,11 +27,9 @@ controller("WagesProxyGraphCtrl", ["$scope", "$http", "$rootScope", function($sc
 
                         res_G04.data.forEach(function(d) {
                             if (years.indexOf(Number(d.year)) == -1) years.push(Number(d.year));
-<<<<<<< HEAD
-                            if (provincesForeign.indexOf(d.country) == -1) provincesForeign.push(d.country);
-=======
+
                             if (provincesG04.indexOf(d.province) == -1) provincesG04.push(d.province);
->>>>>>> c238563e4e819052d92b83d08128a6b8bb517ed2
+
                         });
 
                         years.sort((a, b) => a - b);
