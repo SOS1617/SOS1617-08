@@ -1,23 +1,23 @@
 
 angular.module("SOS08ManagerApp").
-controller("WagesProxyGraphCtrl", ["$scope", "$http", "$rootScope", function($scope, $http, $rootScope) {
+controller("VictimsRemoteGraphCtrl", ["$scope", "$http", "$rootScope", function($scope, $http, $rootScope) {
 
     if (!$rootScope.apikey) $rootScope.apikey = "hf5HF86KvZ";
 
     $scope.refresh = function() {
         $http
-            .get("../api/v1/wages" + "?" + "apikey=" + $rootScope.apikey)
+            .get("../api/v1/victims" + "?" + "apikey=" + $rootScope.apikey)
             .then(function(response) {
                 //$scope.debug = "";
 
                 var years = [];
                 var provinces = [];
-                var provincesForeign = [];
+                var countriesForeign = [];
                 var provincesData = [];
-                var provincesDataForeign = [];
+                var countriesDataForeign = [];
 
                 $http
-                    .get("../proxy/wages")
+                    .get("https://sos1617-03.herokuapp.com/api/v1/results/?apikey=apisupersecreta")
                     .then(function(response_foreign) {
 
                         response.data.forEach(function(d) {
@@ -27,7 +27,7 @@ controller("WagesProxyGraphCtrl", ["$scope", "$http", "$rootScope", function($sc
 
                         response_foreign.data.forEach(function(d) {
                             if (years.indexOf(Number(d.year)) == -1) years.push(Number(d.year));
-                            if (provincesForeign.indexOf(d.country) == -1) provincesForeign.push(d.country);
+                            if (countriesForeign.indexOf(d.country) == -1) countriesForeign.push(d.country);
                         });
 
                         years.sort((a, b) => a - b);
@@ -35,7 +35,7 @@ controller("WagesProxyGraphCtrl", ["$scope", "$http", "$rootScope", function($sc
                         provinces.forEach(function(d) {
                             var b = {
                                 name: d,
-                                type: "bar",
+                                type: "line",
                                 yAxis: 0,
                                 data: []
                             };
@@ -45,7 +45,7 @@ controller("WagesProxyGraphCtrl", ["$scope", "$http", "$rootScope", function($sc
                             provincesData.push(b);
                         });
 
-                        provincesForeign.forEach(function(d) {
+                        countriesForeign.forEach(function(d) {
                             var c = {
                                 name: d,
                                 type: "area",
@@ -55,32 +55,32 @@ controller("WagesProxyGraphCtrl", ["$scope", "$http", "$rootScope", function($sc
                             years.forEach(function(e) {
                                 c.data.push(0);
                             });
-                            provincesDataForeign.push(c);
+                            countriesDataForeign.push(c);
                         });
 
                         response.data.forEach(function(d) {
                             provincesData.forEach(function(e) {
                                 if (d.province === e.name) {
-                                    e.data[years.indexOf(Number(d.year))] = Number(d['varied']);
+                                    e.data[years.indexOf(Number(d.year))] = Number(d['numberVictims']);
                                 }
                             });
                         });
 
                         response_foreign.data.forEach(function(d) {
-                            provincesDataForeign.forEach(function(e) {
-                                if (d.province === e.name) {
-                                    e.data[years.indexOf(Number(d.year))] = Number(d['oil']);
+                            countriesDataForeign.forEach(function(e) {
+                                if (d.country === e.name) {
+                                    e.data[years.indexOf(Number(d.year))] = Number(d['math']);
                                 }
                             });
                         });
 
-                     
+                       
                         var hc = {
                             chart: {
                                 zoomType: 'xy'
                             },
                             title: {
-                                text: 'G04 & G08'
+                                text: 'G08 & G03'
                             },
                             xAxis: {
                                 categories: [],
@@ -88,30 +88,30 @@ controller("WagesProxyGraphCtrl", ["$scope", "$http", "$rootScope", function($sc
                             },
                             yAxis: [{ 
                                 labels: {
-                                    format: '{value} %',
+                                    format: '{value}',
                                     style: {
-                                        color: Highcharts.getOptions().colors[3]
+                                        color: Highcharts.getOptions().colors[6]
                                     }
                                 },
                                 title: {
-                                    text: 'Wages Varied (%)',
+                                    text: 'Number of Victims',
                                     style: {
-                                        color: Highcharts.getOptions().colors[4]
+                                        color: Highcharts.getOptions().colors[6]
                                     }
                                 }
 
                             }, { 
                                 gridLineWidth: 0,
                                 title: {
-                                    text: 'Oil',
+                                    text: 'Analysis of Education',
                                     style: {
-                                        color: Highcharts.getOptions().colors[2]
+                                        color: Highcharts.getOptions().colors[3]
                                     }
                                 },
                                 labels: {
                                     format: '{value}',
                                     style: {
-                                        color: Highcharts.getOptions().colors[2]
+                                        color: Highcharts.getOptions().colors[3]
                                     }
                                 },
                                 opposite: true
@@ -119,16 +119,11 @@ controller("WagesProxyGraphCtrl", ["$scope", "$http", "$rootScope", function($sc
                             tooltip: {
                                 shared: true
                             },
-                            plotOptions: {
-                                column: {
-                                    stacking: 'normal'
-                                }
-                            },
                             series: []
                         };
                         
                         hc.xAxis.categories = years;
-                        hc.series = provincesData.concat(provincesDataForeign);
+                        hc.series = provincesData.concat(countriesDataForeign);
 
                         Highcharts.chart('hc_column', hc);
 

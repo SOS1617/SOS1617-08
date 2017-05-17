@@ -79,8 +79,8 @@ app.get("/proxy/wages", (req, res) => {
     var http = require('http');
 
     var options = {
-        host: 'sos1617-04.herokuapp.com',
-        path: '/api/v2/export-and-import?apikey=12345'
+        host: 'sos1617-07.herokuapp.com',
+        path: '/api/v1/investEducationStats/?apikey=sos07'
     };
     var request = http.request(options, (response) => {
         var str = '';
@@ -105,8 +105,8 @@ app.get("/proxy/victims",(req,res)=>{
     var http = require('http');
     
     var options = {
-        host: 'sos1617-03.herokuapp.com',
-        path: '/api/v1/results/?apikey=apisupersecreta'
+        host: 'sos1617-02.herokuapp.com',
+        path: '/api/v1/smi-stats?apikey=rXD8D2b1vP'
     };
     var request = http.request(options, (response) => {
         var str = '';
@@ -124,7 +124,9 @@ app.get("/proxy/victims",(req,res)=>{
     });
 
     request.end();
-})
+});
+
+
 
 
 

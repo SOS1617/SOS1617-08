@@ -1,12 +1,12 @@
 
 angular.module("SOS08ManagerApp").
-controller("WagesProxyGraphCtrl", ["$scope", "$http", "$rootScope", function($scope, $http, $rootScope) {
+controller("VictimsProxyGraphCtrl", ["$scope", "$http", "$rootScope", function($scope, $http, $rootScope) {
 
     if (!$rootScope.apikey) $rootScope.apikey = "hf5HF86KvZ";
 
     $scope.refresh = function() {
         $http
-            .get("../api/v1/wages" + "?" + "apikey=" + $rootScope.apikey)
+            .get("../api/v1/victims" + "?" + "apikey=" + $rootScope.apikey)
             .then(function(response) {
                 //$scope.debug = "";
 
@@ -17,7 +17,7 @@ controller("WagesProxyGraphCtrl", ["$scope", "$http", "$rootScope", function($sc
                 var provincesDataForeign = [];
 
                 $http
-                    .get("../proxy/wages")
+                    .get("../proxy/victims")
                     .then(function(response_foreign) {
 
                         response.data.forEach(function(d) {
@@ -35,7 +35,7 @@ controller("WagesProxyGraphCtrl", ["$scope", "$http", "$rootScope", function($sc
                         provinces.forEach(function(d) {
                             var b = {
                                 name: d,
-                                type: "bar",
+                                
                                 yAxis: 0,
                                 data: []
                             };
@@ -61,7 +61,7 @@ controller("WagesProxyGraphCtrl", ["$scope", "$http", "$rootScope", function($sc
                         response.data.forEach(function(d) {
                             provincesData.forEach(function(e) {
                                 if (d.province === e.name) {
-                                    e.data[years.indexOf(Number(d.year))] = Number(d['varied']);
+                                    e.data[years.indexOf(Number(d.year))] = Number(d['numberVictims']);
                                 }
                             });
                         });
@@ -69,7 +69,7 @@ controller("WagesProxyGraphCtrl", ["$scope", "$http", "$rootScope", function($sc
                         response_foreign.data.forEach(function(d) {
                             provincesDataForeign.forEach(function(e) {
                                 if (d.province === e.name) {
-                                    e.data[years.indexOf(Number(d.year))] = Number(d['oil']);
+                                    e.data[years.indexOf(Number(d.year))] = Number(d['smi-year']);
                                 }
                             });
                         });
@@ -80,7 +80,7 @@ controller("WagesProxyGraphCtrl", ["$scope", "$http", "$rootScope", function($sc
                                 zoomType: 'xy'
                             },
                             title: {
-                                text: 'G04 & G08'
+                                text: 'G02 & G08'
                             },
                             xAxis: {
                                 categories: [],
@@ -94,7 +94,7 @@ controller("WagesProxyGraphCtrl", ["$scope", "$http", "$rootScope", function($sc
                                     }
                                 },
                                 title: {
-                                    text: 'Wages Varied (%)',
+                                    text: 'Number of Victims',
                                     style: {
                                         color: Highcharts.getOptions().colors[4]
                                     }
@@ -103,7 +103,7 @@ controller("WagesProxyGraphCtrl", ["$scope", "$http", "$rootScope", function($sc
                             }, { 
                                 gridLineWidth: 0,
                                 title: {
-                                    text: 'Oil',
+                                    text: 'smi-year',
                                     style: {
                                         color: Highcharts.getOptions().colors[2]
                                     }
