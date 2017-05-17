@@ -12,22 +12,26 @@ controller("WagesProxyGraphCtrl", ["$scope", "$http", "$rootScope", function($sc
 
                 var years = [];
                 var provinces = [];
-                var provincesForeign = [];
+                var provincesG04 = [];
                 var provincesData = [];
-                var provincesDataForeign = [];
+                var provincesDataG04 = [];
 
                 $http
                     .get("../proxy/wages")
-                    .then(function(response_foreign) {
+                    .then(function(res_G04) {
 
                         response.data.forEach(function(d) {
                             if (years.indexOf(Number(d.year)) == -1) years.push(Number(d.year));
                             if (provinces.indexOf(d.province) == -1) provinces.push(d.province);
                         });
 
-                        response_foreign.data.forEach(function(d) {
+                        res_G04.data.forEach(function(d) {
                             if (years.indexOf(Number(d.year)) == -1) years.push(Number(d.year));
+<<<<<<< HEAD
                             if (provincesForeign.indexOf(d.country) == -1) provincesForeign.push(d.country);
+=======
+                            if (provincesG04.indexOf(d.province) == -1) provincesG04.push(d.province);
+>>>>>>> c238563e4e819052d92b83d08128a6b8bb517ed2
                         });
 
                         years.sort((a, b) => a - b);
@@ -35,7 +39,7 @@ controller("WagesProxyGraphCtrl", ["$scope", "$http", "$rootScope", function($sc
                         provinces.forEach(function(d) {
                             var b = {
                                 name: d,
-                                type: "bar",
+                                type: "line",
                                 yAxis: 0,
                                 data: []
                             };
@@ -45,17 +49,17 @@ controller("WagesProxyGraphCtrl", ["$scope", "$http", "$rootScope", function($sc
                             provincesData.push(b);
                         });
 
-                        provincesForeign.forEach(function(d) {
+                        provincesG04.forEach(function(d) {
                             var c = {
                                 name: d,
-                                type: "area",
+                                type: "areaspline",
                                 yAxis: 1,
                                 data: []
                             };
                             years.forEach(function(e) {
                                 c.data.push(0);
                             });
-                            provincesDataForeign.push(c);
+                            provincesDataG04.push(c);
                         });
 
                         response.data.forEach(function(d) {
@@ -66,8 +70,8 @@ controller("WagesProxyGraphCtrl", ["$scope", "$http", "$rootScope", function($sc
                             });
                         });
 
-                        response_foreign.data.forEach(function(d) {
-                            provincesDataForeign.forEach(function(e) {
+                        res_G04.data.forEach(function(d) {
+                            provincesDataG04.forEach(function(e) {
                                 if (d.province === e.name) {
                                     e.data[years.indexOf(Number(d.year))] = Number(d['oil']);
                                 }
@@ -75,7 +79,7 @@ controller("WagesProxyGraphCtrl", ["$scope", "$http", "$rootScope", function($sc
                         });
 
                      
-                        var hc = {
+                        var chartRoberto = {
                             chart: {
                                 zoomType: 'xy'
                             },
@@ -127,10 +131,10 @@ controller("WagesProxyGraphCtrl", ["$scope", "$http", "$rootScope", function($sc
                             series: []
                         };
                         
-                        hc.xAxis.categories = years;
-                        hc.series = provincesData.concat(provincesDataForeign);
+                        chartRoberto.xAxis.categories = years;
+                        chartRoberto.series = provincesData.concat(provincesDataG04);
 
-                        Highcharts.chart('hc_column', hc);
+                        Highcharts.chart('hc_column', chartRoberto);
 
                     });
 

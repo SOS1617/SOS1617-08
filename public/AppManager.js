@@ -20,7 +20,7 @@ angular.module("SOS08ManagerApp", ["ngRoute"]).config(function($routeProvider) {
             controller: "WagesGraphCtrl"
         })
         .when("/wages/GraphRemote", {
-            templateUrl: "angularWages/GraphRemote.html",
+            templateUrl: "angularWages/GraphCors.html",
             controller: "WagesRemoteGraphCtrl"
         })
         .when("/wages/GraphProxy", {

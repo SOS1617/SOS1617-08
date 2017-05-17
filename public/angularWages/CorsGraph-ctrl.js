@@ -8,26 +8,30 @@ controller("WagesRemoteGraphCtrl", ["$scope", "$http", "$rootScope", function($s
         $http
             .get("../api/v1/wages" + "?" + "apikey=" + $rootScope.apikey)
             .then(function(response) {
-                //$scope.debug = "";
 
                 var years = [];
+                
                 var provinces = [];
-                var countriesForeign = [];
+                
+                var countriesG07 = [];
+                
+                
                 var provincesData = [];
-                var countriesDataForeign = [];
+                
+                var countriesDataG07 = [];
 
                 $http
                     .get("https://sos1617-07.herokuapp.com/api/v1/investEducationStats/?apikey=sos07")
-                    .then(function(response_foreign) {
+                    .then(function(res_G07) {
 
                         response.data.forEach(function(d) {
                             if (years.indexOf(Number(d.year)) == -1) years.push(Number(d.year));
                             if (provinces.indexOf(d.province) == -1) provinces.push(d.province);
                         });
 
-                        response_foreign.data.forEach(function(d) {
+                        res_G07.data.forEach(function(d) {
                             if (years.indexOf(Number(d.year)) == -1) years.push(Number(d.year));
-                            if (countriesForeign.indexOf(d.country) == -1) countriesForeign.push(d.country);
+                            if (countriesG07.indexOf(d.country) == -1) countriesG07.push(d.country);
                         });
 
                         years.sort((a, b) => a - b);
@@ -35,7 +39,8 @@ controller("WagesRemoteGraphCtrl", ["$scope", "$http", "$rootScope", function($s
                         provinces.forEach(function(d) {
                             var b = {
                                 name: d,
-                                type: "line",
+                                type: "spline",
+                                
                                 yAxis: 0,
                                 data: []
                             };
@@ -45,17 +50,19 @@ controller("WagesRemoteGraphCtrl", ["$scope", "$http", "$rootScope", function($s
                             provincesData.push(b);
                         });
 
-                        countriesForeign.forEach(function(d) {
+                        countriesG07.forEach(function(d) {
                             var c = {
                                 name: d,
+                                
                                 type: "area",
+                                
                                 yAxis: 1,
                                 data: []
                             };
                             years.forEach(function(e) {
                                 c.data.push(0);
                             });
-                            countriesDataForeign.push(c);
+                            countriesDataG07.push(c);
                         });
 
                         response.data.forEach(function(d) {
@@ -66,8 +73,8 @@ controller("WagesRemoteGraphCtrl", ["$scope", "$http", "$rootScope", function($s
                             });
                         });
 
-                        response_foreign.data.forEach(function(d) {
-                            countriesDataForeign.forEach(function(e) {
+                        res_G07.data.forEach(function(d) {
+                            countriesDataG07.forEach(function(e) {
                                 if (d.country === e.name) {
                                     e.data[years.indexOf(Number(d.year))] = Number(d['investEducationStat']);
                                 }
@@ -75,7 +82,7 @@ controller("WagesRemoteGraphCtrl", ["$scope", "$http", "$rootScope", function($s
                         });
 
                        
-                        var hc = {
+                        var chartRoberto = {
                             chart: {
                                 zoomType: 'xy'
                             },
@@ -103,7 +110,7 @@ controller("WagesRemoteGraphCtrl", ["$scope", "$http", "$rootScope", function($s
                             }, { 
                                 gridLineWidth: 0,
                                 title: {
-                                    text: 'The level of start-ups',
+                                    text: 'Investment in education',
                                     style: {
                                         color: Highcharts.getOptions().colors[3]
                                     }
@@ -122,10 +129,10 @@ controller("WagesRemoteGraphCtrl", ["$scope", "$http", "$rootScope", function($s
                             series: []
                         };
                         
-                        hc.xAxis.categories = years;
-                        hc.series = provincesData.concat(countriesDataForeign);
+                        chartRoberto.xAxis.categories = years;
+                        chartRoberto.series = provincesData.concat(countriesDataG07);
 
-                        Highcharts.chart('hc_column', hc);
+                        Highcharts.chart('hc_column', chartRoberto);
 
                     });
 
