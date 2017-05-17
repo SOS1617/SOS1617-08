@@ -35,7 +35,7 @@ controller("WagesProxyGraphCtrl", ["$scope", "$http", "$rootScope", function($sc
                         provinces.forEach(function(d) {
                             var b = {
                                 name: d,
-                                type: "bar",
+                                type: "line",
                                 yAxis: 0,
                                 data: []
                             };
