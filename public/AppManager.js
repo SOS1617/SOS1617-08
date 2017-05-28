@@ -4,10 +4,11 @@ angular.module("SOS08ManagerApp", ["ngRoute"]).config(function($routeProvider) {
             templateUrl: "main.html"
         })
         .when("/analytics", {
-            templateUrl: "analytics.html"
+            templateUrl: "analytics.html",
+            controller:"ChartsComunCtrl"
         })
 
-    .when("/wages", {
+        .when("/wages", {
             templateUrl: "angularWages/list.html",
             controller: "WagesListCtrl"
         })
@@ -31,6 +32,15 @@ angular.module("SOS08ManagerApp", ["ngRoute"]).config(function($routeProvider) {
             templateUrl: "angularVictims/GraphRemote.html",
             controller: "VictimsRemoteGraphCtrl"
         })
+        .when("/wages/apiexterna1", {
+            templateUrl: "/angularWages/apiexterna1.html",
+            controller: "ApiExterna1ChartCtrl"
+        })
+        
+        .when("/wages/apiexterna2", {
+            templateUrl: "/angularWages/api-externa2.html",
+            controller: "ApiExterna2ChartCtrl"
+        })
         .when("/victims/GraphProxy", {
             templateUrl: "angularVictims/GraphProxy.html",
             controller: "VictimsProxyGraphCtrl"
@@ -51,5 +61,5 @@ angular.module("SOS08ManagerApp", ["ngRoute"]).config(function($routeProvider) {
             controller: "VictimsGraphCtrl"
         });
 
-    console.log("App initialized and configured");
+    console.log("App initialized and configureddd");
 });

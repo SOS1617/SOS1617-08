@@ -57,6 +57,8 @@ MongoClient.connect(mdbURL, {
     dbRoberto = database.collection("wagess");
 
     wagesAPI.register(app, dbRoberto, BASE_API_PATH, apikeycheck);
+    wagesAPI2.register(app, dbRoberto, BASE_API_PATH2);
+
 
     victimsAPI.register(app, dbPaco, BASE_API_PATH, apikeycheck);
 

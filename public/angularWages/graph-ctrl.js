@@ -1,6 +1,4 @@
-angular
-    .module("SOS08ManagerApp")
-    .controller("WagesGraphCtrl",["$scope","$http",function ($scope, $http){
+angular.module("SOS08ManagerApp").controller("WagesGraphCtrl",["$scope","$http",function ($scope, $http){
         
         $scope.apikey = "hf5HF86KvZ";
         $scope.data = {};

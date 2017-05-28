@@ -1,16 +1,13 @@
 var exports = module.exports = {};
 
-exports.register = function(app, dbRoberto, BASE_API_PATH2,apiKeyCheck) {
+exports.register = function(app, dbRoberto, BASE_API_PATH2) {
 
-///CREACIÓN DE LA APIKEY///
 
-var apiKeyRoberto = "hf5HF86KvZ";
 
 
 
 //Load Initial Data
 app.get(BASE_API_PATH2 + "/wages/loadInitialData",function(request, response) {
-       if(apiKeyCheck(request,response)==true){
 
     dbRoberto.find({}).toArray(function(err,wages){
         
@@ -57,14 +54,13 @@ app.get(BASE_API_PATH2 + "/wages/loadInitialData",function(request, response) {
         
     }
 });
-}
+
 });
 
   
  // GET Collection (WITH SEARCH)
 
 app.get(BASE_API_PATH2 + "/wages", function (request, response) {
-    if (!apiKeyCheck(request, response)) return;
     console.log("INFO: New GET request to /wages");
     
             var limit = parseInt(request.query.limit);
@@ -163,29 +159,9 @@ var buscador = function(base, conjuntoauxiliar, desde, hasta) {
 };
 
 
-/*
-// GET a collection
-app.get(BASE_API_PATH2 + "/wages", function (request, response) {
-        if(apiKeyCheck(request,response)==true){
-
-    console.log("INFO: New GET request to /wages");
-    dbRoberto.find({}).toArray( function (err, wages) {
-        if (err) {
-            console.error('WARNING: Error getting data from DB');
-            response.sendStatus(500); // internal server error
-        } else {
-            console.log("INFO: Sending wages: " + JSON.stringify(wages, 2, null));
-            response.send(wages);
-        }
-    });
-        }
-});
-
-*/
 // GET a collection de paises en un mismo año 
 
 app.get(BASE_API_PATH2 + "/wages/:year", function (request, response) {
-        if(apiKeyCheck(request,response)==true){
 
     var year = request.params.year;
     var province = request.params.year;
@@ -230,7 +206,7 @@ app.get(BASE_API_PATH2 + "/wages/:year", function (request, response) {
                 }
         });
 }}
-}});
+});
 
 
 //GET a recurso concreto con 2 parametros
@@ -238,7 +214,6 @@ app.get(BASE_API_PATH2 + "/wages/:year", function (request, response) {
 app.get(BASE_API_PATH2 + "/wages/:province/:year", function (request, response) {
     var province = request.params.province;
     var year = request.params.year;
-        if(apiKeyCheck(request,response)==true){
 
     if (!province || !year) {
         console.log("WARNING: New GET request to /wages/:province without name or without year, sending 400...");
@@ -259,14 +234,13 @@ app.get(BASE_API_PATH2 + "/wages/:province/:year", function (request, response) 
                 
                 }
         });
-}}
+}
 });
 
 
 //POST over a collection
 app.post(BASE_API_PATH2 + "/wages", function (request, response) {
     var newstat = request.body;
-        if(apiKeyCheck(request,response)==true){
 
     if (!newstat) {
         console.log("WARNING: New POST request to /wages/ without stat, sending 400...");
@@ -296,29 +270,27 @@ app.post(BASE_API_PATH2 + "/wages", function (request, response) {
                 }
             });
         }
-    }}
+    }
 });
 
-//a
+
 
 //POST over a single resource NO PERMITIDO
 app.post(BASE_API_PATH2 + "/wages/:province", function (request, response) {
     var province = request.params.province;
-        if(apiKeyCheck(request,response)==true){
 
     console.log("WARNING: New POST request to /wages/" + province + ", sending 405...");
     response.sendStatus(405); // method not allowed
-        }
+        
 });
 
 
 //PUT over a collection NO PERMITIDO
 app.put(BASE_API_PATH2 + "/wages", function (request, response) {
-        if(apiKeyCheck(request,response)==true){
 
     console.log("WARNING: New PUT request to /wages, sending 405...");
     response.sendStatus(405); // method not allowed
-        }
+        
 });
 
 
@@ -327,7 +299,6 @@ app.put(BASE_API_PATH2 + "/wages/:province/:year", function (request, response) 
     var updatedStat = request.body;
     var province = request.params.province;
     var year = request.params.year;
-        if(apiKeyCheck(request,response)==true){
 
 
     if (!updatedStat) {
@@ -353,13 +324,12 @@ app.put(BASE_API_PATH2 + "/wages/:province/:year", function (request, response) 
                     }
                 }
             )}
-        }}
+        }
     });
            
            
 //DELETE over a collection
 app.delete(BASE_API_PATH2 + "/wages", function (request, response) {
-        if(apiKeyCheck(request,response)==true){
 
     console.log("INFO: New DELETE request to /wages");
     dbRoberto.remove({}, {multi: true}, function (err, numRemoved) {
@@ -376,7 +346,7 @@ app.delete(BASE_API_PATH2 + "/wages", function (request, response) {
             }
         }
     });
-        }
+        
 });
 
 
@@ -385,7 +355,6 @@ app.delete(BASE_API_PATH2 + "/wages", function (request, response) {
 app.delete(BASE_API_PATH2 + "/wages/:province/:year", function (request, response) {
     var province = request.params.province;
     var year = request.params.year;
-        if(apiKeyCheck(request,response)==true){
 
     if (!province || !year) {
         console.log("WARNING: New DELETE request to /wages/:province/:year without province and year, sending 400...");
@@ -408,7 +377,7 @@ app.delete(BASE_API_PATH2 + "/wages/:province/:year", function (request, respons
                 }
             }
         });
-    }}
+    }
 });
 
 
