@@ -41,6 +41,10 @@ angular.module("SOS08ManagerApp", ["ngRoute"]).config(function($routeProvider) {
             templateUrl: "/angularWages/api-externa2.html",
             controller: "ApiExterna2ChartCtrl"
         })
+        .when("/governance", {
+            templateUrl: "/governance.html",
+            
+        })    
         .when("/victims/GraphProxy", {
             templateUrl: "angularVictims/GraphProxy.html",
             controller: "VictimsProxyGraphCtrl"
