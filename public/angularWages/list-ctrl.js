@@ -193,7 +193,7 @@ controller("WagesListCtrl", ["$scope", "$http", "$rootScope", function($scope, $
     };
 
     refresh();
-
+    jQuery.noConflict();
     $('#apikeyModal').modal({
         complete: function() {
             $rootScope.apikey = $scope.apikey;
