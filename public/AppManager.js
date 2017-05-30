@@ -41,6 +41,14 @@ angular.module("SOS08ManagerApp", ["ngRoute"]).config(function($routeProvider) {
             templateUrl: "/angularWages/api-externa2.html",
             controller: "ApiExterna2ChartCtrl"
         })
+        .when("/wages/apiexterna3", {
+            templateUrl: "/angularWages/api-externa3.html",
+            controller: "ApiExterna3ChartCtrl"
+        })
+        .when("/wages/apiexterna4", {
+            templateUrl: "/angularWages/api-externa4.html",
+            controller: "ApiExterna4ChartCtrl"
+        })
         .when("/governance", {
             templateUrl: "/governance.html",
             
