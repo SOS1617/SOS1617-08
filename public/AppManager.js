@@ -50,6 +50,14 @@ angular.module("SOS08ManagerApp", ["ngRoute"]).config(function($routeProvider) {
             controller: "VictimsProxyGraphCtrl"
             
         })
+        .when("/about", {
+            templateUrl: "about.html"
+            
+        })
+         .when("/governance", {
+            templateUrl: "governance.html"
+            
+        })
         
         
         .when("/victims", {

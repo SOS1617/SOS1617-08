@@ -78,7 +78,8 @@ app.use("/", express.static(publicFolder));
 
 app.use("/api/v1/tests", express.static(path.join(__dirname, "public/tests.html")));
 
-
+app.use("#!/about",express.static(path.join(__dirname, "public/about.html")));
+//linea de arriba crea enlace a about.html
 app.get("/proxy/wages", (req, res) => {
     var http = require('http');
 

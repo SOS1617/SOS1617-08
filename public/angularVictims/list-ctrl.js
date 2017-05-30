@@ -201,15 +201,15 @@ controller("VictimsListCtrl", ["$scope", "$http", "$rootScope", function($scope,
     };
 
     refresh();
-
-    $('#apikeyModal').modal({
+    jQuery.noConflict();
+     $('#apikeyModal').modal({
         complete: function() {
             $rootScope.apikey = $scope.apikey;
 
             $http
-                .get("../api/v1/victims" + modifier + "?" + "apikey=" + $rootScope.apikey + "&" + properties)
+                .get("../api/v1/salaries" + modifier + "?" + "apikey=" + $rootScope.apikey + "&" + properties)
                 .then(function(response) {
-                    Materialize.toast('<i class="material-icons">done</i> Api key changed', 4000);
+                    Materialize.toast('<i class="material-icons">done</i> Api key changed successfully!', 4000);
                     $scope.maxPages = Math.max(Math.ceil(response.data.length / elementsPerPage), 1);
                     dataCache = response.data;
                     $scope.refreshPage();
@@ -219,19 +219,20 @@ controller("VictimsListCtrl", ["$scope", "$http", "$rootScope", function($scope,
                     $scope.refreshPage();
                     switch (response.status) {
                         case 401:
-                            Materialize.toast('<i class="material-icons">error_outline</i> No apikey', 4000);
+                            Materialize.toast('<i class="material-icons">error_outline</i> Error getting data - api key missing!', 4000);
                             break;
                         case 403:
-                            Materialize.toast('<i class="material-icons">error_outline</i> Apikey incorrect!', 4000);
+                            Materialize.toast('<i class="material-icons">error_outline</i> Error getting data - api key incorrect!', 4000);
                             break;
                         default:
-                            Materialize.toast('<i class="material-icons">error_outline</i> Error data!', 4000);
+                            Materialize.toast('<i class="material-icons">error_outline</i> Error getting data!', 4000);
                             break;
                     }
                 });
-            console.log("Apikey changed!");
+            console.log("Api key changed!");
         }
     });
+
 
    $('#searchModal').modal({
         complete: function() {
