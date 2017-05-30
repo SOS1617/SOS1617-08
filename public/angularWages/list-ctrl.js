@@ -13,7 +13,7 @@ controller("WagesListCtrl", ["$scope", "$http", "$rootScope", function($scope, $
 
     $scope.search = {};
     $scope.searchAdd = {};
-
+    $rootScope.apikey = "hf5HF86KvZ";
     $scope.data = {};
     var dataCache = {};
     $scope.currentPage = 1;
