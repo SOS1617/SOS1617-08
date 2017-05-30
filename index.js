@@ -11,7 +11,6 @@ var wagesAPI = require('./api/v1/wages.js');
 var wagesAPI2 = require('./api/v2/wages.js');
 
 var victimsAPI = require('./api/v1/victims.js');
-var victimsAPI = require('./api/v2/victims.js');
 
 
 var app = express();
