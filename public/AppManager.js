@@ -44,6 +44,10 @@ angular.module("SOS08ManagerApp", ["ngRoute"]).config(function($routeProvider) {
         .when("/governance", {
             templateUrl: "/governance.html",
             
+        }) 
+        .when("/integrations", {
+            templateUrl: "/integrations.html",
+            
         })    
         .when("/victims/GraphProxy", {
             templateUrl: "angularVictims/GraphProxy.html",

@@ -85,7 +85,7 @@ app.get("/proxy/wages", (req, res) => {
 
     var options = {
         host: 'sos1617-04.herokuapp.com',
-        path: '/api/v2/export-and-import?apikey=12345'
+        path: '/api/v3/export-and-import'
     };
     var request = http.request(options, (response) => {
         var str = '';
