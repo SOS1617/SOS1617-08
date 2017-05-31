@@ -1,7 +1,7 @@
 angular.module("SOS08ManagerApp").
 
 controller("api2-controller", ["$scope", "$http", "$rootScope", function($scope, $http, $rootScope) {
-    console.log("Controller initialized (External Api 2");
+    console.log("Controller initialized (External Api 2)");
         
         $scope.apikey = "hf5HF86KvZ";
         $scope.data = {};

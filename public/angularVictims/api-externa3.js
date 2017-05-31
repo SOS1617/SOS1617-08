@@ -1,7 +1,7 @@
 angular.module("SOS08ManagerApp").
 
 controller("api3-controller", ["$scope", "$http", "$rootScope", function($scope, $http, $rootScope) {
-    console.log("Controller initialized (External Api 3");
+    console.log("Controller initialized (External Api 3)");
         
         $scope.apikey = "hf5HF86KvZ";
         $scope.data = {};
@@ -21,7 +21,9 @@ controller("api3-controller", ["$scope", "$http", "$rootScope", function($scope,
                 for(var i=0; i<response.data.length; i++){
                 $scope.year.push(Number($scope.dataVictims[i].year));
                 }
-$http.get("https://blockchain.info/es/ticker").then(function(response){                
+                var api_key = '5d196966459f4f5f8f0b362d8535a0da';
+var api_url = "https://api.opencagedata.com/geocode/v1/json?q=41.40139%2C2.12870&pretty=1&key=" + api_key;
+$http.get(api_url).then(function(response){                
                 
             dataCache = response.data;
             $scope.data = dataCache;
@@ -30,8 +32,8 @@ $http.get("https://blockchain.info/es/ticker").then(function(response){
            
             for(var i=0; i<$scope.dataVictims.length; i++){
                 var ar=[];
-                 console.log($scope.data[i]);
-                $scope.datos2.push({"year":$scope.year[i],"last update":$scope.data[i].last_update});
+                 console.log($scope.data);
+                $scope.datos2.push({"year":$scope.year[i],"name":$scope.data.documentation});
                 
                 
            }    
@@ -57,14 +59,14 @@ chart = AmCharts.makeChart( "charts08", {
     "fillAlphas": 0.8,
     "lineAlpha": 0.2,
     "type": "column",
-    "valueField": "mortalityRate"
+    "valueField": "year"
   } ],
   "chartCursor": {
     "categoryBalloonEnabled": false,
     "cursorAlpha": 0,
     "zoomable": false
   },
-  "categoryField": "date",
+  "categoryField": "name",
   "categoryAxis": {
     "gridPosition": "start",
     "gridAlpha": 0,
