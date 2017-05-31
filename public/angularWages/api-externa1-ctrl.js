@@ -26,7 +26,7 @@ $http.get("https://restcountries.eu/rest/v1/all").then(function(response){
             
             
        
-             //Google
+             //Googleee
             google.charts.load('current', {
                 'packages': ['controls','geochart']
             });
