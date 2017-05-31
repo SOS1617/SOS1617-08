@@ -1,4 +1,4 @@
-angular.module("ManagerApp").
+angular.module("SOS08ManagerApp").
 
 controller("api1-controller", ["$scope", "$http", "$rootScope", function($scope, $http, $rootScope) {
     console.log("Controller initialized (External Api 1)");
@@ -19,7 +19,7 @@ controller("api1-controller", ["$scope", "$http", "$rootScope", function($scope,
                 $scope.dataVictim =dataCacheVictim;
                 
                 for(var i=0; i<response.data.length; i++){
-                $scope.year.push(Number($scope.dataVictim[i].province));
+                $scope.year.push(Number($scope.dataVictim[i].year));
                 }
 
 $http.get("https://api.github.com/users").then(function(response){
