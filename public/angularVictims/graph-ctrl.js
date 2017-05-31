@@ -1,5 +1,4 @@
-angular
-    .module("SOS08ManagerApp")
+angular.module("SOS08ManagerApp")
     .controller("VictimsGraphCtrl",["$scope","$http",function ($scope, $http){
         
         $scope.apikey = "hf5HF86KvZ";
@@ -33,16 +32,19 @@ angular
                 $scope.numberVictims.push(Number($scope.data[i].numberVictims));
                 $scope.averageYears.push(Number($scope.data[i].averageYears));
                 $scope.year.push(Number($scope.data[i].year));
-                $scope.province.push(Number($scope.data[i].province));
+                $scope.province.push(($scope.data[i].province));
                 
-                $scope.res.push({ label: $scope.data[i].year, y: $scope.data[i].numberVictims});
+                //$scope.res.push({ label: $scope.data[i].year, y: $scope.data[i].numberVictims});
 
                 console.log($scope.data[i].province);
             }
             for(var i=0; i<response.data.length; i++){
-                $scope.res2.push({ label: "'"+$scope.year+"'", y: $scope.numberVictims});
+                
+                $scope.res.push({ label: '"'+$scope.province[i]+'"', y: $scope.numberVictims[i]});
+                console.log("res actual: "+$scope.res[i]);
             }
-            $scope.res=[
+            console.log("RES: "+$scope.res);
+            $scope.res2=[
             { label: "Murcia",  y: 3  },
 				{ label: "Cadiz", y: 2  },
 				{ label: "Baleares", y: 6} ];
@@ -60,7 +62,7 @@ angular
         text: 'Number of Victims per year'
     },
     xAxis: {
-        categories: $scope.datos
+        categories: $scope.year
     },
     yAxis: {
         min: 0,
@@ -145,6 +147,7 @@ angular
 		},
 		data: [{
     type: "column",
+   
     dataPoints:$scope.res
   }]
 });

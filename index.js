@@ -79,6 +79,35 @@ app.use("/api/v1/tests", express.static(path.join(__dirname, "public/tests.html"
 
 app.use("#!/about",express.static(path.join(__dirname, "public/about.html")));
 //linea de arriba crea enlace a about.html
+
+app.get("/proxy/futbol", (req, res) => {
+    var http = require('http');
+
+    var options = {
+        host: 'api.football-data.org',
+        path: '/v1/competitions'
+    };
+
+ 
+     
+    var request = http.request(options, (response) => {
+        var input = '';
+
+        response.on('data', function(chunk) {
+            input += chunk;
+        });
+
+        response.on('end', function() {
+            res.send(input);
+        });
+    });
+
+    request.on('error', function(e) {
+        res.sendStatus(503);
+    });
+
+    request.end();
+});
 app.get("/proxy/wages", (req, res) => {
     var http = require('http');
 
