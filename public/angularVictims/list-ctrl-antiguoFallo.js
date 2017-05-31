@@ -7,7 +7,7 @@ var setPage;
 
 angular.module("SOS08ManagerApp").
 controller("VictimsListCtrl", ["$scope", "$http", "$rootScope", function($scope, $http, $rootScope) {
-    console.log("Victims ListCtrl initialized");
+    console.log("Controller initialized");
 
     if (!$rootScope.apikey) $rootScope.apikey = "hf5HF86KvZ";
 
@@ -111,19 +111,19 @@ controller("VictimsListCtrl", ["$scope", "$http", "$rootScope", function($scope,
             }, function(response) {
                 switch (response.status) {
                     case 401:
-                        Materialize.toast('<i class="material-icons">error_outline</i> Error getting data - api key missing!', 4000);
+                        Materialize.toast('<i class="material-icons">error_outline</i> No apikey!', 4000);
                         break;
                     case 403:
-                        Materialize.toast('<i class="material-icons">error_outline</i> Error getting data - api key incorrect!', 4000);
+                        Materialize.toast('<i class="material-icons">error_outline</i> Apikey incorrect!', 4000);
                         break;
                     case 404:
                         $scope.maxPages = 1;
                         dataCache = {};
                         $scope.refreshPage();
-                        Materialize.toast('<i class="material-icons">error_outline</i> No data found!', 4000);
+                        Materialize.toast('<i class="material-icons">error_outline</i> No data', 4000);
                         break;
                     default:
-                        Materialize.toast('<i class="material-icons">error_outline</i> Error getting data!', 4000);
+                        Materialize.toast('<i class="material-icons">error_outline</i> Error data!', 4000);
                         break;
                 }
             });
@@ -135,23 +135,23 @@ controller("VictimsListCtrl", ["$scope", "$http", "$rootScope", function($scope,
             .post("../api/v1/victims" + "?" + "apikey=" + $rootScope.apikey, $scope.newData)
             .then(function(response) {
                 console.log("Data added!");
-                Materialize.toast('<i class="material-icons">done</i> ' + $scope.newData.country + ' has been added succesfully!', 4000);
+                Materialize.toast('<i class="material-icons">done</i> ' + $scope.newData.province + ' has been added', 4000);
                 refresh();
             }, function(response) {
                 Materialize.toast('<i class="material-icons">error_outline</i> Error adding data!', 4000);
             }, function(response) {
                 switch (response.status) {
                     case 400:
-                        Materialize.toast('<i class="material-icons">error_outline</i> Error adding data - incorrect data was entered!!', 4000);
+                        Materialize.toast('<i class="material-icons">error_outline</i> Incorrect data was entered!!', 4000);
                         break;
                     case 401:
-                        Materialize.toast('<i class="material-icons">error_outline</i> Error getting data - api key missing!', 4000);
+                        Materialize.toast('<i class="material-icons">error_outline</i> No apikey', 4000);
                         break;
                     case 403:
-                        Materialize.toast('<i class="material-icons">error_outline</i> Error getting data - api key incorrect!', 4000);
+                        Materialize.toast('<i class="material-icons">error_outline</i> Apikey incorrect!', 4000);
                         break;
                     default:
-                        Materialize.toast('<i class="material-icons">error_outline</i> Error adding data!', 4000);
+                        Materialize.toast('<i class="material-icons">error_outline</i> Error data!', 4000);
                         break;
                 }
             });
@@ -159,17 +159,17 @@ controller("VictimsListCtrl", ["$scope", "$http", "$rootScope", function($scope,
 
     $scope.delData = function(data) {
         $http
-            .delete("../api/v1/victims/" + data.country + "/" + data.year + "?" + "apikey=" + $rootScope.apikey)
+            .delete("../api/v1/victims/" + data.province + "/" + data.year + "?" + "apikey=" + $rootScope.apikey)
             .then(function(response) {
-                console.log("Data " + data.country + " deleted!");
-                Materialize.toast('<i class="material-icons">done</i> ' + data.country + ' has been deleted succesfully!', 4000);
+                console.log("This " + data.province + "has been deleted");
+                Materialize.toast('<i class="material-icons">done</i> ' + data.province + ' has been deleted', 4000);
                 refresh();
             }, function(response) {
                 Materialize.toast('<i class="material-icons">error_outline</i> Error deleting data!', 4000);
             });
     };
 
-    $scope.delAllData = function() {
+    $scope.deleteAllData = function() {
         $http
             .delete("../api/v1/victims" + "?" + "apikey=" + $rootScope.apikey)
             .then(function(response) {
@@ -188,10 +188,10 @@ controller("VictimsListCtrl", ["$scope", "$http", "$rootScope", function($scope,
                 .get("../api/v1/victims/loadInitialData" + "?" + "apikey=" + $rootScope.apikey)
                 .then(function(response) {
                     console.log("Initial data loaded");
-                    Materialize.toast('<i class="material-icons">done</i> Loaded initial data succesfully!', 4000);
+                    Materialize.toast('<i class="material-icons">done</i> LoadInitialData correct', 4000);
                     refresh();
                 }, function(response) {
-                    Materialize.toast('<i class="material-icons">error_outline</i> Error adding initial data!', 4000);
+                    Materialize.toast('<i class="material-icons">error_outline</i> Error initialData!', 4000);
                 });
         }
         else {
@@ -201,13 +201,14 @@ controller("VictimsListCtrl", ["$scope", "$http", "$rootScope", function($scope,
     };
 
     refresh();
-
-    $('#apikeyModal').modal({
+    jQuery.noConflict();
+   
+     $('#apikeyModal').modal({
         complete: function() {
             $rootScope.apikey = $scope.apikey;
 
             $http
-                .get("../api/v1/victims" + modifier + "?" + "apikey=" + $rootScope.apikey + "&" + properties)
+                .get("../api/v1/salaries" + modifier + "?" + "apikey=" + $rootScope.apikey + "&" + properties)
                 .then(function(response) {
                     Materialize.toast('<i class="material-icons">done</i> Api key changed successfully!', 4000);
                     $scope.maxPages = Math.max(Math.ceil(response.data.length / elementsPerPage), 1);
@@ -232,38 +233,9 @@ controller("VictimsListCtrl", ["$scope", "$http", "$rootScope", function($scope,
             console.log("Api key changed!");
         }
     });
+ $('#apikeyModal').modal('show');
 
-
-       /*var refresh2 = $scope.refresh = function() {
-        $http
-            .get("../api/v1/birthRateStats/?" + "apikey=" + $rootScope.apikey + properties)
-            .then(function(response) {
-                if ($scope.from && $scope.to) Materialize.toast('<i class="material-icons">done</i> Search done successfully!', 4000);
-                $scope.maxPages = Math.max(Math.ceil(response.data.length / elementsPerPage), 1);
-                dataCache = response.data;
-                //console.log(JSON.stringify(dataCache, null, 2));
-                $scope.refreshPage();
-            }, function(response) {
-                switch (response.status) {
-                    case 401:
-                        Materialize.toast('<i class="material-icons">error_outline</i> Error getting data - api key missing!', 4000);
-                        break;
-                    case 403:
-                        Materialize.toast('<i class="material-icons">error_outline</i> Error getting data - api key incorrect!', 4000);
-                        break;
-                    case 404:
-                        $scope.maxPages = 1;
-                        dataCache = {};
-                        $scope.refreshPage();
-                        Materialize.toast('<i class="material-icons">error_outline</i> No data found!', 4000);
-                        break;
-                    default:
-                        Materialize.toast('<i class="material-icons">error_outline</i> Error getting data!', 4000);
-                        break;
-                }
-            });
-    };*/
-        $('#searchModal').modal({
+   $('#searchModal').modal({
         complete: function() {
             modifier = "";
             properties = "";
