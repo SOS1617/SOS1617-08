@@ -83,6 +83,7 @@
         </tbody>
     </table>
     <div class="right-align">
+        <button class="btn waves-effect waves yellow" ng-click="refreshBotton()"><i class="material-icons left"></i>Refresh</button>
         <button class="btn waves-effect waves green" onClick="$('#apikeyModal').modal('open');"><i class="material-icons left">vpn_key</i>Introduce your apikey</button>
         <button class="btn waves-effect waves blue" ng-show="data.length==0" ng-click="loadInitialData()"><i class="material-icons left">recent_actors</i>Load initial Data</button>
         <button class="btn waves-effect waves red" ng-show="data.length!=0" ng-click="deleteAllData()"><i class="material-icons left">delete</i>Delete All</button>

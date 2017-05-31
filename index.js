@@ -12,6 +12,10 @@ var wagesAPI2 = require('./api/v2/wages.js');
 
 var victimsAPI = require('./api/v1/victims.js');
 var victimsAPI2 = require('./api/v2/victims.js');
+<<<<<<< HEAD
+=======
+
+>>>>>>> e15fec28981d6d417923f6f030e27500375fbb29
 
 
 var app = express();
@@ -62,7 +66,7 @@ MongoClient.connect(mdbURL, {
 
 
     victimsAPI.register(app, dbPaco, BASE_API_PATH, apikeycheck);
-    victimsAPI.register(app, dbPaco, BASE_API_PATH2);
+    victimsAPI2.register(app, dbPaco, BASE_API_PATH2);
 
 
     app.listen(port, () => {

@@ -62,7 +62,13 @@ controller("VictimsListCtrl", ["$scope", "$http", "$rootScope", function($scope,
         refresh();
             });
     };
-
+    $scope.refreshBotton = function() {
+        $scope.maxPages = 1;
+        $scope.currentPage=1;
+        properties="";
+        refresh();
+    };
+    
     $scope.refreshPage = function() {
         
         if ($scope.currentPage <= 0) $scope.currentPage = 1;
@@ -111,7 +117,8 @@ controller("VictimsListCtrl", ["$scope", "$http", "$rootScope", function($scope,
             .then(function(response) {
                 console.log("Data added!");
                 Materialize.toast('<i class="material-icons">done</i> ' + $scope.newData.province + ' has been added succesfully!', 4000);
-                refresh();
+                $scope.refreshBotton();
+               
             }, function(response) {
                 Materialize.toast('<i class="material-icons">error_outline</i> Error adding data!', 4000);
             }, function(response) {
