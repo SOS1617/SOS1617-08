@@ -50,6 +50,26 @@ angular.module("SOS08ManagerApp", ["ngRoute"]).config(function($routeProvider) {
             controller: "VictimsProxyGraphCtrl"
             
         })
+        .when("/victims/api-externa1", {
+            templateUrl: "angularVictims/apiext.html",
+            controller: "api1-controller"
+            
+        })
+        .when("/victims/api-externa2", {
+            templateUrl: "angularVictims/apiext2.html"
+            
+        }).when("/victims/api-externa3", {
+            templateUrl: "angularVictims/apiext3.html"
+            
+        }).when("/victims/api-externa4", {
+            templateUrl: "angularVictims/apiext4.html"
+            
+        })
+          .when("/wages/external-api1", {
+            templateUrl: "angularWages/apiexterna1.html",
+            controller: "ApiExterna1ChartCtrl"
+            
+        })
         .when("/about", {
             templateUrl: "about.html"
             
