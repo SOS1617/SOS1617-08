@@ -68,13 +68,16 @@ angular.module("SOS08ManagerApp", ["ngRoute"]).config(function($routeProvider) {
             
         })
         .when("/victims/api-externa2", {
-            templateUrl: "angularVictims/apiext2.html"
+            templateUrl: "angularVictims/apiext2.html",
+            controller: "api2-controller"
             
         }).when("/victims/api-externa3", {
-            templateUrl: "angularVictims/apiext3.html"
+            templateUrl: "angularVictims/apiext3.html",
+            controller: "api3-controller"
             
         }).when("/victims/api-externa4", {
-            templateUrl: "angularVictims/apiext4.html"
+            templateUrl: "angularVictims/apiext4.html",
+            controller: "api4-controller"
             
         })
           .when("/wages/external-api1", {

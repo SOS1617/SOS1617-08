@@ -1,38 +1,38 @@
-angular.module("ManagerApp").
+angular.module("SOS08ManagerApp").
 
-controller("ApiExtJulio2", ["$scope", "$http", "$rootScope", function($scope, $http, $rootScope) {
-    console.log("Controller initialized (External Api 1");
+controller("api2-controller", ["$scope", "$http", "$rootScope", function($scope, $http, $rootScope) {
+    console.log("Controller initialized (External Api 2");
         
-        $scope.apikey = "sos07";
+        $scope.apikey = "hf5HF86KvZ";
         $scope.data = {};
         var dataCache = {};
         $scope.id = [];
-       $scope.birthRate= [];
+       $scope.year= [];
          $scope.datos = [];
         $scope.datos2 = [];
        
     
        
- $http.get("/api/v1/birthRateStats"+ "?" + "apikey=" + $scope.apikey).then(function(response){
+ $http.get("/api/v1/victims"+ "?" + "apikey=" + $scope.apikey).then(function(response){
                 
-                dataCacheBirth = response.data;
-                $scope.dataBirth =dataCacheBirth;
+                dataCacheVictims = response.data;
+                $scope.dataVictims =dataCacheVictims;
                 
                 for(var i=0; i<response.data.length; i++){
-                $scope.birthRate.push(Number($scope.dataBirth[i].birthRate));
+                $scope.year.push(Number($scope.dataVictims[i].year));
                 }
-$http.get("https://api.tvmaze.com/search/shows?q=girls").then(function(response){                
+$http.get("https://api.fixer.io/latest").then(function(response){                
                 
             dataCache = response.data;
             $scope.data = dataCache;
             
             
            
-            for(var i=0; i<$scope.dataBirth.length; i++){
+            for(var i=0; i<$scope.dataVictims.length; i++){
                 var ar=[];
-                ar.push($scope.data[i].show.name);
-                ar.push($scope.birthRate[i]);
-                ar.push($scope.data[i].score);
+                ar.push($scope.data.base);
+                ar.push($scope.year[i]);
+                //ar.push($scope.data.rates.USD);
                 
                 
                 $scope.datos2.push(ar);
@@ -79,11 +79,11 @@ chart.title("Bubble Chart");
 chart.maxBubbleSize(20);
 chart.minBubbleSize(10);
 // set axes titles 
-chart.xAxis().title("Serie");
-chart.yAxis().title("BirthRate");
+chart.xAxis().title("RMS");
+chart.yAxis().title("Victims");
   
 // draw
-chart.container("charts07");
+chart.container("charts08");
 chart.draw();
 });
 });
