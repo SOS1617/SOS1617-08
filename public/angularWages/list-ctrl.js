@@ -138,6 +138,9 @@ controller("WagesListCtrl", ["$scope", "$http", "$rootScope", function($scope, $
             .then(function(response) {
                 console.log("Data " + data.province + " deleted!");
                 Materialize.toast('<i class="material-icons">done</i> ' + data.province + ' has been deleted succesfully!', 4000);
+                properties="";
+                $scope.maxPages = 1;
+                $scope.currentPage=1;
                 refresh();
             }, function(response) {
                 Materialize.toast('<i class="material-icons">error_outline</i> Error deleting data!', 4000);
@@ -150,6 +153,9 @@ controller("WagesListCtrl", ["$scope", "$http", "$rootScope", function($scope, $
             .then(function(response) {
                 console.log("All data deleted!");
                 Materialize.toast('<i class="material-icons">done</i> All data has been deleted succesfully!', 4000);
+                $scope.maxPages = 1;
+                $scope.currentPage=1;
+                properties="";
                 refresh();
             }, function(response) {
                 Materialize.toast('<i class="material-icons">error_outline</i> Error deleting all data!', 4000);
