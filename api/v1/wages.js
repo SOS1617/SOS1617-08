@@ -42,6 +42,18 @@ app.get(BASE_API_PATH + "/wages/loadInitialData",function(request, response) {
                 "averageWage": "22.153"
             },
             {
+                "province": "Malaga",
+                "year": "2016",
+                "varied": "1.05",
+                "averageWage": "17.953"
+            },
+            {
+                "province": "Bilbao",
+                "year": "2013",
+                "varied": "1.21",
+                "averageWage": "19.633"
+            },
+            {
                 "province": "Valencia",
                 "year": "2012",
                 "varied": "1.35",
