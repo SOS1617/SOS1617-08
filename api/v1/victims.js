@@ -38,6 +38,24 @@ app.get(BASE_API_PATH + "/victims/loadInitialData",function(request, response) {
                 "year": "2016",
                 "numberVictims": "6",
                 "averageYears": "40"
+            },
+            {
+                "province": "Sevilla",
+                "year": "2008",
+                "numberVictims": "4",
+                "averageYears": "38"
+            },
+            {
+                "province": "Paris",
+                "year": "2015",
+                "numberVictims": "3",
+                "averageYears": "42"
+            },
+            {
+                "province": "Amsterdam",
+                "year": "2014",
+                "numberVictims": "15",
+                "averageYears": "29"
             }];
         dbPaco.insert(province);
         response.sendStatus(201) //created
