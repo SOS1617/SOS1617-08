@@ -5,11 +5,33 @@ controller("ApiExterna2ChartCtrl", ["$scope", "$http", "$rootScope", function($s
         
         $scope.apikey = "hf5HF86KvZ";
         $scope.data = {};
+        $scope.data1 = {};
         var dataCache = {};
+        var dataCache1={};
         $scope.show_title = [];
+        $scope.datos=[];
+
         $scope.release_year= [];
+        $scope.varied = [];
+        $scope.province=[];
+        $scope.averageWage = [];
+
+ function capitalizeFirstLetter(string) {
+                return string.charAt(0).toUpperCase() + string.slice(1);
+            }
        
-       
+ $http.get("/api/v1/wages/"+ "?" + "apikey=" + $scope.apikey).then(function(response){
+            
+            dataCache1 = response.data;
+            $scope.data1 = dataCache1;
+            
+            for(var i=0; i<response.data.length; i++){
+                $scope.datos.push(capitalizeFirstLetter($scope.data1[i].province) + " " + $scope.data1[i].year);
+                $scope.varied.push(Number($scope.data1[i].varied));
+                $scope.averageWage.push(Number($scope.data1[i].averageWage));
+                $scope.province.push(Number($scope.data1[i].province));
+            }
+         
 
 $http.get("https://netflixroulette.net/api/api.php?actor=Penelope%20Cruz").then(function(response){
                 
@@ -129,6 +151,29 @@ $http.get("https://netflixroulette.net/api/api.php?actor=Penelope%20Cruz").then(
                       "font-color":"white"
                     },
                     
+                    
+                }, {
+                    "values": $scope.averageWage,
+                    "text": "averageWage per year",
+                    "line-color": "#6EFF33",
+                    "legend-item":{
+                      "background-color": "#6EFF33",
+                      "borderRadius":7,
+                      "font-color":"black"
+                    },
+                    "legend-marker": {
+                        "visible":false
+                    },
+                    "marker": {
+                        "background-color": "#FEB32E",
+                        "border-width": 1,
+                        "shadow": 0,
+                        "border-color": "#69f2d0"
+                    },
+                    "highlight-marker":{
+                      "size":6,
+                      "background-color": "#FEB32E",
+                    }
                 }
             ]
             };
@@ -139,6 +184,6 @@ $http.get("https://netflixroulette.net/api/api.php?actor=Penelope%20Cruz").then(
                 height: '95%',
                 width: '90%'
             });
-            
+});
 });
 }]);

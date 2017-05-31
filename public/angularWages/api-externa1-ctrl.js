@@ -6,6 +6,7 @@ controller("ApiExterna1ChartCtrl", ["$scope", "$http", "$rootScope", function($s
         var dataCache = {};
         $scope.nombrePais = [];
         $scope.area= [];
+        $scope.population=[];
         $scope.timezones=[];
        
 
@@ -19,8 +20,8 @@ $http.get("https://restcountries.eu/rest/v1/all").then(function(response){
             for(var i=0; i<response.data.length; i++){
                 $scope.nombrePais.push($scope.data[i].name);
                 $scope.area.push(Number($scope.data[i].area));
-            
-                
+                $scope.population.push(Number($scope.data[i].population));
+
             }
             
             
@@ -33,13 +34,13 @@ $http.get("https://restcountries.eu/rest/v1/all").then(function(response){
                         
         
             function drawRegionsMap() {
-                var myData = [['Country','Area']];
+                var myData = [['Country','Area','Population']];
      
                 response.data.forEach(function (d){
                     
                         
                     
-                    myData.push([(d.name), Number(d.area)]);
+                    myData.push([(d.name), Number(d.area), Number(d.population)]);
 
                     
                 });
