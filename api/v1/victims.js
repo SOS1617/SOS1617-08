@@ -46,13 +46,13 @@ app.get(BASE_API_PATH + "/victims/loadInitialData",function(request, response) {
                 "averageYears": "38"
             },
             {
-                "province": "Paris",
+                "province": "Madrid",
                 "year": "2015",
                 "numberVictims": "3",
                 "averageYears": "42"
             },
             {
-                "province": "Amsterdam",
+                "province": "Gerona",
                 "year": "2014",
                 "numberVictims": "15",
                 "averageYears": "29"
