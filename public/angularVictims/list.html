@@ -22,6 +22,7 @@
         <a href="" class="modal-action modal-close waves-effect waves-green btn-flat">OK</a>
     </div>
 </div>
+
 <div id="apikeyModal" class="modal">
     <div class="modal-content">
         <h4>Set apikey</h4>
@@ -48,18 +49,6 @@
                 <li class="disabled" ng-show="currentPage == 1"><a href=""><i class="material-icons">chevron_left</i></a></li>
                 <li class="waves-effect" ng-hide="currentPage == 1"><a href="" ng-click="previousPage()"><i class="material-icons">chevron_left</i></a></li>
 
-                <span ng-repeat="page in pagesLeft">
-                        <li class="waves-effect" ng-class="{active: page == currentPage}"><a href="" ng-click="setPage(page)">{{page}}</a></li>
-                    </span>
-                <li ng-show="pagesLeft.length != 0 && pagesMid != 0">...</li>
-                <span ng-repeat="page in pagesMid">
-                        <li class="waves-effect" ng-class="{active: page == currentPage}"><a href="" ng-click="setPage(page)">{{page}}</a></li>
-                    </span>
-                <li ng-show="pagesMid.length != 0 && pagesRight != 0">...</li>
-                <li ng-show="pagesLeft.length != 0 && pagesMid.length == 0 && pagesRight != 0">...</li>
-                <span ng-repeat="page in pagesRight">
-                        <li class="waves-effect" ng-class="{active: page == currentPage}"><a href="" ng-click="setPage(page)">{{page}}</a></li>
-                    </span>
 
                 <li class="disabled" ng-show="currentPage == maxPages"><a href=""><i class="material-icons">chevron_right</i></a></li>
                 <li class="waves-effect" ng-show="currentPage != maxPages"><a href="" ng-click="nextPage()"><i class="material-icons">chevron_right</i></a></li>
@@ -71,8 +60,8 @@
             <tr>
                 <th>Province</th>
                 <th>Year</th>
-                <th>numberVictims</th>
-                <th>averageYears</th>
+                <th>Varied (%)</th>
+                <th>averageWage</th>
                
             </tr>
         </thead>
@@ -80,30 +69,29 @@
             <tr>
                 <td><input class="form-control" ng-model="newData.province" /></td>
                 <td><input class="form-control" ng-model="newData.year" /></td>
-                <td><input class="form-control" ng-model="newData['numberVictims']" /></td>
-                <td><input class="form-control" ng-model="newData['averageYears']" /></td>
+                <td><input class="form-control" ng-model="newData['varied']" /></td>
+                <td><input class="form-control" ng-model="newData['averageWage']" /></td>
                 <td><button class="btn waves-effect waves purple" ng-click="addData()"><i class="material-icons">add</i></button></td>
             </tr>
             <tr ng-repeat="dataUnit in data">
                 <td>{{dataUnit.province}}</td>
                 <td>{{dataUnit.year}}</td>
-                <td>{{dataUnit["numberVictims"]}}</td>
-                <td>{{dataUnit["averageYears"]}}</td>
-                <td><a href="#!/victims/{{dataUnit.province}}/{{dataUnit.year}}"><button class="btn waves-effect waves orange"><i class="">edit</i></button></a> <button class="btn waves-effect waves red" ng-click="delData(dataUnit)"><i class="">Go back</i></button></td>
+                <td>{{dataUnit["varied"]}}</td>
+                <td>{{dataUnit["averageWage"]}}</td>
+                <td><a href="#!/wages/{{dataUnit.province}}/{{dataUnit.year}}"><button class="btn waves-effect waves orange"><i class="">edit</i></button></a> <button class="btn waves-effect waves red" ng-click="delData(dataUnit)"><i class="">delete</i></button></td>
             </tr>
         </tbody>
     </table>
     <div class="right-align">
-       <!-- <button class="btn waves-effect waves-light blue darken-1" ng-click="refresh()"><i class="material-icons left">refresh</i>Refresh</button> -->
-        <button class="btn waves-effect waves-light green" onClick="$('#apikeyModal').modal('open');"><i class="material-icons left">vpn_key</i>Introduce your apikey</button>
-        <button class="btn waves-effect waves-light blue" ng-show="data.length==0" ng-click="loadInitialData()"><i class="material-icons left">recent_actors</i>Load initial Data</button>
-        <button class="btn waves-effect waves-light red" ng-show="data.length!=0" ng-click="deleteAllData()"><i class="material-icons left">warning</i>Delete All</button>
+        <button class="btn waves-effect waves green" onClick="$('#apikeyModal').modal('open');"><i class="material-icons left">vpn_key</i>Introduce your apikey</button>
+        <button class="btn waves-effect waves blue" ng-show="data.length==0" ng-click="loadInitialData()"><i class="material-icons left">recent_actors</i>Load initial Data</button>
+        <button class="btn waves-effect waves red" ng-show="data.length!=0" ng-click="deleteAllData()"><i class="material-icons left">delete</i>Delete All</button>
     </div>
 
 </div>
 
 <div class="fixed-action-btn">
-    <a class="btn-floating btn-large blue" onClick="$('#searchModal').modal('open');">
+    <a class="btn-floating btn-large green" onClick="$('#searchModal').modal('open');">
         <i class="large material-icons">search</i>
     </a>
 </div>
