@@ -7,31 +7,31 @@ controller("api3-controller", ["$scope", "$http", "$rootScope", function($scope,
         $scope.data = {};
         var dataCache = {};
         $scope.id = [];
-       $scope.birthRate= [];
+       $scope.year= [];
          $scope.datos = [];
         $scope.datos2 = [];
        
     
        
- $http.get("/api/v1/birthRateStats"+ "?" + "apikey=" + $scope.apikey).then(function(response){
+ $http.get("/api/v1/victims"+ "?" + "apikey=" + $scope.apikey).then(function(response){
                 
-                dataCacheBirth = response.data;
-                $scope.dataBirth =dataCacheBirth;
+                dataCacheVictims = response.data;
+                $scope.dataVictims =dataCacheVictims;
                 
                 for(var i=0; i<response.data.length; i++){
-                $scope.birthRate.push(Number($scope.dataBirth[i].mortalityRate));
+                $scope.year.push(Number($scope.dataVictims[i].year));
                 }
-$http.get("https://data.police.uk/api/crimes-street-dates").then(function(response){                
+$http.get("https://blockchain.info/es/ticker").then(function(response){                
                 
             dataCache = response.data;
             $scope.data = dataCache;
             
             
            
-            for(var i=0; i<$scope.dataBirth.length; i++){
+            for(var i=0; i<$scope.dataVictims.length; i++){
                 var ar=[];
                  console.log($scope.data[i]);
-                $scope.datos2.push({"mortalityRate":$scope.birthRate[i],"date":$scope.data[i].date});
+                $scope.datos2.push({"year":$scope.year[i],"last update":$scope.data[i].last_update});
                 
                 
            }    
@@ -41,7 +41,7 @@ $http.get("https://data.police.uk/api/crimes-street-dates").then(function(respon
 
           
 
-chart = AmCharts.makeChart( "charts07", {
+chart = AmCharts.makeChart( "charts08", {
   "type": "serial",
   "theme": "light",
   "dataProvider": $scope.datos2,
