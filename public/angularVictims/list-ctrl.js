@@ -169,7 +169,7 @@ controller("VictimsListCtrl", ["$scope", "$http", "$rootScope", function($scope,
             });
     };
 
-    $scope.delAllData = function() {
+    $scope.deleteAllData = function() {
         $http
             .delete("../api/v1/victims" + "?" + "apikey=" + $rootScope.apikey)
             .then(function(response) {

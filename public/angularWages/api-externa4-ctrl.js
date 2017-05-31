@@ -5,7 +5,6 @@ controller("ApiExterna4ChartCtrl", ["$scope", "$http", "$rootScope", function($s
         $scope.apikey = "hf5HF86KvZ";
         $scope.data = {};
         var dataCache = {};
-        $scope.date = [];
        $scope.varied= [];
          $scope.datos = [];
         $scope.datos2 = [];
@@ -20,7 +19,7 @@ controller("ApiExterna4ChartCtrl", ["$scope", "$http", "$rootScope", function($s
                 for(var i=0; i<response.data.length; i++){
                 $scope.varied.push(Number($scope.dataBirth[i].varied));
                 }
-$http.get("https://api.aladhan.com/currentTime?zone=Europe/London").then(function(response){                
+$http.get("https://api.github.com/gists/public").then(function(response){                
                 
             dataCache = response.data;
             $scope.data = dataCache;
@@ -29,8 +28,7 @@ $http.get("https://api.aladhan.com/currentTime?zone=Europe/London").then(functio
            
             for(var i=0; i<$scope.dataBirth.length; i++){
                 var ar=[];
-                 console.log($scope.data[i]);
-                $scope.datos2.push({"varied":$scope.varied[i],"date":$scope.sta});
+                $scope.datos2.push({"varied":$scope.varied[i],"name":$scope.data[i].created_at});
                 
                 
            }    
@@ -63,7 +61,7 @@ chart = AmCharts.makeChart( "chartRobertooo", {
     "cursorAlpha": 0,
     "zoomable": false
   },
-  "categoryField": "date",
+  "categoryField": "name",
   "categoryAxis": {
     "gridPosition": "start",
     "gridAlpha": 0,
